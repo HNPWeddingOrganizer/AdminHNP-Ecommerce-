@@ -155,7 +155,7 @@
 
     <script>
         // GANTI DENGAN URL WEB APP DEPLOY ANDA
-        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwfM3KWQmMhTKSHfiaKvbTEmbrqQBjkxqbt8FBSiB4UT6I2ERPHxGgpEr-rYTS0Lt0r-Q/exec'; 
+        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycby1rSsCN3ZzoaAmh3jfL9fak13hdOt2JJwSnWwMPiVvpYGj7Arbd8bBa_lX7nQHAzI_DQ/exec'; 
     </script>
 
     <!-- Sidebar Desktop -->
@@ -174,6 +174,9 @@
             <button onclick="switchTab('produk')" id="nav-produk"
                 class="w-full flex items-center gap-3 px-4 py-3.5 rounded-2xl text-zinc-400 hover:bg-zinc-800 hover:text-gold-400 font-semibold transition-all active:scale-95 whitespace-nowrap"><i
                     class="fa-solid fa-layer-group w-5 text-lg"></i> Kelola Paket</button>
+            <button onclick="switchTab('vendor')" id="nav-vendor"
+                class="w-full flex items-center gap-3 px-4 py-3.5 rounded-2xl text-zinc-400 hover:bg-zinc-800 hover:text-gold-400 font-semibold transition-all active:scale-95 whitespace-nowrap"><i
+                    class="fa-solid fa-store w-5 text-lg"></i> Kelola Vendor</button>
             <button onclick="switchTab('penjualan')" id="nav-penjualan"
                 class="w-full flex items-center gap-3 px-4 py-3.5 rounded-2xl text-zinc-400 hover:bg-zinc-800 hover:text-gold-400 font-semibold transition-all active:scale-95 whitespace-nowrap"><i
                     class="fa-solid fa-calendar-check w-5 text-lg"></i> Data Booking</button>
@@ -210,8 +213,10 @@
                     class="text-[10px] font-bold">Dash</span></button>
             <button onclick="switchTab('produk')" id="nav-mob-produk"
                 class="flex flex-col items-center justify-center gap-1.5 p-2 text-zinc-500 hover:text-gold-400 min-w-[72px] shrink-0 active:scale-90 transition-transform"><i
-                    class="fa-solid fa-layer-group text-[22px]"></i><span
-                    class="text-[10px] font-bold">Paket</span></button>
+                    class="fa-solid fa-layer-group text-[22px]"></i><span class="text-[10px] font-bold">Paket</span></button>
+            <button onclick="switchTab('vendor')" id="nav-mob-vendor"
+                class="flex flex-col items-center justify-center gap-1.5 p-2 text-zinc-500 hover:text-gold-400 min-w-[72px] shrink-0 active:scale-90 transition-transform"><i
+                    class="fa-solid fa-store text-[22px]"></i><span class="text-[10px] font-bold">Vendor</span></button>
             <button onclick="switchTab('penjualan')" id="nav-mob-penjualan"
                 class="flex flex-col items-center justify-center gap-1.5 p-2 text-zinc-500 hover:text-gold-400 min-w-[72px] shrink-0 active:scale-90 transition-transform"><i
                     class="fa-solid fa-calendar-check text-[22px]"></i><span
@@ -466,6 +471,82 @@
                                 </tr>
                             </thead>
                             <tbody id="table-produk" class="divide-y divide-zinc-800 border-b border-zinc-800"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- VENDOR SECTION -->
+            <section id="sec-vendor" class="hidden space-y-4 md:space-y-8">
+                <div class="bg-[#111] p-4 sm:p-5 md:p-8 rounded-[32px] md:rounded-[40px] shadow-2xl border border-gold-500/20 transition-all hidden" id="form-vendor-container">
+                    <div class="flex justify-between items-center mb-4 md:mb-6">
+                        <h3 class="text-base md:text-xl font-bold text-gold-500 flex items-center gap-2" id="title-form-vendor">
+                            <i class="fa-solid fa-plus text-xs"></i> Tambah Vendor
+                        </h3>
+                        <div class="flex gap-2">
+                            <button type="button" onclick="batalEditVendor()" id="btn-batal-edit-vendor" class="hidden text-xs bg-zinc-800 text-zinc-300 font-bold px-3 py-1.5 rounded-full hover:bg-zinc-700">Batal</button>
+                            <button type="button" onclick="toggleFormVendor()" class="text-xs bg-zinc-800 text-zinc-300 font-bold px-3 py-1.5 rounded-full hover:bg-zinc-700"><i class="fa-solid fa-times"></i> Tutup</button>
+                        </div>
+                    </div>
+                    
+                    <form id="form-vendor" onsubmit="handleSaveVendor(event)" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <input type="hidden" id="v-id">
+                        <div>
+                            <label class="block text-xs font-bold text-zinc-400 mb-1">Nama Vendor</label>
+                            <input type="text" id="v-nama" required placeholder="Cth: Dekorasi Indah" class="w-full bg-black border border-zinc-800 rounded-xl px-4 py-3 text-white outline-none focus:border-gold-500">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-zinc-400 mb-1">Kategori Vendor</label>
+                            <select id="v-kategori" required class="w-full bg-black border border-zinc-800 rounded-xl px-4 py-3 text-white outline-none focus:border-gold-500">
+                                <option value="" disabled selected>Pilih Kategori</option>
+                                <option value="Dekorasi">Dekorasi</option>
+                                <option value="MUA & Busana">MUA & Busana</option>
+                                <option value="Venue & Gedung">Venue & Gedung</option>
+                                <option value="Catering">Catering</option>
+                                <option value="Fotografi & Video">Dokumentasi</option>
+                                <option value="Hiburan & MC">Hiburan & MC</option>
+                                <option value="Lainnya">Lainnya</option>
+                            </select>
+                        </div>
+                        <div class="col-span-1 md:col-span-2">
+                            <label class="block text-xs font-bold text-zinc-400 mb-1">Deskripsi Vendor</label>
+                            <textarea id="v-deskripsi" rows="3" placeholder="Deskripsi singkat..." class="w-full bg-black border border-zinc-800 rounded-xl px-4 py-3 text-white outline-none focus:border-gold-500 resize-none"></textarea>
+                        </div>
+                        <div class="col-span-1 md:col-span-2">
+                            <label class="block text-xs font-bold text-zinc-400 mb-1">Galeri (Multi Foto)</label>
+                            <div onclick="document.getElementById('v-gambar-file').click()" class="relative w-full min-h-[8rem] rounded-xl bg-black border border-zinc-800 hover:border-gold-500 flex flex-col justify-center cursor-pointer overflow-hidden p-3">
+                                <input type="file" id="v-gambar-file" accept="image/*" multiple class="hidden" onchange="previewImageMultipleVendor(event)">
+                                <div id="upload-placeholder-vendor" class="text-center">
+                                    <i class="fa-solid fa-camera text-gold-500 text-xl mb-2"></i>
+                                    <p class="text-xs font-bold text-zinc-300">Pilih Foto Vendor</p>
+                                </div>
+                                <div id="v-gambar-preview-container" class="hidden flex flex-wrap gap-2 items-center justify-center w-full"></div>
+                            </div>
+                        </div>
+                        <div class="col-span-1 md:col-span-2 flex justify-end mt-2">
+                            <button type="submit" id="btn-submit-vendor" class="bg-gold-500 text-black px-6 py-3 rounded-full font-bold shadow-lg hover:bg-gold-400 transition-all text-sm w-full md:w-auto"><i class="fa-solid fa-save"></i> Simpan Vendor</button>
+                        </div>
+                    </form>
+                </div>
+                
+                <div class="bg-[#111] rounded-[32px] shadow-2xl border border-zinc-800 overflow-hidden">
+                    <div class="flex justify-between items-center p-4 md:p-6 border-b border-zinc-800">
+                        <h3 class="font-bold text-gold-500 text-lg">Daftar Referensi Vendor</h3>
+                        <div class="flex gap-2">
+                            <button onclick="toggleFormVendor()" class="bg-gold-500 text-black px-4 py-2 rounded-full text-xs font-bold shadow-md"><i class="fa-solid fa-plus"></i> Tambah</button>
+                            <button onclick="fetchVendor(true)" class="bg-zinc-800 text-gold-500 w-8 h-8 rounded-full flex items-center justify-center"><i class="fa-solid fa-rotate-right"></i></button>
+                        </div>
+                    </div>
+                    <div class="overflow-x-auto pb-2">
+                        <table class="w-full text-left text-sm whitespace-nowrap min-w-[500px]">
+                            <thead class="bg-black text-zinc-400">
+                                <tr>
+                                    <th class="px-4 py-3 text-[10px] uppercase font-bold">Vendor</th>
+                                    <th class="px-4 py-3 text-[10px] uppercase font-bold">Kategori</th>
+                                    <th class="px-4 py-3 text-[10px] uppercase font-bold text-center">Aksi</th>
+                                </tr>
+                            </thead>
+                            <tbody id="table-vendor" class="divide-y divide-zinc-800 border-b border-zinc-800"></tbody>
                         </table>
                     </div>
                 </div>
@@ -3294,6 +3375,182 @@
                 btn.innerHTML = '<i class="fa-solid fa-floppy-disk"></i> Simpan Perubahan';
                 btn.disabled = false;
             }
+        }
+
+        // --- LOGIKA VENDOR ---
+        let globalVendor = [];
+        let isEditingVendor = false;
+        let base64GambarVendorArray = [];
+
+        async function fetchVendor(force = false) {
+            if (!force && globalVendor.length > 0) return;
+            showLoading(true);
+            try {
+                const res = await fetch(`${SCRIPT_URL}?action=getVendor`);
+                const data = await res.json();
+                if(data.status === 'success') {
+                    globalVendor = data.data;
+                    renderTableVendor();
+                }
+            } catch(e) {}
+            showLoading(false);
+        }
+
+        function renderTableVendor() {
+            const tbody = document.getElementById('table-vendor');
+            if(globalVendor.length > 0) {
+                tbody.innerHTML = globalVendor.map(v => {
+                    const gbr = (v['URL Gambar'] || '').split(',')[0] || 'https://via.placeholder.com/100';
+                    return `
+                    <tr class="hover:bg-zinc-900 border-b border-zinc-800/50">
+                        <td class="px-4 py-3 flex items-center gap-3">
+                            <img src="${gbr}" class="w-10 h-10 rounded-lg object-cover border border-zinc-700">
+                            <div><p class="font-bold text-white text-sm">${v['Nama Vendor']}</p><p class="text-[9px] text-zinc-500 font-mono">${v['ID Vendor']}</p></div>
+                        </td>
+                        <td class="px-4 py-3 text-xs text-gold-400 font-bold">${v.Kategori}</td>
+                        <td class="px-4 py-3 text-center">
+                            <button onclick="mulaiEditVendor('${v['ID Vendor']}')" class="w-7 h-7 rounded-full bg-blue-900/30 text-blue-400 border border-blue-500/20 hover:bg-blue-600 hover:text-white mr-1"><i class="fa-solid fa-pen text-[10px]"></i></button>
+                            <button onclick="hapusVendor('${v['ID Vendor']}')" class="w-7 h-7 rounded-full bg-red-900/30 text-red-400 border border-red-500/20 hover:bg-red-600 hover:text-white"><i class="fa-solid fa-trash text-[10px]"></i></button>
+                        </td>
+                    </tr>`;
+                }).join('');
+            } else {
+                tbody.innerHTML = `<tr><td colspan="3" class="text-center py-8 text-zinc-500 text-xs">Belum ada data vendor.</td></tr>`;
+            }
+        }
+
+        function toggleFormVendor() {
+            const container = document.getElementById('form-vendor-container');
+            if (container.classList.contains('hidden')) { container.classList.remove('hidden'); container.scrollIntoView({behavior: "smooth"}); } 
+            else { batalEditVendor(); container.classList.add('hidden'); }
+        }
+
+        function previewImageMultipleVendor(event) {
+            const files = event.target.files; if (!files || files.length === 0) return;
+            document.getElementById('upload-placeholder-vendor').classList.add('hidden');
+            const container = document.getElementById('v-gambar-preview-container'); container.classList.remove('hidden');
+            base64GambarVendorArray = []; container.innerHTML = '';
+            Array.from(files).forEach((file) => {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const img = new Image();
+                    img.onload = function() {
+                        const canvas = document.createElement('canvas'); const MAX = 800;
+                        let w = img.width; let h = img.height;
+                        if (w > h && w > MAX) { h *= MAX / w; w = MAX; } else if (h > MAX) { w *= MAX / h; h = MAX; }
+                        canvas.width = w; canvas.height = h;
+                        canvas.getContext('2d').drawImage(img, 0, 0, w, h);
+                        const b64 = canvas.toDataURL('image/jpeg', 0.8);
+                        base64GambarVendorArray.push(b64);
+                        container.innerHTML += `<img src="${b64}" class="w-14 h-14 object-cover rounded-lg border border-gold-500/30">`;
+                    }
+                    img.src = e.target.result;
+                }
+                reader.readAsDataURL(file);
+            });
+        }
+
+        function mulaiEditVendor(id) {
+            const v = globalVendor.find(x => x['ID Vendor'] == id); if (!v) return;
+            isEditingVendor = true;
+            document.getElementById('title-form-vendor').innerHTML = `<i class="fa-solid fa-pen text-xs"></i> Edit Vendor: ${id}`;
+            document.getElementById('btn-batal-edit-vendor').classList.remove('hidden');
+            document.getElementById('form-vendor-container').classList.remove('hidden');
+            
+            document.getElementById('v-id').value = id;
+            document.getElementById('v-nama').value = v['Nama Vendor'];
+            document.getElementById('v-kategori').value = v.Kategori;
+            document.getElementById('v-deskripsi').value = v.Deskripsi;
+            
+            let gbrRaw = v['URL Gambar'] || ''; base64GambarVendorArray = gbrRaw ? gbrRaw.split(',') : [];
+            const container = document.getElementById('v-gambar-preview-container');
+            if (base64GambarVendorArray.length > 0 && base64GambarVendorArray[0] !== "") { 
+                document.getElementById('upload-placeholder-vendor').classList.add('hidden'); container.classList.remove('hidden');
+                container.innerHTML = base64GambarVendorArray.map(url => `<img src="${url}" class="w-14 h-14 object-cover rounded-lg border border-gold-500/30">`).join('');
+            } else { 
+                container.classList.add('hidden'); container.innerHTML = ''; document.getElementById('upload-placeholder-vendor').classList.remove('hidden'); 
+            }
+            document.getElementById('form-vendor-container').scrollIntoView({behavior: "smooth"});
+        }
+
+        function batalEditVendor() {
+            isEditingVendor = false;
+            document.getElementById('title-form-vendor').innerHTML = `<i class="fa-solid fa-plus text-xs"></i> Tambah Vendor`;
+            document.getElementById('btn-batal-edit-vendor').classList.add('hidden');
+            document.getElementById('form-vendor').reset();
+            document.getElementById('v-id').value = "";
+            base64GambarVendorArray = []; 
+            document.getElementById('v-gambar-preview-container').classList.add('hidden'); document.getElementById('v-gambar-preview-container').innerHTML = ''; 
+            document.getElementById('upload-placeholder-vendor').classList.remove('hidden');
+        }
+
+        async function handleSaveVendor(e) {
+            e.preventDefault();
+            const btn = document.getElementById('btn-submit-vendor'); btn.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin"></i> Proses...'; btn.disabled = true;
+            
+            let vId = document.getElementById('v-id').value;
+            if(!isEditingVendor) vId = "VND-" + new Date().getTime(); // Generate ID otomatis
+
+            const payload = {
+                action: isEditingVendor ? "editVendor" : "addVendor", 
+                id: vId, nama: document.getElementById('v-nama').value,
+                kategori: document.getElementById('v-kategori').value, 
+                deskripsi: document.getElementById('v-deskripsi').value, 
+                gambar: base64GambarVendorArray.join('|')
+            };
+            
+            try {
+                const res = await fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify(payload) });
+                const data = await res.json();
+                if (data.status === 'success') { alert(data.message); batalEditVendor(); fetchVendor(true); document.getElementById('form-vendor-container').classList.add('hidden'); } 
+                else { alert('Gagal: ' + data.message); }
+            } catch (err) { alert('Kesalahan jaringan!'); }
+            btn.innerHTML = '<i class="fa-solid fa-save"></i> Simpan Vendor'; btn.disabled = false;
+        }
+
+        async function hapusVendor(id) {
+            if (!confirm(`Hapus vendor ID: ${id}?`)) return; showLoading(true);
+            try { 
+                const res = await fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify({action: "deleteVendor", id: id}) }); 
+                const data = await res.json(); if(data.status === 'success') fetchVendor(true); 
+            } catch (e) {} showLoading(false);
+        }
+
+        // TAMBAHKAN 'vendor' KE DALAM updateNavTitles dan switchTab
+        const oldUpdateNavTitles = updateNavTitles;
+        updateNavTitles = function(tab) {
+            oldUpdateNavTitles(tab);
+            if(tab === 'vendor') document.getElementById('page-title').textContent = 'Manajemen Vendor';
+        }
+
+        const oldSwitchTab = switchTab;
+        switchTab = function(tab) {
+            const sections = ['dashboard', 'produk', 'penjualan', 'transkrip', 'pelanggan', 'pengaturan', 'vendor']; // Tambah vendor
+            sections.forEach(n => {
+                const el = document.getElementById(`sec-${n}`);
+                if(el) el.classList.add('hidden');
+                const navD = document.getElementById(`nav-${n}`);
+                if(navD) navD.className = "w-full flex items-center gap-3 px-4 py-3.5 rounded-2xl text-zinc-400 hover:bg-zinc-800 hover:text-gold-400 font-semibold transition-all active:scale-95 whitespace-nowrap";
+                const mobEl = document.getElementById(`nav-mob-${n}`); 
+                if (mobEl) mobEl.className = "flex flex-col items-center justify-center gap-1.5 p-2 text-zinc-500 hover:text-gold-400 min-w-[72px] shrink-0 active:scale-90 transition-transform";
+            });
+            
+            document.getElementById(`sec-${tab}`).classList.remove('hidden');
+            const navActiveD = document.getElementById(`nav-${tab}`);
+            if(navActiveD) navActiveD.className = "w-full flex items-center gap-3 px-4 py-3.5 rounded-2xl bg-gold-500 text-black font-bold transition-all shadow-md shadow-gold-900/20 active:scale-95 whitespace-nowrap";
+            
+            const mobActive = document.getElementById(`nav-mob-${tab}`);
+            if (mobActive) mobActive.className = "flex flex-col items-center justify-center gap-1.5 p-2 text-gold-500 min-w-[72px] shrink-0 active:scale-90 transition-transform drop-shadow-sm";
+            
+            updateNavTitles(tab);
+            
+            if (tab === 'dashboard') fetchDashboard(); 
+            if (tab === 'produk') fetchProduk();
+            if (tab === 'penjualan') fetchPenjualan(); 
+            if (tab === 'transkrip') renderGridTranskrip();
+            if (tab === 'pelanggan') fetchPelanggan(); 
+            if (tab === 'pengaturan') fetchPengaturanAdmin();
+            if (tab === 'vendor') fetchVendor(); // <-- Fetch data saat dibuka
         }
 
         // --- LOGIKA KALENDER VIEW ---
