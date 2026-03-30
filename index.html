@@ -155,7 +155,7 @@
 
     <script>
         // GANTI DENGAN URL WEB APP DEPLOY ANDA
-        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbw4OtHIW3ap4FMFdN_JjrL_v6-6DiORUtDQWNN_0ADhiQRhr0wO_U55STvKvllzJR3BCQ/exec'; 
+        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwfM3KWQmMhTKSHfiaKvbTEmbrqQBjkxqbt8FBSiB4UT6I2ERPHxGgpEr-rYTS0Lt0r-Q/exec'; 
     </script>
 
     <!-- Sidebar Desktop -->
@@ -650,12 +650,17 @@
             <!-- PENGATURAN SECTION -->
             <section id="sec-pengaturan" class="hidden space-y-4 md:space-y-8">
                 <div class="bg-[#111] p-4 md:p-8 rounded-[32px] md:rounded-[40px] shadow-2xl border border-zinc-800">
-                    <h3 class="text-base md:text-xl font-bold mb-1 md:mb-2 text-gold-500 tracking-tight">Personalisasi
-                        Sistem WO</h3>
-                    <p class="text-[10px] md:text-xs text-zinc-400 mb-4 md:mb-6">Ubah tampilan dan rekening untuk Klien.
-                    </p>
-                    <form id="form-pengaturan" onsubmit="handleSavePengaturan(event)"
-                        class="space-y-4 md:space-y-6 mt-4">
+                    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-4 md:mb-6 gap-4 border-b border-zinc-800 pb-4">
+                        <div>
+                            <h3 class="text-base md:text-xl font-bold mb-1 md:mb-2 text-gold-500 tracking-tight">Personalisasi Sistem WO</h3>
+                            <p class="text-[10px] md:text-xs text-zinc-400">Ubah tampilan dan rekening untuk Klien.</p>
+                        </div>
+                        <!-- Tombol dipindah ke sini dengan atribut form="form-pengaturan" -->
+                        <button type="submit" form="form-pengaturan" id="btn-save-pengaturan" class="w-full sm:w-auto bg-gradient-to-r from-gold-600 to-gold-400 text-black px-6 py-2.5 md:py-3 rounded-xl md:rounded-full font-extrabold shadow-[0_0_15px_rgba(212,175,55,0.3)] active:scale-95 text-xs md:text-sm transition-all hover:brightness-110 shrink-0">
+                            <i class="fa-solid fa-floppy-disk mr-2"></i> Simpan Pengaturan
+                        </button>
+                    </div>
+                    <form id="form-pengaturan" onsubmit="handleSavePengaturan(event)" class="space-y-4 md:space-y-6">
 
                         <div
                             class="bg-black border border-gold-500/20 p-4 md:p-5 rounded-[20px] md:rounded-[24px] space-y-3 md:space-y-4">
@@ -883,12 +888,6 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
-
-                        <div class="flex justify-end pt-2">
-                            <button type="submit" id="btn-save-pengaturan"
-                                class="w-full md:w-auto bg-gradient-to-r from-gold-600 to-gold-400 text-black px-6 md:px-8 py-3.5 md:py-4 rounded-xl md:rounded-full font-extrabold shadow-[0_0_15px_rgba(212,175,55,0.3)] active:scale-95 text-sm transition-all hover:brightness-110">Simpan
-                                Pengaturan</button>
                         </div>
                     </form>
                 </div>
@@ -2988,12 +2987,18 @@
                 imageSmoothingQuality: 'high'
             });
 
-            if (!canvas) {
-                alert("Gagal memotong gambar.");
-                return;
+            if (!canvas) { 
+                alert("Gagal memotong gambar."); 
+                return; 
             }
-
-            const b64 = canvas.toDataURL('image/jpeg', 0.85);
+            
+            let imageFormat = 'image/jpeg';
+            // Jika variabel target mengandung kata 'Logo', simpan sebagai PNG agar transparan
+            if (targetVarBase64.includes('Logo')) {
+                imageFormat = 'image/png';
+            }
+            
+            const b64 = canvas.toDataURL(imageFormat, 0.85); 
             window[targetVarBase64] = b64;
 
             const previewEl = document.getElementById(targetPreview);
