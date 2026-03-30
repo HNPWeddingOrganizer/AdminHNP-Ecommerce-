@@ -142,6 +142,7 @@
 
         <div class="flex-1 overflow-y-auto px-3 sm:px-4 md:px-8 pb-32 md:pb-8 pt-4 md:pt-6 hide-scrollbar scroll-touch relative">
             
+            <!-- DASHBOARD SECTION -->
             <section id="sec-dashboard" class="space-y-4 md:space-y-6">
                 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 md:gap-6">
                     <div onclick="showDashDetail('produk')" class="bg-[#111] p-4 md:p-6 rounded-[28px] shadow-[0_4px_20px_rgba(0,0,0,0.5)] border border-zinc-800 flex flex-col justify-between h-32 md:h-40 cursor-pointer mobile-card group relative overflow-hidden">
@@ -168,6 +169,7 @@
                 </div>
             </section>
 
+            <!-- PRODUK SECTION -->
             <section id="sec-produk" class="hidden space-y-4 md:space-y-8">
                 <div class="bg-[#111] p-4 sm:p-5 md:p-8 rounded-[32px] md:rounded-[40px] shadow-2xl border border-gold-500/20 transition-all hidden" id="form-produk-container">
                     <div class="flex flex-wrap sm:flex-nowrap justify-between items-center gap-3 mb-4 md:mb-6">
@@ -250,6 +252,7 @@
                 </div>
             </section>
 
+            <!-- PENJUALAN SECTION -->
             <section id="sec-penjualan" class="hidden space-y-4 md:space-y-8">
                 <div class="bg-[#111] p-4 md:p-5 rounded-[24px] shadow-lg border border-zinc-800">
                     <h3 class="font-bold text-white text-xs md:text-sm tracking-tight mb-2 md:mb-3">Jadwal Acara Berdasarkan Bulan</h3>
@@ -279,6 +282,7 @@
                 </div>
             </section>
 
+            <!-- TRANSKRIP SECTION -->
             <section id="sec-transkrip" class="hidden space-y-4 md:space-y-8">
                 <div class="bg-[#111] p-4 md:p-8 rounded-[32px] md:rounded-[40px] shadow-2xl border border-zinc-800">
                     <div class="flex justify-between items-center mb-4 md:mb-6">
@@ -292,6 +296,7 @@
                 </div>
             </section>
 
+            <!-- PELANGGAN SECTION -->
             <section id="sec-pelanggan" class="hidden space-y-4 md:space-y-8">
                 <div class="bg-[#111] p-4 md:p-8 rounded-[32px] md:rounded-[40px] shadow-2xl border border-zinc-800">
                     <div class="flex justify-between items-center mb-4 md:mb-6">
@@ -305,6 +310,7 @@
                 </div>
             </section>
 
+            <!-- PENGATURAN SECTION -->
             <section id="sec-pengaturan" class="hidden space-y-4 md:space-y-8">
                 <div class="bg-[#111] p-4 md:p-8 rounded-[32px] md:rounded-[40px] shadow-2xl border border-zinc-800">
                     <h3 class="text-base md:text-xl font-bold mb-1 md:mb-2 text-gold-500 tracking-tight">Personalisasi Sistem WO</h3>
@@ -323,6 +329,14 @@
                                     <input type="text" id="set-qris-name" placeholder="PT Elegance Event" class="w-full bg-[#111] border border-zinc-800 rounded-xl px-3 py-2.5 md:px-4 md:py-3 focus:ring-1 focus:ring-gold-500 focus:border-gold-500 outline-none font-medium text-sm text-white placeholder-zinc-600">
                                 </div>
                             </div>
+                            
+                            <!-- TAMBAHAN: FIELD LINK BUKU PANDUAN -->
+                            <div class="col-span-1 md:col-span-2 mt-2 border-t border-zinc-800 pt-3">
+                                <label class="block font-bold text-xs md:text-sm text-gold-500 mb-1">Link Buku Panduan (Google Drive)</label>
+                                <input type="text" id="set-link-panduan" placeholder="https://docs.google.com/document/d/..." class="w-full bg-[#111] border border-zinc-800 rounded-xl px-3 py-2.5 md:px-4 md:py-3 focus:ring-1 focus:ring-gold-500 focus:border-gold-500 outline-none font-medium text-sm text-white placeholder-zinc-600">
+                                <p class="text-[9px] md:text-[10px] text-zinc-500 mt-1">Pastikan format File adalah DOC/PDF, dan Link Drive dapat diakses oleh siapa saja (Anyone with the link can view).</p>
+                            </div>
+
                         </div>
 
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
@@ -604,7 +618,10 @@
             }
         };
 
-        let dataLoaded = { dashboard: false, produk: false, penjualan: false, pelanggan: false, pengaturan: false };
+        // --- TAMBAHAN GLOBAL BERKAS ---
+        let dataLoaded = { dashboard: false, produk: false, penjualan: false, pelanggan: false, pengaturan: false, berkas: false };
+        let globalBerkas = [];
+
         let dashData = { totalProduk: 0, totalTerjual: 0, totalPendapatan: 0 };
         let globalPenjualan = []; 
         let globalPelanggan = []; 
@@ -669,6 +686,19 @@
             container.appendChild(div);
         }
 
+        // --- FETCH BERKAS ---
+        async function fetchBerkas(force = false, silent = false) {
+            if (!force && dataLoaded.berkas) return;
+            try {
+                const res = await fetch(`${SCRIPT_URL}?action=getBerkas&t=${new Date().getTime()}`);
+                const data = await res.json();
+                if(data.status === 'success') {
+                    globalBerkas = data.data;
+                    dataLoaded.berkas = true;
+                }
+            } catch(e) {}
+        }
+
         // --- APP INIT ---
         async function initApp() {
             try {
@@ -696,7 +726,10 @@
                 updateProgress(50, 'Menarik Database Layanan...'); 
                 await fetchProduk(true, true);
                 
-                updateProgress(70, 'Memuat Logistik Jadwal...'); 
+                updateProgress(65, 'Menarik Database Berkas Klien...'); 
+                await fetchBerkas(true, true);
+
+                updateProgress(80, 'Memuat Logistik Jadwal...'); 
                 await fetchPenjualan(true, true);
                 
                 updateProgress(90, 'Memeriksa Identitas Klien...'); 
@@ -801,6 +834,7 @@
             await Promise.all([ 
                 fetchDashboard(true, true), 
                 fetchProduk(true, true), 
+                fetchBerkas(true, true),
                 fetchPenjualan(true, true), 
                 fetchPelanggan(true, true) 
             ]);
@@ -1164,13 +1198,13 @@
                         ctx.drawImage(img, 0, 0, w, h);
                         
                         // Deteksi apakah yang sedang di-crop adalah Logo atau bukan
-         let imageFormat = 'image/jpeg'; 
-         if (targetVarBase64.includes('Logo')) {
-             imageFormat = 'image/png'; // Gunakan format PNG khusus untuk Logo agar transparan
-         }
+                        let imageFormat = 'image/jpeg'; 
+                        if (targetVarBase64.includes('Logo')) {
+                            imageFormat = 'image/png'; // Gunakan format PNG khusus untuk Logo agar transparan
+                        }
 
-         // Simpan gambar dengan format yang sesuai
-         const b64 = canvas.toDataURL(imageFormat, 0.85);
+                        // Simpan gambar dengan format yang sesuai
+                        const b64 = canvas.toDataURL(imageFormat, 0.85);
                         base64GambarArray.push(b64);
                         container.innerHTML += `<img src="${b64}" class="w-16 h-16 md:w-20 md:h-20 object-cover rounded-lg md:rounded-xl shadow-sm shrink-0 border border-gold-500/30">`;
                     }
@@ -1287,7 +1321,7 @@
                 kategori: document.getElementById('p-kategori').value, 
                 harga: minHarga, 
                 stok: totalStok, 
-        gambar: base64GambarArray.join('|'),
+                gambar: base64GambarArray.join('|'),
                 deskripsi: document.getElementById('p-deskripsi').value, 
                 varian: varianData 
             };
@@ -1541,6 +1575,29 @@
             document.getElementById('mh-tipe').value = "Lunas"; 
             toggleMHDpUI();
             toggleModalHarga();
+        }
+
+        function toggleMHDpUI() {
+            const val = document.getElementById('mh-tipe').value;
+            const area = document.getElementById('mh-area-dp');
+            if (val === 'DP') area.classList.remove('hidden');
+            else area.classList.add('hidden');
+        }
+
+        function hitungDPCustom(sumber) {
+            let total = parseInt(document.getElementById('mh-harga').value) || 0;
+            let inpPct = document.getElementById('mh-dp-pct'); 
+            let inpNom = document.getElementById('mh-dp-nom');
+            
+            if(sumber === 'pct') { 
+                let p = parseFloat(inpPct.value) || 0; 
+                if(p > 100) { p = 100; inpPct.value = 100; } 
+                inpNom.value = Math.round(total * (p / 100)); 
+            } else if (sumber === 'nom') { 
+                let n = parseFloat(inpNom.value) || 0; 
+                if(n > total) { n = total; inpNom.value = total; } 
+                inpPct.value = ((n / total) * 100).toFixed(1); 
+            }
         }
 
         async function simpanHargaCustom() {
@@ -1814,6 +1871,30 @@
             const content = document.getElementById('content-detail-pesanan');
             currentTrxPrint = trx;
 
+            // --- INJEKSI DATA BERKAS ---
+            const berkas = globalBerkas.find(b => b['ID Booking'] === idTrx);
+            let berkasHtml = '';
+
+            if (berkas) {
+                let fileLampiran = berkas['File Buku Panduan'] ? `<a href="${berkas['File Buku Panduan']}" target="_blank" class="bg-blue-900/30 text-blue-400 border border-blue-500/20 font-bold px-3 py-1.5 rounded-lg text-[10px] md:text-[11px] inline-block mt-2 hover:bg-blue-600 hover:text-white transition-colors"><i class="fa-solid fa-file-word"></i> Lihat Form Terisi</a>` : '<p class="text-[9px] text-zinc-500 italic mt-1">Belum upload file form</p>';
+
+                berkasHtml = `
+                <div class="bg-black border border-gold-500/30 p-3 md:p-4 rounded-xl mb-3 md:mb-4 shadow-sm relative overflow-hidden">
+                    <div class="absolute top-0 right-0 w-20 h-20 bg-gold-600/10 blur-xl rounded-full pointer-events-none"></div>
+                    <h5 class="font-bold text-gold-500 text-xs md:text-sm mb-2 border-b border-zinc-800 pb-2"><i class="fa-solid fa-folder-open mr-1"></i> Data Pemberkasan Klien</h5>
+                    <div class="grid grid-cols-2 gap-2 text-[10px] md:text-[11px] mb-2">
+                        <div><span class="text-zinc-500 block">CPP:</span><span class="font-bold text-white">${berkas['Nama CPP']||'-'}</span></div>
+                        <div><span class="text-zinc-500 block">CPW:</span><span class="font-bold text-white">${berkas['Nama CPW']||'-'}</span></div>
+                        <div><span class="text-zinc-500 block">Tgl Akad:</span><span class="font-bold text-zinc-300">${berkas['Tgl Akad'] ? String(berkas['Tgl Akad']).split('T')[0] : '-'} (${berkas['Waktu Akad']||'-'})</span></div>
+                        <div><span class="text-zinc-500 block">Tgl Resepsi:</span><span class="font-bold text-zinc-300">${berkas['Tgl Resepsi'] ? String(berkas['Tgl Resepsi']).split('T')[0] : '-'} (${berkas['Waktu Resepsi']||'-'})</span></div>
+                        <div class="col-span-2"><span class="text-zinc-500 block">Konsep & Tema:</span><span class="font-medium text-zinc-300">${berkas['Konsep Pernikahan']||'-'}</span></div>
+                        <div class="col-span-2"><span class="text-zinc-500 block">Vendor Venue:</span><span class="font-medium text-zinc-300">${berkas['Vendor Venue']||'-'}</span></div>
+                    </div>
+                    ${fileLampiran}
+                </div>
+                `;
+            }
+
             let bukti1HTML = `<div class="text-center text-[9px] md:text-[10px] text-zinc-500 bg-zinc-900 border border-zinc-800 py-1.5 md:py-2 rounded-lg mb-2">Cash di Kantor</div>`;
             if (trx['Bukti Pembayaran'] && trx['Bukti Pembayaran'] !== "Bayar Cash" && trx['Bukti Pembayaran'] !== "Bayar Cash di Kantor" && trx['Bukti Pembayaran'] !== "-") {
                 bukti1HTML = `<button type="button" onclick="bukaBuktiModal('${trx['Bukti Pembayaran']}')" class="w-full bg-gold-500/10 text-gold-500 border border-gold-500/20 font-bold py-2 md:py-2.5 rounded-lg text-[10px] md:text-[11px] mb-2 hover:bg-gold-500 hover:text-black transition-colors"><i class="fa-solid fa-image"></i> Struk Utama/DP</button>`;
@@ -1905,6 +1986,7 @@
                     <div class="mt-2 text-sm text-zinc-400"><span class="font-bold text-gold-600 text-[10px]">Rincian Layanan:</span> ${varDetailHtml}</div>
                 </div>
                 ${deskripsiCustomHTML}
+                ${berkasHtml}
                 <div class="bg-black border border-zinc-800 p-3 md:p-4 rounded-xl mb-3 md:mb-4 shadow-sm">
                     ${infoMetodeHtml}
                     <div class="flex justify-between mb-1.5"><span class="text-[9px] md:text-[10px] text-zinc-500">Status Bayar</span><span class="text-[9px] md:text-[10px] font-bold ${sudahLunas ? 'text-emerald-400' : 'text-orange-400'}">${statBayarStr}</span></div>
@@ -1995,11 +2077,11 @@
                 const varObj = JSON.parse(p['Detail Pilihan'] || p['Varian Detail']);
                 if (Array.isArray(varObj)) { 
                     varDetailStr = varObj.map(v => `${v.opsi1||v.ukuran}-${v.opsi2||v.lengan}(${v.jumlah})`).join(', '); 
-                } else if (varObj.opsi1||varObj.ukuran) { 
+                } 
+                else if (varObj.opsi1||varObj.ukuran) { 
                     varDetailStr = `${varObj.opsi1||varObj.ukuran} - ${varObj.opsi2||varObj.lengan}`; 
                 }
             } catch(e){}
-
             const printLogoUrl = appSettings.logo_light || appSettings.logo_dark || '';
 
             const printWindow = window.open('', '_blank');
@@ -2277,6 +2359,9 @@
                         if (item.Key === 'qris_name') {
                             document.getElementById('set-qris-name').value = item.Value || "";
                         }
+                        if (item.Key === 'link_buku_panduan') {
+                            document.getElementById('set-link-panduan').value = item.Value || "";
+                        }
                         if (item.Value) { 
                             appSettings[item.Key] = item.Value; 
                         }
@@ -2305,7 +2390,8 @@
                 qris_lunas: base64QrisLunas, 
                 qris_dp: base64QrisDp,
                 admin_wa: document.getElementById('set-admin-wa').value, 
-                qris_name: document.getElementById('set-qris-name').value
+                qris_name: document.getElementById('set-qris-name').value,
+                link_buku_panduan: document.getElementById('set-link-panduan').value
             };
             
             try {
