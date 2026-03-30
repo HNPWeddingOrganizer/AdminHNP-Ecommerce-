@@ -253,16 +253,33 @@
             </section>
 
             <!-- PENJUALAN SECTION -->
-            <section id="sec-penjualan" class="hidden space-y-4 md:space-y-8">
+            <section id="sec-penjualan" class="hidden space-y-4 md:space-y-6">
+                <!-- Header & Toggle View -->
                 <div class="bg-[#111] p-4 md:p-5 rounded-[24px] shadow-lg border border-zinc-800">
-                    <h3 class="font-bold text-white text-xs md:text-sm tracking-tight mb-2 md:mb-3">Jadwal Acara Berdasarkan Bulan</h3>
-                    <div id="filter-bulan-container" class="flex gap-2 overflow-x-auto scroll-touch hide-scrollbar pb-1"></div>
+                    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
+                        <h3 class="font-bold text-white text-base md:text-lg tracking-tight">Jadwal Acara Klien</h3>
+                        
+                        <div class="flex items-center gap-2 w-full sm:w-auto justify-between sm:justify-end">
+                            <!-- Toggle Button -->
+                            <div class="flex bg-black p-1 rounded-xl border border-zinc-800 shadow-inner">
+                                <button onclick="switchPenjualanView('list')" id="btn-view-list" class="bg-gold-500 text-black px-4 py-1.5 rounded-lg text-[10px] md:text-xs font-bold shadow-sm transition-colors flex items-center gap-1.5"><i class="fa-solid fa-list"></i> Tabel</button>
+                                <button onclick="switchPenjualanView('calendar')" id="btn-view-cal" class="text-zinc-400 hover:text-gold-400 px-4 py-1.5 rounded-lg text-[10px] md:text-xs font-bold transition-colors flex items-center gap-1.5"><i class="fa-solid fa-calendar-days"></i> Kalender</button>
+                            </div>
+                            <!-- Refresh Button -->
+                            <button onclick="fetchPenjualan(true)" class="bg-zinc-800 text-gold-500 border border-zinc-700 w-8 h-8 md:w-9 md:h-9 rounded-full flex items-center justify-center hover:bg-zinc-700 transition active:scale-95 shrink-0"><i class="fa-solid fa-rotate-right text-xs"></i></button>
+                        </div>
+                    </div>
+                    
+                    <!-- Filter Bulan (Hanya untuk view List) -->
+                    <div id="filter-bulan-wrapper" class="mt-4 border-t border-zinc-800 pt-3">
+                        <div id="filter-bulan-container" class="flex gap-2 overflow-x-auto scroll-touch hide-scrollbar pb-1"></div>
+                    </div>
                 </div>
 
-                <div class="bg-[#111] rounded-[32px] md:rounded-[40px] shadow-2xl border border-zinc-800 overflow-hidden">
+                <!-- TAMPILAN TABEL (LIST) -->
+                <div id="view-list" class="bg-[#111] rounded-[32px] md:rounded-[40px] shadow-2xl border border-zinc-800 overflow-hidden transition-all duration-300">
                     <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center p-4 md:p-6 border-b border-zinc-800 gap-3">
                         <h3 class="font-bold text-white text-base md:text-xl tracking-tight">Booking Acara: <span id="label-bulan-aktif" class="text-gold-500">Semua Waktu</span></h3>
-                        <button onclick="fetchPenjualan(true)" class="bg-gold-500/10 text-gold-500 border border-gold-500/30 px-3 md:px-4 py-1.5 md:py-2 rounded-xl md:rounded-full text-[10px] md:text-sm font-bold hover:bg-gold-500/20 transition active:scale-95 flex items-center gap-2"><i class="fa-solid fa-rotate-right"></i> Refresh</button>
                     </div>
                     <div class="overflow-x-auto scroll-touch pb-2">
                         <table class="w-full text-left text-sm whitespace-nowrap min-w-[800px]">
@@ -278,6 +295,41 @@
                             </thead>
                             <tbody id="table-penjualan" class="divide-y divide-zinc-800 border-b border-zinc-800"></tbody>
                         </table>
+                    </div>
+                </div>
+
+                <!-- TAMPILAN KALENDER -->
+                <div id="view-kalender" class="hidden space-y-4 md:space-y-6 transition-all duration-300">
+                    <div class="bg-[#111] p-4 md:p-6 rounded-[32px] md:rounded-[40px] shadow-2xl border border-zinc-800">
+                        <div class="flex justify-between items-center mb-4 md:mb-6 border-b border-zinc-800 pb-4">
+                            <button onclick="ubahBulanKalender(-1)" class="w-10 h-10 rounded-full bg-black border border-zinc-700 text-gold-500 hover:bg-gold-500 hover:text-black flex items-center justify-center transition shadow-sm"><i class="fa-solid fa-chevron-left"></i></button>
+                            <h3 id="kalender-title" class="font-black text-lg md:text-2xl text-white tracking-widest uppercase">Bulan Tahun</h3>
+                            <button onclick="ubahBulanKalender(1)" class="w-10 h-10 rounded-full bg-black border border-zinc-700 text-gold-500 hover:bg-gold-500 hover:text-black flex items-center justify-center transition shadow-sm"><i class="fa-solid fa-chevron-right"></i></button>
+                        </div>
+                        
+                        <!-- Header Hari -->
+                        <div class="grid grid-cols-7 gap-1 md:gap-2 text-center mb-2">
+                            <div class="text-[10px] md:text-xs font-black text-red-500 py-1">Min</div>
+                            <div class="text-[10px] md:text-xs font-bold text-zinc-500 py-1">Sen</div>
+                            <div class="text-[10px] md:text-xs font-bold text-zinc-500 py-1">Sel</div>
+                            <div class="text-[10px] md:text-xs font-bold text-zinc-500 py-1">Rab</div>
+                            <div class="text-[10px] md:text-xs font-bold text-zinc-500 py-1">Kam</div>
+                            <div class="text-[10px] md:text-xs font-bold text-zinc-500 py-1">Jum</div>
+                            <div class="text-[10px] md:text-xs font-bold text-zinc-500 py-1">Sab</div>
+                        </div>
+                        
+                        <!-- Grid Tanggal -->
+                        <div id="kalender-grid" class="grid grid-cols-7 gap-1 md:gap-2"></div>
+                    </div>
+
+                    <!-- List Acara Pada Tanggal Terpilih -->
+                    <div id="kalender-detail-container" class="hidden bg-[#111] p-4 md:p-6 rounded-[24px] shadow-2xl border border-gold-500/30 relative overflow-hidden">
+                        <div class="absolute top-0 right-0 w-32 h-32 bg-gold-600/10 rounded-full blur-2xl pointer-events-none -translate-y-1/2 translate-x-1/2"></div>
+                        <div class="flex justify-between items-center mb-4 border-b border-zinc-800 pb-3 relative z-10">
+                            <h4 class="font-bold text-gold-500 text-sm md:text-base tracking-tight"><i class="fa-solid fa-calendar-day mr-2"></i>Jadwal Acara: <span id="kalender-tgl-terpilih" class="text-white"></span></h4>
+                            <button onclick="document.getElementById('kalender-detail-container').classList.add('hidden')" class="text-zinc-500 hover:text-red-500 w-6 h-6 flex items-center justify-center rounded-full bg-black border border-zinc-800 transition"><i class="fa-solid fa-times"></i></button>
+                        </div>
+                        <div id="kalender-list-acara" class="space-y-3 relative z-10"></div>
                     </div>
                 </div>
             </section>
@@ -1463,6 +1515,7 @@
             if (!force && dataLoaded.penjualan && globalPenjualan.length > 0) { 
                 renderFilterBulan(); 
                 renderTabelPenjualan(activeBulanFilter); 
+                renderKalender(); // <--- TAMBAHAN UNTUK KALENDER
                 return; 
             }
             if (!silent) showLoading(true);
@@ -1476,6 +1529,7 @@
                     renderFilterBulan(); 
                     renderTabelPenjualan(activeBulanFilter); 
                     renderGridTranskrip(); 
+                    renderKalender(); // <--- TAMBAHAN UNTUK KALENDER
                 }
             } catch (err) {} 
             
@@ -1587,7 +1641,7 @@
                             </select>
                             <div class="flex justify-center gap-1 mt-1">${bukti1} ${bukti2}</div>
                         </td>
-                      
+                       
                         <td class="px-3 md:px-5 py-2.5 md:py-3 text-center" onclick="event.stopPropagation()">
                             <span class="px-1.5 md:px-2 py-0.5 md:py-1 rounded text-[8px] md:text-[9px] font-bold w-full min-w-[90px] text-center inline-block mb-1 ${badgeColor}">${statusAcara}</span>
                             <select onchange="updateDBStatus('${idTrx}', 'pesanan', this.value)" class="w-full min-w-[90px] bg-zinc-800 border border-zinc-700 text-white text-[8px] md:text-[9px] font-bold rounded px-1 py-1 md:py-1.5 outline-none text-center cursor-pointer hover:border-gold-500">
@@ -2660,6 +2714,161 @@
                 btn.innerHTML = '<i class="fa-solid fa-floppy-disk"></i> Simpan Perubahan'; 
                 btn.disabled = false;
             }
+        }
+
+        // --- LOGIKA KALENDER VIEW ---
+        let currentKalenderDate = new Date();
+
+        function switchPenjualanView(view) {
+            const btnList = document.getElementById('btn-view-list');
+            const btnCal = document.getElementById('btn-view-cal');
+            const viewList = document.getElementById('view-list');
+            const viewCal = document.getElementById('view-kalender');
+            const filterWrapper = document.getElementById('filter-bulan-wrapper');
+
+            if (view === 'list') {
+                btnList.className = "bg-gold-500 text-black px-4 py-1.5 rounded-lg text-[10px] md:text-xs font-bold shadow-sm transition-colors flex items-center gap-1.5";
+                btnCal.className = "text-zinc-400 hover:text-gold-400 hover:bg-zinc-900 px-4 py-1.5 rounded-lg text-[10px] md:text-xs font-bold transition-colors flex items-center gap-1.5";
+                viewList.classList.remove('hidden');
+                viewCal.classList.add('hidden');
+                filterWrapper.classList.remove('hidden');
+            } else {
+                btnCal.className = "bg-gold-500 text-black px-4 py-1.5 rounded-lg text-[10px] md:text-xs font-bold shadow-sm transition-colors flex items-center gap-1.5";
+                btnList.className = "text-zinc-400 hover:text-gold-400 hover:bg-zinc-900 px-4 py-1.5 rounded-lg text-[10px] md:text-xs font-bold transition-colors flex items-center gap-1.5";
+                viewList.classList.add('hidden');
+                viewCal.classList.remove('hidden');
+                filterWrapper.classList.add('hidden');
+                renderKalender();
+            }
+        }
+
+        function parseTanggalBooking(tglStr) {
+            // Memecah format "DD/MM/YYYY, HH:mm:ss" bawaan Google Script
+            try {
+                let parts = tglStr.split(',')[0].split('/');
+                if (parts.length === 3) {
+                    return new Date(parts[2], parts[1] - 1, parts[0]);
+                }
+            } catch(e) {}
+            return null;
+        }
+
+        function ubahBulanKalender(offset) {
+            currentKalenderDate.setMonth(currentKalenderDate.getMonth() + offset);
+            document.getElementById('kalender-detail-container').classList.add('hidden');
+            renderKalender();
+        }
+
+        function renderKalender() {
+            const year = currentKalenderDate.getFullYear();
+            const month = currentKalenderDate.getMonth();
+            
+            const monthNames = ["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"];
+            document.getElementById('kalender-title').textContent = `${monthNames[month]} ${year}`;
+
+            const firstDay = new Date(year, month, 1).getDay(); // 0 = Minggu
+            const daysInMonth = new Date(year, month + 1, 0).getDate();
+            
+            const grid = document.getElementById('kalender-grid');
+            grid.innerHTML = '';
+
+          
+            const mapBooking = {};
+            globalPenjualan.forEach(p => {
+                if(p['Status Acara'] === 'Dibatalkan' || p.Status === 'Dibatalkan') return;
+                let d = parseTanggalBooking(p.Tanggal);
+                if (d && d.getFullYear() === year && d.getMonth() === month) {
+                    let tglKey = d.getDate();
+                    if (!mapBooking[tglKey]) mapBooking[tglKey] = [];
+                    mapBooking[tglKey].push(p);
+                }
+            });
+
+         
+            for (let i = 0; i < firstDay; i++) {
+                grid.innerHTML += `<div class="p-2 md:p-4 rounded-xl bg-black/20 border border-transparent"></div>`;
+            }
+
+            let today = new Date();
+            for (let i = 1; i <= daysInMonth; i++) {
+                let isToday = (i === today.getDate() && month === today.getMonth() && year === today.getFullYear());
+                let bookings = mapBooking[i] || [];
+                let hasBooking = bookings.length > 0;
+                
+                let extraClass = "bg-black border-zinc-800 text-zinc-300 hover:bg-zinc-800";
+                let badge = "";
+                let countText = "";
+                
+                if (hasBooking) {
+                    extraClass = "bg-gold-500/20 border-gold-500/50 text-gold-400 hover:bg-gold-500/30 cursor-pointer shadow-[0_0_15px_rgba(212,175,55,0.1)] transition-transform hover:scale-105 active:scale-95 z-10";
+                    countText = `<p class="text-[8px] md:text-[9px] font-medium text-gold-200 truncate mt-0.5 md:mt-1 hidden sm:block">${bookings.length} Acara</p>`;
+                    badge = `<div class="absolute -top-1.5 -right-1.5 w-4 h-4 md:w-5 md:h-5 bg-red-600 text-white rounded-full flex items-center justify-center text-[9px] md:text-[10px] font-bold shadow-md border border-black">${bookings.length}</div>`;
+                } else if (isToday) {
+                    extraClass = "bg-blue-900/20 border-blue-500/30 text-blue-400";
+                }
+
+               
+                let paramDate = `${year}-${String(month+1).padStart(2, '0')}-${String(i).padStart(2, '0')}`;
+
+                grid.innerHTML += `
+                    <div ${hasBooking ? `onclick="lihatAcaraKalender('${paramDate}')"` : ''} class="relative p-2 md:p-3 rounded-xl md:rounded-2xl border flex flex-col items-center justify-center min-h-[44px] md:min-h-[64px] transition-colors ${extraClass}">
+                        <span class="text-xs md:text-sm font-bold ${isToday && !hasBooking ? 'text-blue-400' : ''}">${i}</span>
+                        ${countText}
+                        ${badge}
+                    </div>
+                `;
+            }
+        }
+
+        function lihatAcaraKalender(dateStr) {
+            const parts = dateStr.split('-');
+            const y = parseInt(parts[0]);
+            const m = parseInt(parts[1]) - 1;
+            const d = parseInt(parts[2]);
+            
+            const targetDate = new Date(y, m, d);
+            document.getElementById('kalender-tgl-terpilih').textContent = targetDate.toLocaleDateString('id-ID', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
+            
+            const listContainer = document.getElementById('kalender-list-acara');
+            let html = '';
+
+            let acaraHariIni = globalPenjualan.filter(p => {
+                if(p['Status Acara'] === 'Dibatalkan' || p.Status === 'Dibatalkan') return false;
+                let pbDate = parseTanggalBooking(p.Tanggal);
+                if(!pbDate) return false;
+                return pbDate.getDate() === d && pbDate.getMonth() === m && pbDate.getFullYear() === y;
+            });
+
+            acaraHariIni.forEach(p => {
+                const idTrx = p['ID Booking'] || p['ID Transaksi'];
+                const nmPkt = p['Nama Paket'] || p['Nama Baju'];
+                const clientNm = p['Username Klien'] || p['Username Pembeli'];
+                const statAcara = p['Status Acara'] || p.Status || "Menunggu";
+                
+                let statusColor = statAcara === 'Diproses' || statAcara === 'Diskusi Lanjutan' ? 'text-blue-400 border-blue-500/30 bg-blue-900/20' : (statAcara === 'Selesai' ? 'text-emerald-400 border-emerald-500/30 bg-emerald-900/20' : 'text-orange-400 border-orange-500/30 bg-orange-900/20');
+
+                html += `
+                    <div onclick="bukaDetailPesananModal('${idTrx}')" class="bg-black p-3 md:p-4 rounded-xl md:rounded-[20px] border border-zinc-700 hover:border-gold-500 cursor-pointer transition flex justify-between items-center gap-3 group shadow-sm">
+                        <div class="overflow-hidden flex-1">
+                            <span class="text-[9px] md:text-[10px] font-mono font-bold text-gold-500 mb-0.5 md:mb-1 block">${idTrx}</span>
+                            <h5 class="font-bold text-white text-xs md:text-sm truncate group-hover:text-gold-400 transition-colors">${nmPkt}</h5>
+                            <p class="text-[10px] md:text-[11px] text-zinc-400 mt-1 truncate"><i class="fa-regular fa-user mr-1 text-zinc-500"></i> ${clientNm}</p>
+                        </div>
+                        <div class="text-right shrink-0 flex flex-col items-end justify-center">
+                            <span class="px-2 py-1 rounded text-[8px] md:text-[9px] font-bold uppercase border ${statusColor} block mb-2 shadow-sm">${statAcara}</span>
+                            <span class="text-[9px] md:text-[10px] text-zinc-500 font-bold group-hover:text-gold-500 transition-colors bg-zinc-900 px-2 py-1 rounded-md">Detail <i class="fa-solid fa-arrow-right ml-1"></i></span>
+                        </div>
+                    </div>
+                `;
+            });
+
+            listContainer.innerHTML = html;
+            document.getElementById('kalender-detail-container').classList.remove('hidden');
+            
+          
+            setTimeout(() => {
+                document.getElementById('kalender-detail-container').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            }, 50);
         }
 
         window.onload = initApp;
