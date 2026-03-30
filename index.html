@@ -1163,7 +1163,14 @@
                         ctx.imageSmoothingQuality = 'high'; 
                         ctx.drawImage(img, 0, 0, w, h);
                         
-                        const b64 = canvas.toDataURL('image/jpeg', 0.85); 
+                        // Deteksi apakah yang sedang di-crop adalah Logo atau bukan
+         let imageFormat = 'image/jpeg'; 
+         if (targetVarBase64.includes('Logo')) {
+             imageFormat = 'image/png'; // Gunakan format PNG khusus untuk Logo agar transparan
+         }
+
+         // Simpan gambar dengan format yang sesuai
+         const b64 = canvas.toDataURL(imageFormat, 0.85);
                         base64GambarArray.push(b64);
                         container.innerHTML += `<img src="${b64}" class="w-16 h-16 md:w-20 md:h-20 object-cover rounded-lg md:rounded-xl shadow-sm shrink-0 border border-gold-500/30">`;
                     }
