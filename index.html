@@ -73,7 +73,7 @@
 
     <script>
         // GANTI DENGAN URL WEB APP DEPLOY ANDA
-        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwdfXwMkbn4j4r6gIwN4TuAW-n1uiaXebjXsNO_9ZueoRsmuRm7y3FPbqzV1OE5Jj7hNw/exec'; 
+        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbw5vJlDRAbTqgMrEZ-OaBlZhHPv43sfeYVXupzk-CxTO4-Owc-tdS3o0vLJjDgm8DOntA/exec'; 
     </script>
     
     <!-- Sidebar Desktop -->
@@ -1280,7 +1280,7 @@
                 kategori: document.getElementById('p-kategori').value, 
                 harga: minHarga, 
                 stok: totalStok, 
-                gambar: base64GambarArray.join(','), 
+        gambar: base64GambarArray.join('|'),
                 deskripsi: document.getElementById('p-deskripsi').value, 
                 varian: varianData 
             };
