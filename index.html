@@ -581,6 +581,93 @@
         </div>
     </div>
 
+    <!-- Modal Edit Berkas Admin -->
+    <div id="modal-edit-berkas" class="modal opacity-0 pointer-events-none fixed w-full h-full top-0 left-0 flex items-end sm:items-center justify-center z-[90] transition-opacity duration-300">
+        <div class="absolute w-full h-full bg-black/80 backdrop-blur-md" onclick="toggleModalEditBerkas()"></div>
+        <div class="modal-sheet bg-[#111] w-full sm:max-w-3xl mx-auto rounded-t-[32px] sm:rounded-[40px] shadow-[0_0_40px_rgba(212,175,55,0.15)] z-[95] flex flex-col relative pb-safe border border-gold-500/30 max-h-[90vh]">
+            <div class="w-12 h-1.5 bg-zinc-700 mx-auto rounded-full mt-3 sm:hidden shrink-0"></div>
+            <div class="px-5 sm:px-6 py-4 flex justify-between items-center shrink-0 border-b border-zinc-800">
+                <div>
+                    <h3 class="font-bold text-lg sm:text-xl text-gold-500 tracking-tight"><i class="fa-solid fa-folder-open mr-2"></i>Data Pemberkasan Klien</h3>
+                    <p id="ab-id-title" class="text-[10px] md:text-xs text-zinc-400 font-mono mt-0.5">ID: -</p>
+                </div>
+                <button type="button" onclick="toggleModalEditBerkas()" class="bg-zinc-800 hover:bg-zinc-700 text-zinc-300 w-8 h-8 rounded-full flex items-center justify-center transition-colors shrink-0"><i class="fa-solid fa-times"></i></button>
+            </div>
+            
+            <div class="p-5 sm:p-6 overflow-y-auto hide-scrollbar scroll-touch flex-1 space-y-5">
+                <input type="hidden" id="ab-id-booking">
+                <input type="hidden" id="ab-username">
+
+                <!-- Download File Klien -->
+                <div class="bg-indigo-900/20 border border-indigo-500/30 p-4 rounded-[20px] flex flex-col sm:flex-row items-center justify-between gap-4">
+                    <div>
+                        <h4 class="font-bold text-indigo-400 text-sm">Dokumen Terlampir</h4>
+                        <p class="text-[10px] text-zinc-400 mt-0.5">Unduh form yang telah diisi klien atau unggah revisi.</p>
+                    </div>
+                    <div class="flex gap-2 w-full sm:w-auto">
+                        <a href="#" id="ab-link-download" target="_blank" class="flex-1 sm:flex-none bg-indigo-600 hover:bg-indigo-500 text-white px-4 py-2 rounded-xl text-xs font-bold text-center transition shadow-md"><i class="fa-solid fa-download mr-1"></i> Unduh File Klien</a>
+                        <button onclick="document.getElementById('ab-file-upload').click()" class="flex-1 sm:flex-none bg-zinc-800 border border-zinc-700 text-zinc-300 px-4 py-2 rounded-xl text-xs font-bold hover:text-gold-400 transition"><i class="fa-solid fa-upload mr-1"></i> Timpa File</button>
+                        <input type="file" id="ab-file-upload" accept=".pdf,.doc,.docx" class="hidden" onchange="prosesFileBerkasAdmin(event)">
+                    </div>
+                </div>
+                <p id="ab-file-name" class="text-xs text-gold-500 font-medium text-center hidden mt-1"></p>
+
+                <!-- Form Data -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div><label class="block font-bold text-zinc-400 mb-1 text-xs">Nama CPP (Pria)</label><input id="ab-cpp" type="text" class="w-full bg-black border border-zinc-700 rounded-xl px-4 py-2.5 text-white text-sm focus:border-gold-500 outline-none"></div>
+                    <div><label class="block font-bold text-zinc-400 mb-1 text-xs">Nama CPW (Wanita)</label><input id="ab-cpw" type="text" class="w-full bg-black border border-zinc-700 rounded-xl px-4 py-2.5 text-white text-sm focus:border-gold-500 outline-none"></div>
+                </div>
+
+                <div class="grid grid-cols-2 gap-4 border-t border-zinc-800 pt-4">
+                    <div><label class="block font-bold text-zinc-400 mb-1 text-xs">Tanggal Akad</label><input id="ab-tgl-akad" type="date" class="w-full bg-black border border-zinc-700 rounded-xl px-4 py-2.5 text-white text-sm focus:border-gold-500 outline-none"></div>
+                    <div><label class="block font-bold text-zinc-400 mb-1 text-xs">Waktu Akad</label><input id="ab-wkt-akad" type="text" class="w-full bg-black border border-zinc-700 rounded-xl px-4 py-2.5 text-white text-sm focus:border-gold-500 outline-none"></div>
+                    <div><label class="block font-bold text-zinc-400 mb-1 text-xs">Tanggal Resepsi</label><input id="ab-tgl-resepsi" type="date" class="w-full bg-black border border-zinc-700 rounded-xl px-4 py-2.5 text-white text-sm focus:border-gold-500 outline-none"></div>
+                    <div><label class="block font-bold text-zinc-400 mb-1 text-xs">Waktu Resepsi</label><input id="ab-wkt-resepsi" type="text" class="w-full bg-black border border-zinc-700 rounded-xl px-4 py-2.5 text-white text-sm focus:border-gold-500 outline-none"></div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 border-t border-zinc-800 pt-4">
+                    <div><label class="block font-bold text-zinc-400 mb-1 text-xs">Undangan (Pax)</label><input id="ab-undangan" type="number" class="w-full bg-black border border-zinc-700 rounded-xl px-4 py-2.5 text-white text-sm focus:border-gold-500 outline-none"></div>
+                    <div><label class="block font-bold text-zinc-400 mb-1 text-xs">Paket Pesanan</label><input id="ab-pesanan" type="text" class="w-full bg-black border border-zinc-700 rounded-xl px-4 py-2.5 text-white text-sm focus:border-gold-500 outline-none"></div>
+                    <div><label class="block font-bold text-zinc-400 mb-1 text-xs">Konsep Acara</label><input id="ab-konsep" type="text" class="w-full bg-black border border-zinc-700 rounded-xl px-4 py-2.5 text-white text-sm focus:border-gold-500 outline-none"></div>
+                    <div><label class="block font-bold text-zinc-400 mb-1 text-xs">Konsep Make Up</label><input id="ab-makeup" type="text" class="w-full bg-black border border-zinc-700 rounded-xl px-4 py-2.5 text-white text-sm focus:border-gold-500 outline-none"></div>
+                    <div class="md:col-span-2"><label class="block font-bold text-zinc-400 mb-1 text-xs">Busana</label><input id="ab-busana" type="text" class="w-full bg-black border border-zinc-700 rounded-xl px-4 py-2.5 text-white text-sm focus:border-gold-500 outline-none"></div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 border-t border-zinc-800 pt-4">
+                    <div><label class="block font-bold text-zinc-400 mb-1 text-xs">Prewedding</label><textarea id="ab-prewed" rows="2" class="w-full bg-black border border-zinc-700 rounded-xl px-4 py-2.5 text-white text-sm focus:border-gold-500 outline-none resize-none"></textarea></div>
+                    <div><label class="block font-bold text-zinc-400 mb-1 text-xs">Technical Meeting</label><textarea id="ab-tm" rows="2" class="w-full bg-black border border-zinc-700 rounded-xl px-4 py-2.5 text-white text-sm focus:border-gold-500 outline-none resize-none"></textarea></div>
+                </div>
+
+                <!-- VENDORS -->
+                <div class="border-t border-zinc-800 pt-4">
+                    <label class="block font-bold text-gold-500 mb-3 text-sm"><i class="fa-solid fa-list-check mr-2"></i>Catatan Vendor</label>
+                    <div class="grid grid-cols-2 sm:grid-cols-3 gap-3">
+                        <input id="v-ab-dekorasi" type="text" placeholder="Dekorasi" class="bg-black border border-zinc-700 rounded-lg px-3 py-2 text-xs text-white focus:border-gold-500">
+                        <input id="v-ab-mua" type="text" placeholder="MUA" class="bg-black border border-zinc-700 rounded-lg px-3 py-2 text-xs text-white focus:border-gold-500">
+                        <input id="v-ab-keluarga" type="text" placeholder="Perias Keluarga" class="bg-black border border-zinc-700 rounded-lg px-3 py-2 text-xs text-white focus:border-gold-500">
+                        <input id="v-ab-mc" type="text" placeholder="MC" class="bg-black border border-zinc-700 rounded-lg px-3 py-2 text-xs text-white focus:border-gold-500">
+                        <input id="v-ab-ent" type="text" placeholder="Entertainment" class="bg-black border border-zinc-700 rounded-lg px-3 py-2 text-xs text-white focus:border-gold-500">
+                        <input id="v-ab-catering" type="text" placeholder="Catering" class="bg-black border border-zinc-700 rounded-lg px-3 py-2 text-xs text-white focus:border-gold-500">
+                        <input id="v-ab-dok" type="text" placeholder="Dokumentasi" class="bg-black border border-zinc-700 rounded-lg px-3 py-2 text-xs text-white focus:border-gold-500">
+                        <input id="v-ab-sound" type="text" placeholder="Sound System" class="bg-black border border-zinc-700 rounded-lg px-3 py-2 text-xs text-white focus:border-gold-500">
+                        <input id="v-ab-attire" type="text" placeholder="Attire" class="bg-black border border-zinc-700 rounded-lg px-3 py-2 text-xs text-white focus:border-gold-500">
+                        <input id="v-ab-venue" type="text" placeholder="Venue/Gedung" class="col-span-2 sm:col-span-3 bg-black border border-zinc-700 rounded-lg px-3 py-2 text-xs text-white focus:border-gold-500">
+                    </div>
+                </div>
+
+                <div class="border-t border-zinc-800 pt-4">
+                    <label class="block font-bold text-zinc-400 mb-1 text-xs">Catatan Khusus Klien</label>
+                    <textarea id="ab-catatan" rows="3" class="w-full bg-black border border-zinc-700 rounded-xl px-4 py-2.5 text-white text-sm focus:border-gold-500 outline-none resize-none"></textarea>
+                </div>
+            </div>
+
+            <div class="p-5 border-t border-zinc-800 flex gap-3">
+                <button onclick="toggleModalEditBerkas()" class="w-1/3 bg-zinc-800 text-zinc-300 py-3.5 rounded-xl font-bold hover:bg-zinc-700 transition">Batal</button>
+                <button onclick="simpanBerkasAdmin()" id="btn-simpan-berkas-admin" class="w-2/3 bg-gold-500 text-black py-3.5 rounded-xl font-extrabold shadow-lg shadow-gold-500/20 hover:bg-gold-400 transition active:scale-95 flex items-center justify-center gap-2"><i class="fa-solid fa-floppy-disk"></i> Simpan Perubahan</button>
+            </div>
+        </div>
+    </div>
+
     <!-- MODAL CROPPER -->
     <div id="modal-cropper" class="modal opacity-0 pointer-events-none fixed w-full h-full top-0 left-0 flex items-center justify-center z-[100] transition-opacity duration-300">
         <div class="absolute w-full h-full bg-black/95 backdrop-blur-md" onclick="closeCropper()"></div>
@@ -1500,6 +1587,7 @@
                             </select>
                             <div class="flex justify-center gap-1 mt-1">${bukti1} ${bukti2}</div>
                         </td>
+                        // CARI BAGIAN INI DI DALAM renderTabelPenjualan() DAN GANTI
                         <td class="px-3 md:px-5 py-2.5 md:py-3 text-center" onclick="event.stopPropagation()">
                             <span class="px-1.5 md:px-2 py-0.5 md:py-1 rounded text-[8px] md:text-[9px] font-bold w-full min-w-[90px] text-center inline-block mb-1 ${badgeColor}">${statusAcara}</span>
                             <select onchange="updateDBStatus('${idTrx}', 'pesanan', this.value)" class="w-full min-w-[90px] bg-zinc-800 border border-zinc-700 text-white text-[8px] md:text-[9px] font-bold rounded px-1 py-1 md:py-1.5 outline-none text-center cursor-pointer hover:border-gold-500">
@@ -1512,6 +1600,11 @@
                                 <option value="Selesai">Acara Selesai</option>
                                 <option value="Dibatalkan">Batal</option>
                             </select>
+                            
+                            <!-- TOMBOL DATA BERKAS YANG BARU -->
+                            <button onclick="bukaEditBerkasAdmin('${idTrx}')" class="w-full mt-1.5 bg-indigo-900/30 hover:bg-indigo-600 text-indigo-400 hover:text-white border border-indigo-500/20 font-bold py-1.5 rounded text-[9px] md:text-[10px] transition-colors flex items-center justify-center gap-1 shadow-sm">
+                                <i class="fa-solid fa-folder-open"></i> Berkas
+                            </button>
                         </td>
                     </tr>`
                 }).join('');
@@ -2409,6 +2502,164 @@
             
             btn.innerHTML = 'Simpan Pengaturan'; 
             btn.disabled = false;
+        }
+
+        // --- LOGIKA EDIT BERKAS ADMIN ---
+        let berkasAdminBase64 = "";
+        let berkasAdminLama = "";
+
+        function toggleModalEditBerkas() {
+            const modal = document.getElementById('modal-edit-berkas');
+            if (modal.classList.contains('opacity-0')) { 
+                modal.classList.remove('opacity-0', 'pointer-events-none'); 
+                setTimeout(() => modal.classList.add('show'), 10); 
+            } else { 
+                modal.classList.remove('show'); 
+                setTimeout(() => { modal.classList.add('opacity-0', 'pointer-events-none'); }, 300); 
+            }
+        }
+
+        function bukaEditBerkasAdmin(idTrx) {
+            // Cegah event click baris tabel
+            if(event) event.stopPropagation();
+
+            const trx = globalPenjualan.find(p => (p['ID Booking']||p['ID Transaksi']) === idTrx);
+            if (!trx) return;
+
+            const berkas = globalBerkas.find(b => b['ID Booking'] === idTrx);
+
+            document.getElementById('ab-id-booking').value = idTrx;
+            document.getElementById('ab-id-title').textContent = "ID Booking: " + idTrx;
+            document.getElementById('ab-username').value = trx['Username Klien'] || trx['Username Pembeli'] || "Klien";
+            
+            // Set data (Jika belum ada berkas, kosongkan. Jika ada, isi datanya)
+            document.getElementById('ab-pesanan').value = berkas ? berkas['Pesanan Paket'] : (trx['Nama Paket'] || trx['Nama Baju']);
+            document.getElementById('ab-cpp').value = berkas ? berkas['Nama CPP'] : '';
+            document.getElementById('ab-cpw').value = berkas ? berkas['Nama CPW'] : '';
+            
+            let tglAkad = berkas ? berkas['Tgl Akad'] : '';
+            if(tglAkad && tglAkad.includes('T')) tglAkad = tglAkad.split('T')[0];
+            document.getElementById('ab-tgl-akad').value = tglAkad;
+            
+            document.getElementById('ab-wkt-akad').value = berkas ? berkas['Waktu Akad'] : '';
+            
+            let tglResepsi = berkas ? berkas['Tgl Resepsi'] : '';
+            if(tglResepsi && tglResepsi.includes('T')) tglResepsi = tglResepsi.split('T')[0];
+            document.getElementById('ab-tgl-resepsi').value = tglResepsi;
+
+            document.getElementById('ab-wkt-resepsi').value = berkas ? berkas['Waktu Resepsi'] : '';
+            document.getElementById('ab-undangan').value = berkas ? berkas['Jumlah Undangan'] : '';
+            document.getElementById('ab-konsep').value = berkas ? berkas['Konsep Pernikahan'] : '';
+            document.getElementById('ab-makeup').value = berkas ? berkas['Konsep Make Up'] : '';
+            document.getElementById('ab-busana').value = berkas ? berkas['Busana Pengantin'] : '';
+            document.getElementById('ab-prewed').value = berkas ? berkas['Tgl & Lokasi Prewedding'] : '';
+            document.getElementById('ab-tm').value = berkas ? berkas['Tgl & Lokasi TM'] : '';
+            
+            document.getElementById('v-ab-dekorasi').value = berkas ? berkas['Vendor Dekorasi'] : '';
+            document.getElementById('v-ab-mua').value = berkas ? berkas['Vendor MUA'] : '';
+            document.getElementById('v-ab-keluarga').value = berkas ? berkas['Vendor Perias Keluarga'] : '';
+            document.getElementById('v-ab-mc').value = berkas ? berkas['Vendor MC'] : '';
+            document.getElementById('v-ab-ent').value = berkas ? berkas['Vendor Entertainment'] : '';
+            document.getElementById('v-ab-catering').value = berkas ? berkas['Vendor Catering'] : '';
+            document.getElementById('v-ab-dok').value = berkas ? berkas['Vendor Dokumentasi'] : '';
+            document.getElementById('v-ab-sound').value = berkas ? berkas['Vendor Sound System'] : '';
+            document.getElementById('v-ab-attire').value = berkas ? berkas['Vendor Attire'] : '';
+            document.getElementById('v-ab-venue').value = berkas ? berkas['Vendor Venue'] : '';
+            document.getElementById('ab-catatan').value = berkas ? berkas['Catatan Tambahan'] : '';
+
+            // Handle Link Download
+            const linkDownload = document.getElementById('ab-link-download');
+            berkasAdminBase64 = "";
+            berkasAdminLama = berkas ? (berkas['File Buku Panduan'] || "") : "";
+            document.getElementById('ab-file-name').classList.add('hidden');
+
+            if (berkasAdminLama && berkasAdminLama.startsWith("http")) {
+                linkDownload.href = berkasAdminLama;
+                linkDownload.className = "flex-1 sm:flex-none bg-indigo-600 hover:bg-indigo-500 text-white px-4 py-2 rounded-xl text-xs font-bold text-center transition shadow-md cursor-pointer";
+                linkDownload.innerHTML = '<i class="fa-solid fa-download mr-1"></i> Unduh File Klien';
+                linkDownload.removeAttribute("onclick");
+            } else {
+                linkDownload.href = "#";
+                linkDownload.className = "flex-1 sm:flex-none bg-zinc-800 text-zinc-500 px-4 py-2 rounded-xl text-xs font-bold text-center cursor-not-allowed border border-zinc-700";
+                linkDownload.innerHTML = '<i class="fa-solid fa-ban mr-1"></i> Belum Ada File';
+                linkDownload.setAttribute("onclick", "event.preventDefault(); alert('Klien belum mengunggah dokumen.');");
+            }
+
+            toggleModalEditBerkas();
+        }
+
+        function prosesFileBerkasAdmin(event) {
+            const file = event.target.files[0];
+            const nameEl = document.getElementById('ab-file-name');
+            if(!file) {
+                berkasAdminBase64 = "";
+                nameEl.classList.add('hidden');
+                return;
+            }
+            nameEl.textContent = "File siap diunggah: " + file.name;
+            nameEl.classList.remove('hidden');
+            const reader = new FileReader();
+            reader.onload = e => {
+                berkasAdminBase64 = e.target.result;
+            }
+            reader.readAsDataURL(file);
+        }
+
+        async function simpanBerkasAdmin() {
+            const idBooking = document.getElementById('ab-id-booking').value;
+            const btn = document.getElementById('btn-simpan-berkas-admin');
+            
+            btn.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin"></i> Menyimpan...'; 
+            btn.disabled = true;
+
+            const payload = {
+                action: "saveBerkas",
+                id_booking: idBooking,
+                username: document.getElementById('ab-username').value,
+                cpp: document.getElementById('ab-cpp').value,
+                cpw: document.getElementById('ab-cpw').value,
+                tgl_akad: document.getElementById('ab-tgl-akad').value,
+                waktu_akad: document.getElementById('ab-wkt-akad').value,
+                tgl_resepsi: document.getElementById('ab-tgl-resepsi').value,
+                waktu_resepsi: document.getElementById('ab-wkt-resepsi').value,
+                undangan: document.getElementById('ab-undangan').value,
+                konsep: document.getElementById('ab-konsep').value,
+                makeup: document.getElementById('ab-makeup').value,
+                busana: document.getElementById('ab-busana').value,
+                pesanan: document.getElementById('ab-pesanan').value,
+                prewed: document.getElementById('ab-prewed').value,
+                tm: document.getElementById('ab-tm').value,
+                v_dekorasi: document.getElementById('v-ab-dekorasi').value,
+                v_mua: document.getElementById('v-ab-mua').value,
+                v_keluarga: document.getElementById('v-ab-keluarga').value,
+                v_mc: document.getElementById('v-ab-mc').value,
+                v_ent: document.getElementById('v-ab-ent').value,
+                v_catering: document.getElementById('v-ab-catering').value,
+                v_dok: document.getElementById('v-ab-dok').value,
+                v_sound: document.getElementById('v-ab-sound').value,
+                v_attire: document.getElementById('v-ab-attire').value,
+                v_venue: document.getElementById('v-ab-venue').value,
+                catatan: document.getElementById('ab-catatan').value,
+                file_panduan: berkasAdminBase64,
+                file_panduan_lama: berkasAdminLama
+            };
+
+            try {
+                const res = await fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify(payload), headers: { 'Content-Type': 'text/plain' } });
+                const data = await res.json();
+                if(data.status === 'success') {
+                    alert("Data Berkas Klien berhasil diperbarui!");
+                    fetchBerkas(true, true); // Refresh data berkas diam-diam
+                    toggleModalEditBerkas();
+                } else {
+                    alert("Gagal: " + data.message);
+                }
+            } catch(e) {
+                alert("Kesalahan jaringan saat menyimpan berkas.");
+            } finally {
+                btn.innerHTML = '<i class="fa-solid fa-floppy-disk"></i> Simpan Perubahan'; 
+                btn.disabled = false;
+            }
         }
 
         window.onload = initApp;
