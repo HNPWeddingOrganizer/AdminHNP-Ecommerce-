@@ -637,6 +637,38 @@
         let activeTranskripId = null; 
         let activeTranskripBulan = 'Semua Waktu';
 
+        // --- MANAJEMEN VARIAN / OPSI PRODUK ---
+        function addVariantRow(opt1 = '', opt2 = 'Default', harga = 0, stok = 0) {
+            const container = document.getElementById('variant-container');
+            const div = document.createElement('div');
+            div.className = 'variant-row flex flex-wrap md:flex-nowrap gap-2 items-end bg-[#111] p-2 md:p-3 rounded-lg border border-zinc-800 mb-2';
+            
+            div.innerHTML = `
+                <div class="w-full md:w-1/4">
+                    <label class="block text-[9px] md:text-[10px] text-zinc-500 mb-1">Nama Opsi (Cth: VIP/Reguler)</label>
+                    <input type="text" class="var-opt1 w-full bg-black border border-zinc-700 rounded-md px-2 py-1.5 text-xs text-white focus:border-gold-500 outline-none" placeholder="Nama Pilihan" value="${opt1}" required>
+                </div>
+                <div class="w-full md:w-1/4">
+                    <label class="block text-[9px] md:text-[10px] text-zinc-500 mb-1">Keterangan Tambahan</label>
+                    <input type="text" class="var-opt2 w-full bg-black border border-zinc-700 rounded-md px-2 py-1.5 text-xs text-white focus:border-gold-500 outline-none" placeholder="Cth: Indoor/Outdoor" value="${opt2}">
+                </div>
+                <div class="w-[45%] md:w-1/4">
+                    <label class="block text-[9px] md:text-[10px] text-zinc-500 mb-1">Harga Opsi (Rp)</label>
+                    <input type="number" class="var-hrg w-full bg-black border border-zinc-700 rounded-md px-2 py-1.5 text-xs text-gold-400 font-bold focus:border-gold-500 outline-none" placeholder="0" value="${harga}" min="0" required>
+                </div>
+                <div class="w-[35%] md:w-[15%]">
+                    <label class="block text-[9px] md:text-[10px] text-zinc-500 mb-1">Kuota/Stok</label>
+                    <input type="number" class="var-stk w-full bg-black border border-zinc-700 rounded-md px-2 py-1.5 text-xs text-white focus:border-gold-500 outline-none" placeholder="0" value="${stok}" min="0" required>
+                </div>
+                <div class="w-auto pb-0.5">
+                    <button type="button" onclick="this.closest('.variant-row').remove()" class="bg-red-900/30 text-red-400 hover:bg-red-600 hover:text-white border border-red-500/20 w-7 h-7 md:w-8 md:h-8 rounded-md flex items-center justify-center transition-colors shadow-sm" title="Hapus Opsi">
+                        <i class="fa-solid fa-trash text-[10px]"></i>
+                    </button>
+                </div>
+            `;
+            container.appendChild(div);
+        }
+
         // --- APP INIT ---
         async function initApp() {
             try {
