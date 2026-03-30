@@ -1189,13 +1189,13 @@
             <div class="w-12 h-1.5 bg-zinc-700 mx-auto rounded-full mt-3 sm:hidden shrink-0"></div>
             <div class="px-5 sm:px-6 py-4 flex justify-between items-center shrink-0 border-b border-zinc-800">
                 <div>
-                    <h3 class="font-bold text-lg sm:text-xl text-gold-500 tracking-tight"><i
-                            class="fa-solid fa-folder-open mr-2"></i>Data Pemberkasan Klien</h3>
+                    <h3 class="font-bold text-lg sm:text-xl text-gold-500 tracking-tight"><i class="fa-solid fa-folder-open mr-2"></i>Data Pemberkasan Klien</h3>
                     <p id="ab-id-title" class="text-[10px] md:text-xs text-zinc-400 font-mono mt-0.5">ID: -</p>
                 </div>
-                <button type="button" onclick="toggleModalEditBerkas()"
-                    class="bg-zinc-800 hover:bg-zinc-700 text-zinc-300 w-8 h-8 rounded-full flex items-center justify-center transition-colors shrink-0"><i
-                        class="fa-solid fa-times"></i></button>
+                <div class="flex items-center gap-2">
+                    <button type="button" onclick="cetakBerkasAdmin()" title="Cetak Berkas" class="bg-gold-500/20 hover:bg-gold-500 text-gold-500 hover:text-black w-8 h-8 rounded-full flex items-center justify-center transition-colors shadow-sm shrink-0"><i class="fa-solid fa-print"></i></button>
+                    <button type="button" onclick="toggleModalEditBerkas()" title="Tutup" class="bg-zinc-800 hover:bg-zinc-700 text-zinc-300 w-8 h-8 rounded-full flex items-center justify-center transition-colors shrink-0"><i class="fa-solid fa-times"></i></button>
+                </div>
             </div>
 
             <div class="p-5 sm:p-6 overflow-y-auto hide-scrollbar scroll-touch flex-1 space-y-5">
@@ -3706,6 +3706,111 @@
             setTimeout(() => {
                 document.getElementById('kalender-detail-container').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
             }, 50);
+        }
+
+        function cetakBerkasAdmin() {
+            const idBooking = document.getElementById('ab-id-booking').value;
+            if(!idBooking) return alert("Pilih pesanan terlebih dahulu!");
+
+            // Mengambil nilai dari input form admin
+            const data = {
+                id: idBooking,
+                klien: document.getElementById('ab-username').value || '-',
+                cpp: document.getElementById('ab-cpp').value || '-',
+                cpw: document.getElementById('ab-cpw').value || '-',
+                tglAkad: document.getElementById('ab-tgl-akad').value || '-',
+                wktAkad: document.getElementById('ab-wkt-akad').value || '-',
+                tglResepsi: document.getElementById('ab-tgl-resepsi').value || '-',
+                wktResepsi: document.getElementById('ab-wkt-resepsi').value || '-',
+                undangan: document.getElementById('ab-undangan').value || '-',
+                pesanan: document.getElementById('ab-pesanan').value || '-',
+                konsep: document.getElementById('ab-konsep').value || '-',
+                makeup: document.getElementById('ab-makeup').value || '-',
+                busana: document.getElementById('ab-busana').value || '-',
+                prewed: document.getElementById('ab-prewed').value || '-',
+                tm: document.getElementById('ab-tm').value || '-',
+                vDekor: document.getElementById('v-ab-dekorasi').value || '-',
+                vMua: document.getElementById('v-ab-mua').value || '-',
+                vKel: document.getElementById('v-ab-keluarga').value || '-',
+                vMc: document.getElementById('v-ab-mc').value || '-',
+                vEnt: document.getElementById('v-ab-ent').value || '-',
+                vCat: document.getElementById('v-ab-catering').value || '-',
+                vDok: document.getElementById('v-ab-dok').value || '-',
+                vSnd: document.getElementById('v-ab-sound').value || '-',
+                vAtr: document.getElementById('v-ab-attire').value || '-',
+                vVen: document.getElementById('v-ab-venue').value || '-',
+                catatan: document.getElementById('ab-catatan').value || '-'
+            };
+
+            const printLogoUrl = appSettings.logo_light || appSettings.logo_dark || '';
+            const printWindow = window.open('', '_blank');
+            printWindow.document.write(`
+                <!DOCTYPE html><html><head><title>Berkas Acara - ${data.id}</title>
+                <style>
+                    body { font-family: 'Segoe UI', Arial, sans-serif; padding: 30px; font-size: 13px; color: #333; max-width: 800px; margin: auto; }
+                    .header { display: flex; justify-content: space-between; border-bottom: 2px solid #D4AF37; padding-bottom: 15px; margin-bottom: 20px; }
+                    .header img { max-height: 50px; }
+                    .header h1 { margin: 0; color: #D4AF37; font-size: 24px; }
+                    .title { text-align: center; font-size: 18px; font-weight: bold; margin-bottom: 20px; text-transform: uppercase; text-decoration: underline; }
+                    table { width: 100%; border-collapse: collapse; margin-bottom: 20px; }
+                    th, td { border: 1px solid #ddd; padding: 10px; vertical-align: top; }
+                    th { background-color: #f9f9f9; text-align: left; width: 35%; font-weight: bold; }
+                    .section-title { background-color: #D4AF37; color: white; font-weight: bold; padding: 8px 10px; margin-top: 20px; margin-bottom: 10px; font-size: 14px; border-radius: 4px; }
+                    @media print { body { padding: 0; margin: 0; } * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; } }
+                </style>
+                </head><body>
+                    <div class="header">
+                        <div>${printLogoUrl ? `<img src="${printLogoUrl}">` : `<h1>ELEGANCE WO</h1>`}</div>
+                        <div style="text-align: right;"><b>BERKAS ACARA</b><br>ID: ${data.id}</div>
+                    </div>
+                    <div class="title">DATA LOGISTIK & PERSIAPAN ACARA</div>
+                    
+                    <div class="section-title">1. DATA PENGANTIN & ACARA</div>
+                    <table>
+                        <tr><th>Nama Akun Pemesan</th><td>${data.klien}</td></tr>
+                        <tr><th>Nama Calon Pengantin Pria (CPP)</th><td>${data.cpp}</td></tr>
+                        <tr><th>Nama Calon Pengantin Wanita (CPW)</th><td>${data.cpw}</td></tr>
+                        <tr><th>Jadwal Akad / Pemberkatan</th><td>${data.tglAkad} | Pukul: ${data.wktAkad}</td></tr>
+                        <tr><th>Jadwal Resepsi</th><td>${data.tglResepsi} | Pukul: ${data.wktResepsi}</td></tr>
+                        <tr><th>Estimasi Undangan</th><td>${data.undangan} Pax</td></tr>
+                    </table>
+
+                    <div class="section-title">2. DETAIL LAYANAN & KONSEP</div>
+                    <table>
+                        <tr><th>Paket yang Dipesan</th><td>${data.pesanan}</td></tr>
+                        <tr><th>Konsep / Tema Acara</th><td>${data.konsep}</td></tr>
+                        <tr><th>Konsep Make Up</th><td>${data.makeup}</td></tr>
+                        <tr><th>Kebutuhan Busana</th><td>${data.busana}</td></tr>
+                    </table>
+
+                    <div class="section-title">3. JADWAL PERSIAPAN KHUSUS</div>
+                    <table>
+                        <tr><th>Jadwal Prewedding</th><td><pre style="font-family:inherit; margin:0;">${data.prewed}</pre></td></tr>
+                        <tr><th>Jadwal Technical Meeting (TM)</th><td><pre style="font-family:inherit; margin:0;">${data.tm}</pre></td></tr>
+                    </table>
+
+                    <div class="section-title">4. DAFTAR VENDOR REKANAN</div>
+                    <table>
+                        <tr><th>Venue / Gedung</th><td>${data.vVen}</td></tr>
+                        <tr><th>Dekorasi</th><td>${data.vDekor}</td></tr>
+                        <tr><th>Catering</th><td>${data.vCat}</td></tr>
+                        <tr><th>MUA Pengantin</th><td>${data.vMua}</td></tr>
+                        <tr><th>Perias Keluarga</th><td>${data.vKel}</td></tr>
+                        <tr><th>Attire / Busana</th><td>${data.vAtr}</td></tr>
+                        <tr><th>Dokumentasi (Foto/Video)</th><td>${data.vDok}</td></tr>
+                        <tr><th>MC Acara</th><td>${data.vMc}</td></tr>
+                        <tr><th>Entertainment / Musik</th><td>${data.vEnt}</td></tr>
+                        <tr><th>Sound System</th><td>${data.vSnd}</td></tr>
+                    </table>
+
+                    <div class="section-title">5. CATATAN KHUSUS</div>
+                    <div style="border: 1px solid #ddd; padding: 15px; min-height: 80px; white-space: pre-wrap;">${data.catatan}</div>
+                    
+                    <div style="margin-top: 40px; text-align: center; font-size: 11px; color: #777;">Dicetak otomatis melalui Sistem Manajemen WO.</div>
+                    <script>window.onload = function() { setTimeout(() => { window.print(); }, 500); }<\/script>
+                </body></html>
+            `);
+            printWindow.document.close();
         }
 
         window.onload = initApp;
