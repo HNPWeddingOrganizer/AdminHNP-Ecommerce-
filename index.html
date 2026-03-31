@@ -715,22 +715,8 @@
             class="bg-black border border-zinc-700 text-gold-500 rounded-lg px-3 py-1.5 text-xs font-bold outline-none focus:border-gold-500">
             <option value="Semua">Semua Tahun</option>
         </select>
-        <select id="filter-jadwal-bulan" onchange="ubahFilterJadwal()"
-            class="bg-black border border-zinc-700 text-gold-500 rounded-lg px-3 py-1.5 text-xs font-bold outline-none focus:border-gold-500">
-            <option value="Semua">Semua Bulan</option>
-            <option value="01">Januari</option>
-            <option value="02">Februari</option>
-            <option value="03">Maret</option>
-            <option value="04">April</option>
-            <option value="05">Mei</option>
-            <option value="06">Juni</option>
-            <option value="07">Juli</option>
-            <option value="08">Agustus</option>
-            <option value="09">September</option>
-            <option value="10">Oktober</option>
-            <option value="11">November</option>
-            <option value="12">Desember</option>
-        </select>
+        <!-- Container Button Bulan Dinamis -->
+        <div id="filter-jadwal-bulan-container" class="flex gap-2 overflow-x-auto hide-scrollbar scroll-touch pb-1 max-w-[60vw] md:max-w-xl"></div>
     </div>
     <div
         class="bg-gold-500/20 border border-gold-500/40 px-4 py-1.5 rounded-lg text-xs font-bold text-gold-400 shadow-inner">
@@ -3686,21 +3672,22 @@
         function renderKalender() {
             const year = currentKalenderDate.getFullYear();
             const month = currentKalenderDate.getMonth();
-
             const monthNames = ["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"];
             document.getElementById('kalender-title').textContent = `${monthNames[month]} ${year}`;
 
-            const firstDay = new Date(year, month, 1).getDay(); // 0 = Minggu
+            const firstDay = new Date(year, month, 1).getDay(); 
             const daysInMonth = new Date(year, month + 1, 0).getDate();
-
             const grid = document.getElementById('kalender-grid');
             grid.innerHTML = '';
-
 
             const mapBooking = {};
             globalPenjualan.forEach(p => {
                 if (p['Status Acara'] === 'Dibatalkan' || p.Status === 'Dibatalkan') return;
-                let d = parseTanggalBooking(p.Tanggal);
+                const berkas = globalBerkas.find(b => b['ID Booking'] === (p['ID Booking']||p['ID Transaksi']));
+                
+                // Gunakan parser sakti
+                let d = getValidEventDate(p, berkas);
+                
                 if (d && d.getFullYear() === year && d.getMonth() === month) {
                     let tglKey = d.getDate();
                     if (!mapBooking[tglKey]) mapBooking[tglKey] = [];
@@ -3708,10 +3695,7 @@
                 }
             });
 
-
-            for (let i = 0; i < firstDay; i++) {
-                grid.innerHTML += `<div class="p-2 md:p-4 rounded-xl bg-black/20 border border-transparent"></div>`;
-            }
+            for (let i = 0; i < firstDay; i++) grid.innerHTML += `<div class="p-2 md:p-4 rounded-xl bg-black/20 border border-transparent"></div>`;
 
             let today = new Date();
             for (let i = 1; i <= daysInMonth; i++) {
@@ -3720,8 +3704,7 @@
                 let hasBooking = bookings.length > 0;
 
                 let extraClass = "bg-black border-zinc-800 text-zinc-300 hover:bg-zinc-800";
-                let badge = "";
-                let countText = "";
+                let badge = ""; let countText = "";
 
                 if (hasBooking) {
                     extraClass = "bg-gold-500/20 border-gold-500/50 text-gold-400 hover:bg-gold-500/30 cursor-pointer shadow-[0_0_15px_rgba(212,175,55,0.1)] transition-transform hover:scale-105 active:scale-95 z-10";
@@ -3731,26 +3714,18 @@
                     extraClass = "bg-blue-900/20 border-blue-500/30 text-blue-400";
                 }
 
-
                 let paramDate = `${year}-${String(month + 1).padStart(2, '0')}-${String(i).padStart(2, '0')}`;
-
-                grid.innerHTML += `
-                    <div ${hasBooking ? `onclick="lihatAcaraKalender('${paramDate}')"` : ''} class="relative p-2 md:p-3 rounded-xl md:rounded-2xl border flex flex-col items-center justify-center min-h-[44px] md:min-h-[64px] transition-colors ${extraClass}">
-                        <span class="text-xs md:text-sm font-bold ${isToday && !hasBooking ? 'text-blue-400' : ''}">${i}</span>
-                        ${countText}
-                        ${badge}
-                    </div>
-                `;
+                grid.innerHTML += `<div ${hasBooking ? `onclick="lihatAcaraKalender('${paramDate}')"` : ''} class="relative p-2 md:p-3 rounded-xl md:rounded-2xl border flex flex-col items-center justify-center min-h-[44px] md:min-h-[64px] transition-colors ${extraClass}"><span class="text-xs md:text-sm font-bold ${isToday && !hasBooking ? 'text-blue-400' : ''}">${i}</span>${countText}${badge}</div>`;
             }
         }
 
         function lihatAcaraKalender(dateStr) {
             const parts = dateStr.split('-');
-            const y = parseInt(parts[0]);
-            const m = parseInt(parts[1]) - 1;
-            const d = parseInt(parts[2]);
+            const y_target = parseInt(parts[0]);
+            const m_target = parseInt(parts[1]) - 1;
+            const d_target = parseInt(parts[2]);
 
-            const targetDate = new Date(y, m, d);
+            const targetDate = new Date(y_target, m_target, d_target);
             document.getElementById('kalender-tgl-terpilih').textContent = targetDate.toLocaleDateString('id-ID', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
 
             const listContainer = document.getElementById('kalender-list-acara');
@@ -3758,9 +3733,13 @@
 
             let acaraHariIni = globalPenjualan.filter(p => {
                 if (p['Status Acara'] === 'Dibatalkan' || p.Status === 'Dibatalkan') return false;
-                let pbDate = parseTanggalBooking(p.Tanggal);
-                if (!pbDate) return false;
-                return pbDate.getDate() === d && pbDate.getMonth() === m && pbDate.getFullYear() === y;
+                const berkas = globalBerkas.find(b => b['ID Booking'] === (p['ID Booking']||p['ID Transaksi']));
+                
+                // Gunakan parser sakti
+                let d = getValidEventDate(p, berkas);
+                if (!d) return false;
+                
+                return d.getDate() === d_target && d.getMonth() === m_target && d.getFullYear() === y_target;
             });
 
             acaraHariIni.forEach(p => {
@@ -3771,6 +3750,7 @@
 
                 let statusColor = statAcara === 'Diproses' || statAcara === 'Diskusi Lanjutan' ? 'text-blue-400 border-blue-500/30 bg-blue-900/20' : (statAcara === 'Selesai' ? 'text-emerald-400 border-emerald-500/30 bg-emerald-900/20' : 'text-orange-400 border-orange-500/30 bg-orange-900/20');
 
+                // Jika di klik akan membuka BukaDetailPesananModal
                 html += `
                     <div onclick="bukaDetailPesananModal('${idTrx}')" class="bg-black p-3 md:p-4 rounded-xl md:rounded-[20px] border border-zinc-700 hover:border-gold-500 cursor-pointer transition flex justify-between items-center gap-3 group shadow-sm">
                         <div class="overflow-hidden flex-1">
@@ -3780,7 +3760,7 @@
                         </div>
                         <div class="text-right shrink-0 flex flex-col items-end justify-center">
                             <span class="px-2 py-1 rounded text-[8px] md:text-[9px] font-bold uppercase border ${statusColor} block mb-2 shadow-sm">${statAcara}</span>
-                            <span class="text-[9px] md:text-[10px] text-zinc-500 font-bold group-hover:text-gold-500 transition-colors bg-zinc-900 px-2 py-1 rounded-md">Detail <i class="fa-solid fa-arrow-right ml-1"></i></span>
+                            <span class="text-[9px] md:text-[10px] text-zinc-500 font-bold group-hover:text-gold-500 transition-colors bg-zinc-900 px-2 py-1 rounded-md border border-zinc-800">Detail Acara <i class="fa-solid fa-arrow-right ml-1"></i></span>
                         </div>
                     </div>
                 `;
@@ -3788,7 +3768,6 @@
 
             listContainer.innerHTML = html;
             document.getElementById('kalender-detail-container').classList.remove('hidden');
-
 
             setTimeout(() => {
                 document.getElementById('kalender-detail-container').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
@@ -3877,6 +3856,24 @@
             return dateStr;
         }
 
+        // Fungsi Helper Ambil Tanggal Valid (Fix Kalender)
+        function getValidEventDate(p, berkas) {
+            let tgl = (berkas && berkas['Tgl Akad']) ? berkas['Tgl Akad'] : p.Tanggal;
+            if (!tgl || tgl === '-') return null;
+
+            // Jika format YYYY-MM-DD (Dari Input Berkas)
+            if (tgl.includes('-')) {
+                const parts = tgl.split('T')[0].split('-');
+                if (parts[0].length === 4) return new Date(parseInt(parts[0]), parseInt(parts[1]) - 1, parseInt(parts[2]));
+            }
+            // Jika format DD/MM/YYYY (Dari Google Sheets/Booking)
+            if (tgl.includes('/')) {
+                const parts = tgl.split(',')[0].split('/');
+                if (parts.length === 3) return new Date(parseInt(parts[2]), parseInt(parts[1]) - 1, parseInt(parts[0]));
+            }
+            return new Date(tgl); // Fallback
+        }
+
         async function fetchJadwalKru(force = false, silent = false) {
             if (!force && dataLoaded.jadwal) return;
             try {
@@ -3909,22 +3906,65 @@
             } catch(e) {}
         }
 
-        // --- TAMBAHAN FILTER ---
+        // --- LOGIKA FILTER TAHUN & BULAN DINAMIS ---
         function populateFilterTahun() {
             const selTahun = document.getElementById('filter-jadwal-tahun');
             let tahunSet = new Set();
             globalPenjualan.forEach(p => {
                 if (p['Status Acara'] !== 'Dibatalkan' && p.Status !== 'Dibatalkan') {
                     const berkas = globalBerkas.find(b => b['ID Booking'] === (p['ID Booking']||p['ID Transaksi'])) || {};
-                    let tgl = berkas['Tgl Akad'] || p.Tanggal;
-                    let d = parseTanggalBooking(tgl);
-                    if(!d && tgl.includes('-')) d = new Date(tgl);
+                    let d = getValidEventDate(p, berkas);
                     if(d) tahunSet.add(d.getFullYear());
                 }
             });
             let options = '<option value="Semua">Semua Tahun</option>';
             [...tahunSet].sort().reverse().forEach(t => options += `<option value="${t}">${t}</option>`);
             if(selTahun) selTahun.innerHTML = options;
+            
+            // Panggil render tombol bulan setelah tahun diatur
+            renderFilterBulanJadwal(); 
+        }
+
+        function ubahFilterJadwal() {
+            activeJadwalTahun = document.getElementById('filter-jadwal-tahun').value;
+            activeJadwalBulan = 'Semua'; // Reset bulan ke Semua jika tahun diubah
+            renderFilterBulanJadwal();
+            renderJadwalEvent();
+        }
+
+        function setBulanJadwal(bulanVal) {
+            activeJadwalBulan = bulanVal;
+            renderFilterBulanJadwal();
+            renderJadwalEvent();
+        }
+
+        function renderFilterBulanJadwal() {
+            const container = document.getElementById('filter-jadwal-bulan-container');
+            if(!container) return;
+
+            const months = ["Jan", "Feb", "Mar", "Apr", "Mei", "Jun", "Jul", "Ags", "Sep", "Okt", "Nov", "Des"];
+            let validEvents = globalPenjualan.filter(p => p['Status Acara'] !== 'Dibatalkan' && p.Status !== 'Dibatalkan');
+
+            let html = `<button onclick="setBulanJadwal('Semua')" class="shrink-0 px-3 md:px-4 py-1.5 md:py-2 rounded-full text-[10px] md:text-xs font-bold transition-all border relative ${activeJadwalBulan === 'Semua' ? 'bg-gold-500 text-black border-gold-500 shadow-[0_0_10px_rgba(212,175,55,0.4)]' : 'bg-[#111] text-zinc-400 border-zinc-800 hover:border-gold-500/50'}">Semua</button>`;
+
+            for (let m = 0; m < 12; m++) {
+                let count = 0;
+                validEvents.forEach(p => {
+                    const berkas = globalBerkas.find(b => b['ID Booking'] === (p['ID Booking']||p['ID Transaksi']));
+                    const d = getValidEventDate(p, berkas);
+                    if (d) {
+                        let matchTahun = activeJadwalTahun === 'Semua' ? true : d.getFullYear().toString() === activeJadwalTahun;
+                        if (matchTahun && d.getMonth() === m) count++;
+                    }
+                });
+
+                let valBulan = String(m + 1).padStart(2, '0');
+                const activeClass = (activeJadwalBulan === valBulan) ? 'bg-gold-500 text-black border-gold-500 shadow-[0_0_10px_rgba(212,175,55,0.4)]' : 'bg-[#111] text-zinc-400 border-zinc-800 hover:border-gold-500/50';
+                const badge = count > 0 ? `<div class="absolute -top-1.5 -right-1 w-4 h-4 bg-red-600 text-white rounded-full flex items-center justify-center text-[8px] font-bold shadow-md border border-black">${count}</div>` : '';
+
+                html += `<button onclick="setBulanJadwal('${valBulan}')" class="shrink-0 px-3 md:px-4 py-1.5 md:py-2 rounded-full text-[10px] md:text-xs font-bold transition-all border relative ${activeClass}">${months[m]}${badge}</button>`;
+            }
+            container.innerHTML = html;
         }
 
         function ubahFilterJadwal() {
@@ -3943,7 +3983,7 @@
                 validEvents = validEvents.filter(p => {
                     const berkas = globalBerkas.find(b => b['ID Booking'] === (p['ID Booking']||p['ID Transaksi'])) || {};
                     let tgl = berkas['Tgl Akad'] || p.Tanggal;
-                    let d = parseTanggalBooking(tgl);
+                   let d = getValidEventDate(p, berkas);
                     if(!d && tgl.includes('-')) d = new Date(tgl);
                     if (!d) return false;
 
@@ -4065,7 +4105,7 @@
                 let tglPakai = p.Tanggal; 
                 if(berkas && berkas['Tgl Akad']) tglPakai = berkas['Tgl Akad']; 
                 
-                let d = parseTanggalBooking(tglPakai);
+                let d = getValidEventDate(p, berkas);
                 if (!d && tglPakai.includes('-')) d = new Date(tglPakai); 
                 
                 if (d && d.getFullYear() === year && d.getMonth() === month) {
@@ -4110,7 +4150,7 @@
             let acaraHariIni = validEvents.filter(p => {
                 const berkas = globalBerkas.find(b => b['ID Booking'] === (p['ID Booking']||p['ID Transaksi']));
                 let tglPakai = p.Tanggal; if(berkas && berkas['Tgl Akad']) tglPakai = berkas['Tgl Akad'];
-                let d = parseTanggalBooking(tglPakai);
+                let d = getValidEventDate(p, berkas);
                 if (!d && tglPakai.includes('-')) d = new Date(tglPakai);
                 if(!d) return false;
                 return d.toISOString().split('T')[0] === dateStr;
@@ -4240,7 +4280,7 @@
             } catch(e) { alert("Kesalahan koneksi!"); }
             finally { btn.innerHTML = oriText; btn.disabled = false; }
         }
-        
+
         // 5. LOGIKA MASTER DATA KRU
         function bukaModalMasterKru() {
             const modal = document.getElementById('modal-master-kru');
