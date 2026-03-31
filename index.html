@@ -1310,11 +1310,11 @@
 
     <!-- MODAL MASTER DATA KRU -->
     <div id="modal-master-kru" class="modal opacity-0 pointer-events-none fixed inset-0 flex items-center justify-center z-[100] transition-opacity duration-300">
-        <div class="absolute inset-0 bg-black/80 backdrop-blur-md" onclick="toggleModalMasterKru()"></div>
+        <div class="absolute inset-0 bg-black/80 backdrop-blur-md" onclick="bukaModalMasterKru()"></div>
         <div class="modal-sheet bg-[#111] w-full sm:max-w-md mx-auto rounded-[32px] shadow-[0_0_40px_rgba(212,175,55,0.15)] z-[105] flex flex-col relative p-5 border border-indigo-500/30 max-h-[85vh]">
             <div class="flex justify-between items-center border-b border-zinc-800 pb-3 mb-4">
                 <h3 class="font-bold text-lg text-indigo-400"><i class="fa-solid fa-database mr-2"></i>Master Data Kru</h3>
-                <button onclick="toggleModalMasterKru()" class="bg-zinc-800 w-8 h-8 rounded-full text-zinc-300 hover:text-white"><i class="fa-solid fa-times"></i></button>
+                <button onclick="bukaModalMasterKru()" class="bg-zinc-800 w-8 h-8 rounded-full text-zinc-300 hover:text-white"><i class="fa-solid fa-times"></i></button>
             </div>
             
             <div class="mb-4">
@@ -4111,7 +4111,7 @@
         }
 
         // 5. LOGIKA MASTER DATA KRU
-        function toggleModalMasterKru() {
+        function bukaModalMasterKru() {
             const modal = document.getElementById('modal-master-kru');
             if (modal.classList.contains('opacity-0')) { 
                 modal.classList.remove('opacity-0', 'pointer-events-none'); setTimeout(() => modal.classList.add('show'), 10);
