@@ -693,65 +693,118 @@
                     </div>
                     <div class="flex items-center gap-2 w-full sm:w-auto justify-between sm:justify-end">
                         <button onclick="bukaModalMasterKru()" class="bg-indigo-900/30 text-indigo-400 border border-indigo-500/30 px-3 py-1.5 rounded-lg text-[10px] md:text-xs font-bold hover:bg-indigo-600 hover:text-white transition"><i class="fa-solid fa-users-gear mr-1"></i> Data Kru</button>
+<div class="flex bg-black p-1 rounded-xl border border-zinc-800 shadow-inner">
+    <button onclick="switchJadwalView('list')" id="btn-view-jadwal-list"
+        class="bg-gold-500 text-black px-4 py-1.5 rounded-lg text-[10px] md:text-xs font-bold shadow-sm transition-colors flex items-center gap-1.5"><i
+            class="fa-solid fa-table"></i> Tabel</button>
+    <button onclick="switchJadwalView('calendar')" id="btn-view-jadwal-cal"
+        class="text-zinc-400 hover:text-gold-400 hover:bg-zinc-900 px-4 py-1.5 rounded-lg text-[10px] md:text-xs font-bold transition-colors flex items-center gap-1.5"><i
+            class="fa-solid fa-calendar-days"></i> Kalender</button>
+</div>
+<button onclick="renderJadwalEvent()"
+    class="bg-zinc-800 text-gold-500 border border-zinc-700 w-8 h-8 rounded-full flex items-center justify-center hover:bg-zinc-700 transition active:scale-95 shrink-0"><i
+        class="fa-solid fa-rotate-right text-xs"></i></button>
+</div>
+</div>
 
-                        <div class="flex bg-black p-1 rounded-xl border border-zinc-800 shadow-inner">
-                            <button onclick="switchJadwalView('list')" id="btn-view-jadwal-list" class="bg-gold-500 text-black px-4 py-1.5 rounded-lg text-[10px] md:text-xs font-bold shadow-sm transition-colors flex items-center gap-1.5"><i class="fa-solid fa-table"></i> Tabel</button>
-                            <button onclick="switchJadwalView('calendar')" id="btn-view-jadwal-cal" class="text-zinc-400 hover:text-gold-400 hover:bg-zinc-900 px-4 py-1.5 rounded-lg text-[10px] md:text-xs font-bold transition-colors flex items-center gap-1.5"><i class="fa-solid fa-calendar-days"></i> Kalender</button>
-                        </div>
-                        <button onclick="renderJadwalEvent()" class="bg-zinc-800 text-gold-500 border border-zinc-700 w-8 h-8 rounded-full flex items-center justify-center hover:bg-zinc-700 transition active:scale-95 shrink-0"><i class="fa-solid fa-rotate-right text-xs"></i></button>
-                    </div>
-                </div>
+<!-- TAMBAHAN: Filter Tahun, Bulan & Info Jumlah Event -->
+<div
+    class="flex flex-wrap md:flex-nowrap justify-between items-center gap-3 bg-[#111] p-3 md:p-4 rounded-[20px] shadow-sm border border-zinc-800">
+    <div class="flex items-center gap-2">
+        <select id="filter-jadwal-tahun" onchange="ubahFilterJadwal()"
+            class="bg-black border border-zinc-700 text-gold-500 rounded-lg px-3 py-1.5 text-xs font-bold outline-none focus:border-gold-500">
+            <option value="Semua">Semua Tahun</option>
+        </select>
+        <select id="filter-jadwal-bulan" onchange="ubahFilterJadwal()"
+            class="bg-black border border-zinc-700 text-gold-500 rounded-lg px-3 py-1.5 text-xs font-bold outline-none focus:border-gold-500">
+            <option value="Semua">Semua Bulan</option>
+            <option value="01">Januari</option>
+            <option value="02">Februari</option>
+            <option value="03">Maret</option>
+            <option value="04">April</option>
+            <option value="05">Mei</option>
+            <option value="06">Juni</option>
+            <option value="07">Juli</option>
+            <option value="08">Agustus</option>
+            <option value="09">September</option>
+            <option value="10">Oktober</option>
+            <option value="11">November</option>
+            <option value="12">Desember</option>
+        </select>
+    </div>
+    <div
+        class="bg-gold-500/20 border border-gold-500/40 px-4 py-1.5 rounded-lg text-xs font-bold text-gold-400 shadow-inner">
+        Total Event: <span id="info-jumlah-event" class="text-white text-sm">0</span>
+    </div>
+</div>
+<!-- TAMPILAN TABEL JADWAL -->
+<div id="view-jadwal-list"
+    class="bg-[#111] rounded-[32px] md:rounded-[40px] shadow-2xl border border-zinc-800 overflow-hidden transition-all duration-300">
+    <div class="overflow-x-auto scroll-touch pb-4">
+        <table class="w-full text-left text-sm whitespace-nowrap min-w-[1600px]">
+            <thead class="bg-black border-b border-zinc-800 text-zinc-400">
+                <tr>
+                    <th class="px-4 py-3 text-[10px] uppercase font-bold text-gold-600">Aksi</th>
+                    <th class="px-4 py-3 text-[10px] uppercase font-bold text-gold-600">ID & Klien</th>
+                    <th class="px-4 py-3 text-[10px] uppercase font-bold text-gold-600">Judul Event (CPP & CPW)</th>
+                    <th class="px-4 py-3 text-[10px] uppercase font-bold text-gold-600">Tgl & Lokasi Akad/Resepsi</th>
+                    <th class="px-4 py-3 text-[10px] uppercase font-bold text-gold-600">Layanan & Pilihan</th>
+                    <th class="px-4 py-3 text-[10px] uppercase font-bold text-blue-400">PJ / Penanggung Jawab</th>
+                    <th class="px-4 py-3 text-[10px] uppercase font-bold text-emerald-400">Info TM (Tgl, Status, Lokasi)
+                    </th>
+                    <th class="px-4 py-3 text-[10px] uppercase font-bold text-purple-400">Kru Inti (MC, Voc, Key, Sax)
+                    </th>
+                    <th class="px-4 py-3 text-[10px] uppercase font-bold text-orange-400">Kru WO Tambahan</th>
+                    <th class="px-4 py-3 text-[10px] uppercase font-bold text-zinc-400">Keterangan</th>
+                </tr>
+            </thead>
+            <tbody id="table-jadwal-event" class="divide-y divide-zinc-800 border-b border-zinc-800"></tbody>
+        </table>
+    </div>
+</div>
 
-                <!-- TAMPILAN TABEL JADWAL -->
-                <div id="view-jadwal-list" class="bg-[#111] rounded-[32px] md:rounded-[40px] shadow-2xl border border-zinc-800 overflow-hidden transition-all duration-300">
-                    <div class="overflow-x-auto scroll-touch pb-4">
-                        <table class="w-full text-left text-sm whitespace-nowrap min-w-[1600px]">
-                            <thead class="bg-black border-b border-zinc-800 text-zinc-400">
-                                <tr>
-                                    <th class="px-4 py-3 text-[10px] uppercase font-bold text-gold-600">Aksi</th>
-                                    <th class="px-4 py-3 text-[10px] uppercase font-bold text-gold-600">ID & Klien</th>
-                                    <th class="px-4 py-3 text-[10px] uppercase font-bold text-gold-600">Judul Event (CPP & CPW)</th>
-                                    <th class="px-4 py-3 text-[10px] uppercase font-bold text-gold-600">Tgl & Lokasi Akad/Resepsi</th>
-                                    <th class="px-4 py-3 text-[10px] uppercase font-bold text-gold-600">Layanan & Pilihan</th>
-                                    <th class="px-4 py-3 text-[10px] uppercase font-bold text-blue-400">PJ / Penanggung Jawab</th>
-                                    <th class="px-4 py-3 text-[10px] uppercase font-bold text-emerald-400">Info TM (Tgl, Status, Lokasi)</th>
-                                    <th class="px-4 py-3 text-[10px] uppercase font-bold text-purple-400">Kru Inti (MC, Voc, Key, Sax)</th>
-                                    <th class="px-4 py-3 text-[10px] uppercase font-bold text-orange-400">Kru WO Tambahan</th>
-                                    <th class="px-4 py-3 text-[10px] uppercase font-bold text-zinc-400">Keterangan</th>
-                                </tr>
-                            </thead>
-                            <tbody id="table-jadwal-event" class="divide-y divide-zinc-800 border-b border-zinc-800"></tbody>
-                        </table>
-                    </div>
-                </div>
+<!-- TAMPILAN KALENDER JADWAL -->
+<div id="view-jadwal-kalender" class="hidden space-y-4 md:space-y-6 transition-all duration-300">
+    <div class="bg-[#111] p-4 md:p-6 rounded-[32px] md:rounded-[40px] shadow-2xl border border-zinc-800">
+        <div class="flex justify-between items-center mb-4 md:mb-6 border-b border-zinc-800 pb-4">
+            <button onclick="ubahBulanJadwal(-1)"
+                class="w-10 h-10 rounded-full bg-black border border-zinc-700 text-gold-500 hover:bg-gold-500 hover:text-black flex items-center justify-center transition shadow-sm"><i
+                    class="fa-solid fa-chevron-left"></i></button>
+            <h3 id="jadwal-kalender-title" class="font-black text-lg md:text-2xl text-white tracking-widest uppercase">
+                Bulan Tahun</h3>
+            <button onclick="ubahBulanJadwal(1)"
+                class="w-10 h-10 rounded-full bg-black border border-zinc-700 text-gold-500 hover:bg-gold-500 hover:text-black flex items-center justify-center transition shadow-sm"><i
+                    class="fa-solid fa-chevron-right"></i></button>
+        </div>
+        <div class="grid grid-cols-7 gap-1 md:gap-2 text-center mb-2">
+            <div class="text-[10px] md:text-xs font-black text-red-500 py-1">Min</div>
+            <div class="text-[10px] md:text-xs font-bold text-zinc-500 py-1">Sen</div>
+            <div class="text-[10px] md:text-xs font-bold text-zinc-500 py-1">Sel</div>
+            <div class="text-[10px] md:text-xs font-bold text-zinc-500 py-1">Rab</div>
+            <div class="text-[10px] md:text-xs font-bold text-zinc-500 py-1">Kam</div>
+            <div class="text-[10px] md:text-xs font-bold text-zinc-500 py-1">Jum</div>
+            <div class="text-[10px] md:text-xs font-bold text-zinc-500 py-1">Sab</div>
+        </div>
+        <div id="jadwal-kalender-grid" class="grid grid-cols-7 gap-1 md:gap-2"></div>
+    </div>
+    <!-- Detail Tanggal Kalender -->
+    <div id="jadwal-kalender-detail-container"
+        class="hidden bg-[#111] p-4 md:p-6 rounded-[24px] shadow-2xl border border-gold-500/30 relative overflow-hidden">
+        <div class="flex justify-between items-center mb-4 border-b border-zinc-800 pb-3">
+            <h4 class="font-bold text-gold-500 text-sm md:text-base"><i class="fa-solid fa-calendar-day mr-2"></i>Jadwal
+                Event: <span id="jadwal-kalender-tgl-terpilih" class="text-white"></span></h4>
+            <button onclick="document.getElementById('jadwal-kalender-detail-container').classList.add('hidden')"
+                class="text-zinc-500 hover:text-red-500 w-6 h-6 bg-black border border-zinc-800 rounded-full"><i
+                    class="fa-solid fa-times"></i></button>
+        </div>
+        <div id="jadwal-kalender-list-acara" class="space-y-3 relative z-10"></div>
+    </div>
+</div>
+</section>
 
-                <!-- TAMPILAN KALENDER JADWAL -->
-                <div id="view-jadwal-kalender" class="hidden space-y-4 md:space-y-6 transition-all duration-300">
-                    <div class="bg-[#111] p-4 md:p-6 rounded-[32px] md:rounded-[40px] shadow-2xl border border-zinc-800">
-                        <div class="flex justify-between items-center mb-4 md:mb-6 border-b border-zinc-800 pb-4">
-                            <button onclick="ubahBulanJadwal(-1)" class="w-10 h-10 rounded-full bg-black border border-zinc-700 text-gold-500 hover:bg-gold-500 hover:text-black flex items-center justify-center transition shadow-sm"><i class="fa-solid fa-chevron-left"></i></button>
-                            <h3 id="jadwal-kalender-title" class="font-black text-lg md:text-2xl text-white tracking-widest uppercase">Bulan Tahun</h3>
-                            <button onclick="ubahBulanJadwal(1)" class="w-10 h-10 rounded-full bg-black border border-zinc-700 text-gold-500 hover:bg-gold-500 hover:text-black flex items-center justify-center transition shadow-sm"><i class="fa-solid fa-chevron-right"></i></button>
-                        </div>
-                        <div class="grid grid-cols-7 gap-1 md:gap-2 text-center mb-2">
-                            <div class="text-[10px] md:text-xs font-black text-red-500 py-1">Min</div><div class="text-[10px] md:text-xs font-bold text-zinc-500 py-1">Sen</div><div class="text-[10px] md:text-xs font-bold text-zinc-500 py-1">Sel</div><div class="text-[10px] md:text-xs font-bold text-zinc-500 py-1">Rab</div><div class="text-[10px] md:text-xs font-bold text-zinc-500 py-1">Kam</div><div class="text-[10px] md:text-xs font-bold text-zinc-500 py-1">Jum</div><div class="text-[10px] md:text-xs font-bold text-zinc-500 py-1">Sab</div>
-                        </div>
-                        <div id="jadwal-kalender-grid" class="grid grid-cols-7 gap-1 md:gap-2"></div>
-                    </div>
-                    <!-- Detail Tanggal Kalender -->
-                    <div id="jadwal-kalender-detail-container" class="hidden bg-[#111] p-4 md:p-6 rounded-[24px] shadow-2xl border border-gold-500/30 relative overflow-hidden">
-                        <div class="flex justify-between items-center mb-4 border-b border-zinc-800 pb-3">
-                            <h4 class="font-bold text-gold-500 text-sm md:text-base"><i class="fa-solid fa-calendar-day mr-2"></i>Jadwal Event: <span id="jadwal-kalender-tgl-terpilih" class="text-white"></span></h4>
-                            <button onclick="document.getElementById('jadwal-kalender-detail-container').classList.add('hidden')" class="text-zinc-500 hover:text-red-500 w-6 h-6 bg-black border border-zinc-800 rounded-full"><i class="fa-solid fa-times"></i></button>
-                        </div>
-                        <div id="jadwal-kalender-list-acara" class="space-y-3 relative z-10"></div>
-                    </div>
-                </div>
-            </section>
-
-            <!-- TRANSKRIP SECTION -->
-            <section id="sec-transkrip" class="hidden space-y-4 md:space-y-8">
-                <div class="bg-[#111] p-4 md:p-8 rounded-[32px] md:rounded-[40px] shadow-2xl border border-zinc-800">
+<!-- TRANSKRIP SECTION -->
+<section id="sec-transkrip" class="hidden space-y-4 md:space-y-8">
+    <div class="bg-[#111] p-4 md:p-8 rounded-[32px] md:rounded-[40px] shadow-2xl border border-zinc-800">
                     <div class="flex justify-between items-center mb-4 md:mb-6">
                         <div>
                             <h3 class="text-base md:text-xl font-bold text-gold-500 tracking-tight">Laporan
@@ -1271,15 +1324,36 @@
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-4 border-t border-zinc-800 pt-4">
                     <!-- Kolom Kiri: TM & PJ -->
                     <div class="space-y-4">
-                        <div><label class="block text-xs font-bold text-gold-500 mb-1">Penanggung Jawab (PJ)</label><input type="text" id="ej-pj" placeholder="Nama PJ Utama" class="w-full bg-black border border-zinc-700 rounded-lg px-3 py-2 text-white text-xs outline-none focus:border-gold-500"></div>
+                        <div><label class="block text-xs font-bold text-gold-500 mb-1">Penanggung Jawab (PJ)</label><input type="text"
+                                id="ej-pj" placeholder="Nama PJ Utama"
+                                class="w-full bg-black border border-zinc-700 rounded-lg px-3 py-2 text-white text-xs outline-none focus:border-gold-500">
+                        </div>
                         <div class="bg-blue-900/10 border border-blue-500/20 p-3 rounded-xl space-y-3">
-                            <h4 class="font-bold text-blue-400 text-xs border-b border-blue-500/20 pb-1">Info Technical Meeting (TM)</h4>
-                            <div><label class="block text-[10px] font-bold text-zinc-400 mb-1">Tanggal TM (Pilih)</label><input type="date" id="ej-tgl-tm" class="w-full bg-black border border-zinc-700 rounded-lg px-3 py-1.5 text-white text-xs outline-none"></div>
-                            <div><label class="block text-[10px] font-bold text-zinc-400 mb-1">Lokasi TM (Dari Berkas)</label><textarea id="ej-lokasi-tm" rows="2" readonly class="w-full bg-zinc-900 border border-zinc-800 text-zinc-500 text-xs rounded-lg px-3 py-1.5 outline-none resize-none cursor-not-allowed"></textarea></div>
-                            <div><label class="block text-[10px] font-bold text-zinc-400 mb-1">Status TM</label><select id="ej-status-tm" class="w-full bg-black border border-zinc-700 rounded-lg px-3 py-1.5 text-white text-xs outline-none focus:border-blue-500"><option value="Belum">Belum (Biru)</option><option value="Sudah">Sudah (Hijau)</option></select></div>
+                            <h4 class="font-bold text-blue-400 text-xs border-b border-blue-500/20 pb-1">Info Technical Meeting (TM)
+                            </h4>
+                            <div class="grid grid-cols-2 gap-2">
+                                <div><label class="block text-[10px] font-bold text-zinc-400 mb-1">Tanggal TM</label><input type="date"
+                                        id="ej-tgl-tm"
+                                        class="w-full bg-black border border-zinc-700 rounded-lg px-2 py-1.5 text-white text-xs outline-none focus:border-blue-500">
+                                </div>
+                                <div><label class="block text-[10px] font-bold text-zinc-400 mb-1">Waktu TM</label><input type="time"
+                                        id="ej-wkt-tm"
+                                        class="w-full bg-black border border-zinc-700 rounded-lg px-2 py-1.5 text-white text-xs outline-none focus:border-blue-500">
+                                </div>
+                            </div>
+                            <div><label class="block text-[10px] font-bold text-zinc-400 mb-1">Lokasi TM</label><textarea
+                                    id="ej-lokasi-tm" rows="2"
+                                    class="w-full bg-black border border-zinc-700 text-white text-xs rounded-lg px-3 py-1.5 outline-none resize-none focus:border-blue-500"
+                                    placeholder="Ketik lokasi TM..."></textarea></div>
+                            <div><label class="block text-[10px] font-bold text-zinc-400 mb-1">Status TM</label><select
+                                    id="ej-status-tm"
+                                    class="w-full bg-black border border-zinc-700 rounded-lg px-3 py-1.5 text-white text-xs outline-none focus:border-blue-500">
+                                    <option value="Belum">Belum (Biru)</option>
+                                    <option value="Sudah">Sudah (Hijau)</option>
+                                </select></div>
                         </div>
                     </div>
-
+                
                     <!-- Kolom Tengah: Kru Utama -->
                     <div class="space-y-3 bg-purple-900/10 border border-purple-500/20 p-3 rounded-xl">
                         <h4 class="font-bold text-purple-400 text-xs border-b border-purple-500/20 pb-1">Kru Utama (Talent)</h4>
@@ -3790,6 +3864,18 @@
         let globalJadwal = {};
         let globalMasterKru = { mc:[], vocal:[], keyboard:[], sexo:[], wo:[] };
         let currentDateJadwal = new Date();
+        let activeJadwalTahun = 'Semua';
+        let activeJadwalBulan = 'Semua';
+
+        // Fungsi Helper Ubah Format Tanggal (YYYY-MM-DD ke DD-MM-YYYY)
+        function formatDateIndo(dateStr) {
+            if (!dateStr || dateStr === '-') return '-';
+            if (dateStr.includes('-')) {
+                const parts = dateStr.split('-');
+                if (parts[0].length === 4) return `${parts[2]}-${parts[1]}-${parts[0]}`; // YYYY-MM-DD ke DD-MM-YYYY
+            }
+            return dateStr;
+        }
 
         async function fetchJadwalKru(force = false, silent = false) {
             if (!force && dataLoaded.jadwal) return;
@@ -3804,8 +3890,9 @@
                 if (dataJ.status === 'success') {
                     globalJadwal = {};
                     dataJ.data.forEach(j => {
+                        // Tambahkan properti Waktu TM dan Lokasi TM
                         globalJadwal[j['ID Booking']] = {
-                            pj: j['PJ'], tglTm: j['Tgl TM'], statusTm: j['Status TM'],
+                            pj: j['PJ'], tglTm: j['Tgl TM'], waktuTm: j['Waktu TM'], lokasiTm: j['Lokasi TM'], statusTm: j['Status TM'],
                             mc: j['MC'], vocal: j['Vocal'], keyboard: j['Keyboard'], sexo: j['Saxophone'],
                             wo: j['WO'] ? JSON.parse(j['WO']) : [], keterangan: j['Keterangan']
                         };
@@ -3818,26 +3905,56 @@
                     });
                 }
                 dataLoaded.jadwal = true;
+                populateFilterTahun(); // Set dropdown tahun
             } catch(e) {}
         }
 
-        // TAMBAHKAN PEMANGGILAN FETCH KE INIT APP & SYNC
-        const oldInitApp = initApp;
-        initApp = async function() {
-            await oldInitApp();
-            await fetchJadwalKru(true, true);
-        }
-        
-        const oldSyncAllDataSilently = syncAllDataSilently;
-        syncAllDataSilently = async function() {
-            await oldSyncAllDataSilently();
-            await fetchJadwalKru(true, true);
+        // --- TAMBAHAN FILTER ---
+        function populateFilterTahun() {
+            const selTahun = document.getElementById('filter-jadwal-tahun');
+            let tahunSet = new Set();
+            globalPenjualan.forEach(p => {
+                if (p['Status Acara'] !== 'Dibatalkan' && p.Status !== 'Dibatalkan') {
+                    const berkas = globalBerkas.find(b => b['ID Booking'] === (p['ID Booking']||p['ID Transaksi'])) || {};
+                    let tgl = berkas['Tgl Akad'] || p.Tanggal;
+                    let d = parseTanggalBooking(tgl);
+                    if(!d && tgl.includes('-')) d = new Date(tgl);
+                    if(d) tahunSet.add(d.getFullYear());
+                }
+            });
+            let options = '<option value="Semua">Semua Tahun</option>';
+            [...tahunSet].sort().reverse().forEach(t => options += `<option value="${t}">${t}</option>`);
+            if(selTahun) selTahun.innerHTML = options;
         }
 
-        // 1. TAMPILAN TABEL JADWAL
+        function ubahFilterJadwal() {
+            activeJadwalTahun = document.getElementById('filter-jadwal-tahun').value;
+            activeJadwalBulan = document.getElementById('filter-jadwal-bulan').value;
+            renderJadwalEvent();
+        }
+
+        // 1. TAMPILAN TABEL JADWAL (DENGAN WARNA, UKURAN FONT, DAN FORMAT TANGGAL)
         function renderJadwalEvent() {
             const tbody = document.getElementById('table-jadwal-event');
-            const validEvents = globalPenjualan.filter(p => p['Status Acara'] !== 'Dibatalkan' && p.Status !== 'Dibatalkan');
+            let validEvents = globalPenjualan.filter(p => p['Status Acara'] !== 'Dibatalkan' && p.Status !== 'Dibatalkan');
+
+            // Lakukan Filtering
+            if (activeJadwalTahun !== 'Semua' || activeJadwalBulan !== 'Semua') {
+                validEvents = validEvents.filter(p => {
+                    const berkas = globalBerkas.find(b => b['ID Booking'] === (p['ID Booking']||p['ID Transaksi'])) || {};
+                    let tgl = berkas['Tgl Akad'] || p.Tanggal;
+                    let d = parseTanggalBooking(tgl);
+                    if(!d && tgl.includes('-')) d = new Date(tgl);
+                    if (!d) return false;
+
+                    let matchTahun = activeJadwalTahun === 'Semua' ? true : d.getFullYear().toString() === activeJadwalTahun;
+                    let matchBulan = activeJadwalBulan === 'Semua' ? true : String(d.getMonth() + 1).padStart(2, '0') === activeJadwalBulan;
+                    return matchTahun && matchBulan;
+                });
+            }
+
+            // Update Counter Event
+            document.getElementById('info-jumlah-event').textContent = validEvents.length;
 
             if(validEvents.length === 0) {
                 tbody.innerHTML = `<tr><td colspan="10" class="text-center py-10 text-zinc-500 text-sm">Tidak ada jadwal event.</td></tr>`;
@@ -3852,43 +3969,52 @@
                 const jdwl = globalJadwal[idTrx] || {}; 
 
                 const judulEvent = (berkas['Nama CPP'] && berkas['Nama CPW']) ? `${berkas['Nama CPP']} & ${berkas['Nama CPW']}` : 'Belum isi berkas';
-                const tglAkad = berkas['Tgl Akad'] ? String(berkas['Tgl Akad']).split('T')[0] : '-';
+                
+                // Format DD-MM-YYYY
+                const tglAkad = formatDateIndo(berkas['Tgl Akad'] ? String(berkas['Tgl Akad']).split('T')[0] : '-');
                 const jamAkad = berkas['Waktu Akad'] || '-';
                 const locAkad = berkas['Vendor Venue'] || '-';
                 
-                const tglResepsi = berkas['Tgl Resepsi'] ? String(berkas['Tgl Resepsi']).split('T')[0] : '-';
+                const tglResepsi = formatDateIndo(berkas['Tgl Resepsi'] ? String(berkas['Tgl Resepsi']).split('T')[0] : '-');
                 const jamResepsi = berkas['Waktu Resepsi'] || '-';
                 
-                let statusTmUI = `<span class="bg-blue-900/30 text-blue-400 border border-blue-500/30 px-2 py-0.5 rounded text-[9px] font-bold">Belum</span>`;
-                if(jdwl.statusTm === 'Sudah') statusTmUI = `<span class="bg-emerald-900/30 text-emerald-400 border border-emerald-500/30 px-2 py-0.5 rounded text-[9px] font-bold">Sudah</span>`;
+                let statusTmUI = `<span class="bg-blue-900/40 text-blue-400 border border-blue-500/30 px-2 py-0.5 rounded text-[10px] font-bold">Belum</span>`;
+                if(jdwl.statusTm === 'Sudah') statusTmUI = `<span class="bg-emerald-900/40 text-emerald-400 border border-emerald-500/30 px-2 py-0.5 rounded text-[10px] font-bold">Sudah</span>`;
 
-                let woList = (jdwl.wo && jdwl.wo.length > 0) ? jdwl.wo.map((w,i) => `<span class="bg-orange-900/30 text-orange-400 border border-orange-500/30 px-1.5 py-0.5 rounded text-[9px] mr-1 block mb-1 w-max">WO${i+1}: ${w}</span>`).join('') : '-';
+                let woList = (jdwl.wo && jdwl.wo.length > 0) ? jdwl.wo.map((w,i) => `<span class="bg-orange-900/40 text-orange-300 border border-orange-500/30 px-1.5 py-0.5 rounded text-[10px] mr-1 block mb-1 w-max font-medium">WO${i+1}: ${w}</span>`).join('') : '-';
 
+                // Tgl TM & Waktu
+                const tglTmFormatted = formatDateIndo(jdwl.tglTm || '-');
+                const jamTmFormatted = jdwl.waktuTm ? `(${jdwl.waktuTm})` : '';
+
+                // Warna Kolom (Background) & Ukuran Text Lebih Besar (text-xs md:text-sm)
                 return `
-                <tr class="hover:bg-zinc-900 border-b border-zinc-800/50">
-                    <td class="px-4 py-3"><button onclick="bukaEditJadwal('${idTrx}')" class="bg-gold-500 hover:bg-gold-400 text-black px-3 py-1.5 rounded-lg text-[10px] font-bold shadow-md"><i class="fa-solid fa-pen mr-1"></i> Edit Jadwal</button></td>
-                    <td class="px-4 py-3 text-xs"><span class="font-mono text-gold-500 block">${idTrx}</span><span class="text-zinc-400">@${clientNm}</span></td>
-                    <td class="px-4 py-3 text-xs font-bold text-white">${judulEvent}</td>
-                    <td class="px-4 py-3 text-[10px]">
+                <tr class="border-b border-zinc-800/50 hover:brightness-125 transition-all">
+                    <td class="px-4 py-3 bg-zinc-900/30"><button onclick="bukaEditJadwal('${idTrx}')" class="bg-gold-500 hover:bg-gold-400 text-black px-3 py-1.5 rounded-lg text-xs font-bold shadow-md"><i class="fa-solid fa-pen mr-1"></i> Edit Jadwal</button></td>
+                    <td class="px-4 py-3 text-xs md:text-sm bg-zinc-900/30"><span class="font-mono font-bold text-gold-500 block">${idTrx}</span><span class="text-zinc-300">@${clientNm}</span></td>
+                    <td class="px-4 py-3 text-xs md:text-sm font-bold text-white bg-zinc-800/20">${judulEvent}</td>
+                    <td class="px-4 py-3 text-xs md:text-sm bg-zinc-800/20">
                         <p class="text-emerald-400 mb-0.5"><b>Akad:</b> ${tglAkad} (${jamAkad})</p>
                         <p class="text-blue-400 mb-0.5"><b>Res:</b> ${tglResepsi} (${jamResepsi})</p>
-                        <p class="text-zinc-400 truncate max-w-[150px]"><i class="fa-solid fa-location-dot"></i> ${locAkad}</p>
+                        <p class="text-zinc-400 truncate max-w-[180px] text-xs"><i class="fa-solid fa-location-dot"></i> ${locAkad}</p>
                     </td>
-                    <td class="px-4 py-3 text-[10px] text-zinc-300 whitespace-normal max-w-[150px] leading-tight">${p['Nama Paket'] || p['Nama Baju']}</td>
-                    <td class="px-4 py-3 text-xs font-bold text-blue-400">${jdwl.pj || '-'}</td>
-                    <td class="px-4 py-3 text-[10px] text-zinc-300">
-                        <span class="block mb-1"><b>Tgl:</b> ${jdwl.tglTm || '-'}</span>
-                        <div class="flex items-center gap-2 mb-1"><b>Sts:</b> ${statusTmUI}</div>
-                        <span class="block truncate max-w-[150px]" title="${berkas['Tgl & Lokasi TM']||'-'}"><i class="fa-solid fa-location-dot"></i> ${berkas['Tgl & Lokasi TM'] || '-'}</span>
+                    <td class="px-4 py-3 text-xs md:text-sm text-gold-300 whitespace-normal max-w-[180px] bg-yellow-900/10 leading-tight font-medium">${p['Nama Paket'] || p['Nama Baju']}</td>
+                    <td class="px-4 py-3 text-xs md:text-sm font-bold text-blue-400 bg-blue-900/10 text-center">${jdwl.pj || '-'}</td>
+                    <td class="px-4 py-3 text-xs md:text-sm text-zinc-200 bg-emerald-900/10">
+                        <div class="flex justify-between items-center mb-1">
+                            <span><b>Tgl:</b> ${tglTmFormatted} ${jamTmFormatted}</span>
+                            ${statusTmUI}
+                        </div>
+                        <span class="block truncate max-w-[180px] text-xs text-zinc-400 mt-1" title="${jdwl.lokasiTm || berkas['Tgl & Lokasi TM'] || '-'}"><i class="fa-solid fa-location-dot text-emerald-500"></i> ${jdwl.lokasiTm || berkas['Tgl & Lokasi TM'] || '-'}</span>
                     </td>
-                    <td class="px-4 py-3 text-[10px] text-purple-300 leading-relaxed">
-                        <b>MC:</b> ${jdwl.mc || '-'}<br>
-                        <b>Voc:</b> ${jdwl.vocal || '-'}<br>
-                        <b>Key:</b> ${jdwl.keyboard || '-'}<br>
-                        <b>Sax:</b> ${jdwl.sexo || '-'}
+                    <td class="px-4 py-3 text-xs md:text-sm text-purple-200 bg-purple-900/10 leading-relaxed font-medium">
+                        <span class="text-zinc-400">MC:</span> ${jdwl.mc || '-'}<br>
+                        <span class="text-zinc-400">Voc:</span> ${jdwl.vocal || '-'}<br>
+                        <span class="text-zinc-400">Key:</span> ${jdwl.keyboard || '-'}<br>
+                        <span class="text-zinc-400">Sax:</span> ${jdwl.sexo || '-'}
                     </td>
-                    <td class="px-4 py-3 text-xs whitespace-normal max-w-[150px]">${woList}</td>
-                    <td class="px-4 py-3 text-[10px] text-zinc-400 whitespace-normal max-w-[150px] italic">${jdwl.keterangan || '-'}</td>
+                    <td class="px-4 py-3 text-xs md:text-sm whitespace-normal max-w-[150px] bg-orange-900/10">${woList}</td>
+                    <td class="px-4 py-3 text-xs md:text-sm text-zinc-400 whitespace-normal max-w-[150px] italic bg-zinc-900/30">${jdwl.keterangan || '-'}</td>
                 </tr>`;
             }).join('');
 
@@ -4025,7 +4151,7 @@
             if(selectedVal && globalMasterKru[masterType].includes(selectedVal)) sel.value = selectedVal;
         }
 
-        function bukaEditJadwal(idTrx) {
+   function bukaEditJadwal(idTrx) {
             const p = globalPenjualan.find(x => (x['ID Booking']||x['ID Transaksi']) === idTrx);
             const berkas = globalBerkas.find(b => b['ID Booking'] === idTrx) || {};
             const jdwl = globalJadwal[idTrx] || {};
@@ -4034,11 +4160,13 @@
             document.getElementById('ej-info-klien').textContent = `@${p['Username Klien']||p['Username Pembeli']}`;
             document.getElementById('ej-info-judul').textContent = (berkas['Nama CPP'] && berkas['Nama CPW']) ? `${berkas['Nama CPP']} & ${berkas['Nama CPW']}` : 'Belum diisi';
             document.getElementById('ej-info-paket').textContent = p['Nama Paket']||p['Nama Baju'];
-            document.getElementById('ej-info-tgl').textContent = berkas['Tgl Akad'] ? String(berkas['Tgl Akad']).split('T')[0] : '-';
+            document.getElementById('ej-info-tgl').textContent = formatDateIndo(berkas['Tgl Akad'] ? String(berkas['Tgl Akad']).split('T')[0] : '-');
             
             document.getElementById('ej-pj').value = jdwl.pj || '';
             document.getElementById('ej-tgl-tm').value = jdwl.tglTm || '';
-            document.getElementById('ej-lokasi-tm').value = berkas['Tgl & Lokasi TM'] || 'Belum diisi di Berkas Klien';
+            // Set input Waktu TM & Lokasi TM (Prioritas dari Jadwal, jika kosong fallback dari Berkas)
+            document.getElementById('ej-wkt-tm').value = jdwl.waktuTm || '';
+            document.getElementById('ej-lokasi-tm').value = jdwl.lokasiTm || berkas['Tgl & Lokasi TM'] || '';
             document.getElementById('ej-status-tm').value = jdwl.statusTm || 'Belum';
             document.getElementById('ej-keterangan').value = jdwl.keterangan || '';
 
@@ -4057,7 +4185,7 @@
 
             toggleModalEditJadwal();
         }
-
+        
         function tambahBarisWO(val = '') {
             const cont = document.getElementById('ej-container-wo');
             const num = cont.children.length + 1;
@@ -4089,6 +4217,8 @@
                 id_booking: idTrx,
                 pj: document.getElementById('ej-pj').value,
                 tgl_tm: document.getElementById('ej-tgl-tm').value,
+                waktu_tm: document.getElementById('ej-wkt-tm').value,     // Tangkap Waktu
+                lokasi_tm: document.getElementById('ej-lokasi-tm').value, // Tangkap Lokasi Edit
                 status_tm: document.getElementById('ej-status-tm').value,
                 mc: document.getElementById('ej-mc').value,
                 vocal: document.getElementById('ej-vocal').value,
@@ -4110,7 +4240,7 @@
             } catch(e) { alert("Kesalahan koneksi!"); }
             finally { btn.innerHTML = oriText; btn.disabled = false; }
         }
-
+        
         // 5. LOGIKA MASTER DATA KRU
         function bukaModalMasterKru() {
             const modal = document.getElementById('modal-master-kru');
