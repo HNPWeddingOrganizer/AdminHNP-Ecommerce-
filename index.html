@@ -155,7 +155,7 @@
 
     <script>
         // GANTI DENGAN URL WEB APP DEPLOY ANDA
-        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwhnZnQbZce8WHqAVZWc5arFqkm2iNpPnZV4x9_H8AlotAeDe8uygScfIF8ieoRQCPu3A/exec'; 
+        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxT5VjEd45ZstqhDSyuRQu62vFyYV4topQwkp3X3OM8kfR84_X01nbxle7tec9FRvKT3g/exec'; 
     </script>
 
     <!-- Sidebar Desktop -->
@@ -692,7 +692,8 @@
                         <p class="text-[10px] md:text-xs text-zinc-400">Atur penugasan kru untuk setiap event.</p>
                     </div>
                     <div class="flex items-center gap-2 w-full sm:w-auto justify-between sm:justify-end">
-                        <button onclick="bukaModalMasterKru()" class="bg-indigo-900/30 text-indigo-400 border border-indigo-500/30 px-3 py-1.5 rounded-lg text-[10px] md:text-xs font-bold hover:bg-indigo-600 hover:text-white transition"><i class="fa-solid fa-users-gear mr-1"></i> Data Kru</button>
+                        <button onclick="toggleModalMasterKru()" class="bg-indigo-900/30 text-indigo-400 border border-indigo-500/30 px-3 py-1.5 rounded-lg text-[10px] md:text-xs font-bold hover:bg-indigo-600 hover:text-white transition"><i class="fa-solid fa-users-gear mr-1"></i> Data Kru</button>
+
                         <div class="flex bg-black p-1 rounded-xl border border-zinc-800 shadow-inner">
                             <button onclick="switchJadwalView('list')" id="btn-view-jadwal-list" class="bg-gold-500 text-black px-4 py-1.5 rounded-lg text-[10px] md:text-xs font-bold shadow-sm transition-colors flex items-center gap-1.5"><i class="fa-solid fa-table"></i> Tabel</button>
                             <button onclick="switchJadwalView('calendar')" id="btn-view-jadwal-cal" class="text-zinc-400 hover:text-gold-400 hover:bg-zinc-900 px-4 py-1.5 rounded-lg text-[10px] md:text-xs font-bold transition-colors flex items-center gap-1.5"><i class="fa-solid fa-calendar-days"></i> Kalender</button>
@@ -1328,9 +1329,9 @@
                 </select>
             </div>
 
-            <div class="flex gap-2 mb-4">
-                <input type="text" id="mk-nama-baru" placeholder="Masukkan nama baru..." class="flex-1 bg-black border border-zinc-700 rounded-lg px-3 py-2 text-white text-sm outline-none focus:border-indigo-500">
-                <button onclick="tambahMasterKru()" class="bg-indigo-600 hover:bg-indigo-500 text-white px-4 py-2 rounded-lg font-bold text-sm shadow-md transition"><i class="fa-solid fa-plus"></i></button>
+           <div class="flex gap-2 mb-4">
+                <textarea id="mk-nama-baru" rows="2" placeholder="Cth: Andi, Budi, Citra (Pisahkan dengan koma jika lebih dari 1)" class="flex-1 bg-black border border-zinc-700 rounded-lg px-3 py-2 text-white text-sm outline-none focus:border-indigo-500 resize-none"></textarea>
+                <button id="btn-add-kru" onclick="tambahMasterKru()" class="bg-indigo-600 hover:bg-indigo-500 text-white px-4 py-2 rounded-lg font-bold text-sm shadow-md transition flex items-center justify-center h-auto min-w-[50px]"><i class="fa-solid fa-plus"></i></button>
             </div>
 
             <div class="flex-1 overflow-y-auto hide-scrollbar bg-black border border-zinc-800 rounded-xl p-2 min-h-[200px]">
@@ -4137,27 +4138,55 @@
             `).join('');
         }
 
-        async function tambahMasterKru() {
+       async function tambahMasterKru() {
             const kat = document.getElementById('mk-kategori').value;
             const ipt = document.getElementById('mk-nama-baru');
+            const btn = document.getElementById('btn-add-kru');
+            
             const val = ipt.value.trim();
             if(!val) return;
             
+            // Pisahkan berdasarkan koma atau baris baru (enter)
+            let namaArray = val.split(/,|\n/).map(n => n.trim()).filter(n => n !== "");
+            if(namaArray.length === 0) return;
+            
             if(!globalMasterKru[kat]) globalMasterKru[kat] = [];
-            if(globalMasterKru[kat].includes(val)) { alert("Nama ini sudah ada!"); return; }
+            
+            // Filter hanya nama yang belum ada di list
+            let namaBaruValid = namaArray.filter(n => !globalMasterKru[kat].includes(n));
 
+            if(namaBaruValid.length === 0) { 
+                alert("Semua nama yang Anda ketikkan sudah terdaftar di kategori ini!"); 
+                return; 
+            }
+
+            // Tampilkan animasi Loading
             ipt.disabled = true;
-            const payload = { action: "addMasterKru", kategori: kat, nama: val };
+            btn.disabled = true;
+            const oriBtnHtml = btn.innerHTML;
+            btn.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin"></i>';
+
+            // Kirim payload dengan nama-nama yang dipisahkan oleh koma
+            const payload = { action: "addMasterKru", kategori: kat, nama: namaBaruValid.join(',') };
             try {
                 const res = await fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify(payload), headers: { 'Content-Type': 'text/plain' } });
                 const data = await res.json();
                 if(data.status === 'success') {
-                    globalMasterKru[kat].push(val);
+                    // Tambahkan ke memori lokal & segarkan tampilan
+                    globalMasterKru[kat].push(...namaBaruValid);
                     ipt.value = "";
                     renderMasterKruList();
-                } else alert(data.message);
-            } catch(e) { alert("Gagal koneksi"); }
-            finally { ipt.disabled = false; }
+                } else {
+                    alert("Gagal: " + data.message);
+                }
+            } catch(e) { 
+                alert("Gagal koneksi ke server saat menyimpan kru."); 
+            } finally { 
+                // Kembalikan tombol ke keadaan semula
+                ipt.disabled = false; 
+                btn.disabled = false;
+                btn.innerHTML = oriBtnHtml;
+            }
         }
 
         async function hapusMasterKru(kat, idx) {
