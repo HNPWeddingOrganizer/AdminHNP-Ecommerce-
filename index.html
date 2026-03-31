@@ -2804,143 +2804,118 @@
             toggleModalDetailPesanan();
         }
 
-        function cetakStruk() {
-            if (!currentTrxPrint) return;
-            const p = currentTrxPrint;
-            const isDP = p['Tipe Pembayaran'] === 'DP';
-            let totalHarga = parseInt(p['Total Harga']) || 0;
-            let dpNominal = 0;
-
-            if (isDP && p['Detail DP']) {
-                const match = String(p['Detail DP']).match(/Rp\s*(\d+)/);
-                if (match) dpNominal = parseInt(match[1]);
-            }
-
-            let statBayarStr = p['Status Pembayaran'] || '';
-            let sudahLunas = statBayarStr.includes('Lunas');
-            let sudahDP = statBayarStr.includes('Sudah DP') || sudahLunas;
+       function cetakStruk() {
+            if(!currentTrxPrint) return;
+            const p = currentTrxPrint; const isDP = p['Tipe Pembayaran'] === 'DP';
+            let totalHarga = parseInt(p['Total Harga']) || 0; let dpNominal = 0;
+            if(isDP && p['Detail DP']) { const match = String(p['Detail DP']).match(/Rp\s*(\d+)/); if(match) dpNominal = parseInt(match[1]); }
+            
+            let statBayarStr = String(p['Status Pembayaran'] || '');
+            let sudahLunas = statBayarStr.toLowerCase().includes('lunas');
+            let sudahDP = statBayarStr.toLowerCase().includes('sudah dp') || sudahLunas;
 
             let sisaTagihan = totalHarga;
             if (isDP) {
-                if (sudahLunas) {
-                    sisaTagihan = 0;
-                } else if (sudahDP) {
-                    sisaTagihan = totalHarga - dpNominal;
-                }
+                if (sudahLunas) sisaTagihan = 0;
+                else if (sudahDP) sisaTagihan = totalHarga - dpNominal;
             } else {
                 if (sudahLunas) sisaTagihan = 0;
             }
 
             let statAcara = p['Status Acara'] || p.Status;
-            let statusColor = "#D4AF37";
-            if (statAcara === 'Selesai') statusColor = "#10b981";
-            if (statAcara === 'Dibatalkan') statusColor = "#ef4444";
-
-            let tagihanStatus = isDP ? (sudahLunas ? 'LUNAS' : 'BELUM LUNAS') : 'LUNAS';
-            if (statBayarStr.includes('Belum Bayar') || statBayarStr.includes('Belum DP')) {
+            let statusColor = "#D4AF37"; if(statAcara === 'Selesai') statusColor = "#10b981"; if(statAcara === 'Dibatalkan') statusColor = "#ef4444"; 
+            
+            let tagihanStatus = sudahLunas ? "LUNAS" : "BELUM LUNAS";
+            if (statBayarStr.toLowerCase().includes('belum bayar') || statBayarStr.toLowerCase().includes('belum dp')) {
                 tagihanStatus = "BELUM LUNAS";
             }
-            if (sudahLunas) {
-                tagihanStatus = "LUNAS";
-            }
-
             let tagihanColor = (tagihanStatus === 'LUNAS') ? '#10b981' : '#ef4444';
-
-            let tipePembayaranAwal = p['Tipe Pembayaran'];
-            let metodeBayarAwal = p['Metode Bayar'] || '-';
-            let metodeDisplay1 = metodeBayarAwal;
-            let metodeDisplay2 = '';
-
-            if (statBayarStr.includes('Belum DP (Cash)') || statBayarStr.includes('Sudah DP (Cash)')) {
-                metodeDisplay1 = 'Cash';
-            } else if (statBayarStr.includes('Sudah DP (QRIS)')) {
-                metodeDisplay1 = 'QRIS';
-            } else if (statBayarStr.includes('Lunas (QRIS)')) {
-                if (isDP) metodeDisplay2 = 'QRIS';
-                else metodeDisplay1 = 'QRIS';
-            } else if (statBayarStr.includes('Lunas (Cash)')) {
-                if (isDP) metodeDisplay2 = 'Cash';
-                else metodeDisplay1 = 'Cash';
-            }
-
-            let infoMetodeHtml = `
-                <h3 style="margin-top: 20px;">Tipe / Metode Awal</h3>
-                <p>${tipePembayaranAwal} - ${metodeDisplay1}</p>
-            `;
-            if (metodeDisplay2) {
-                infoMetodeHtml += `
-                    <h3 style="margin-top: 10px;">Metode Pelunasan</h3>
-                    <p>Pelunasan (${metodeDisplay2})</p>
-                `;
-            }
-
+            let metodePelunasan = ""; if (sudahLunas && statBayarStr.includes('(')) { metodePelunasan = " " + statBayarStr.substring(statBayarStr.indexOf('(')); }
+            
             let varDetailStr = "-";
             try {
                 const varObj = JSON.parse(p['Detail Pilihan'] || p['Varian Detail']);
-                if (Array.isArray(varObj)) {
-                    varDetailStr = varObj.map(v => `${v.opsi1 || v.ukuran}-${v.opsi2 || v.lengan}(${v.jumlah})`).join(', ');
-                }
-                else if (varObj.opsi1 || varObj.ukuran) {
-                    varDetailStr = `${varObj.opsi1 || varObj.ukuran} - ${varObj.opsi2 || varObj.lengan}`;
-                }
-            } catch (e) { }
+                if(Array.isArray(varObj)) { varDetailStr = varObj.map(v => `${v.opsi1||v.ukuran}-${v.opsi2||v.lengan}(${v.jumlah})`).join(', '); } 
+                else if (varObj.opsi1 || varObj.ukuran) { varDetailStr = `${varObj.opsi1||varObj.ukuran} - ${varObj.opsi2||varObj.lengan}`; }
+            } catch(e){}
             const printLogoUrl = appSettings.logo_light || appSettings.logo_dark || '';
 
             const printWindow = window.open('', '_blank');
             printWindow.document.write(`
-                <!DOCTYPE html><html><head><title>Invoice - ${p['ID Booking'] || p['ID Transaksi']}</title>
-                <style>
-                    body { font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; color: #fff; padding: 40px; font-size: 14px; max-width: 800px; margin: auto; background: #0a0a0a; }
-                    .invoice-box { background: #111; border: 1px solid #333; padding: 40px; border-radius: 12px; }
-                    .header { display: flex; justify-content: space-between; align-items: flex-start; border-bottom: 2px solid #222; padding-bottom: 20px; margin-bottom: 30px; }
-                    .header-left img { max-height: 50px; margin-bottom: 10px; }
-                    .header-left h1 { margin: 0; font-size: 28px; color: #D4AF37; letter-spacing: -0.5px; font-weight: 900; }
-                    .header-left p { margin: 5px 0 0; color: #999; font-size: 13px; }
-                    .header-right { text-align: right; }
-                    .header-right h2 { margin: 0; font-size: 24px; color: #fff; font-weight: 800; letter-spacing: 2px; }
-                    .header-right p { margin: 5px 0 0; color: #999; font-size: 13px; font-weight: 600; }
-                    .info-section { display: flex; justify-content: space-between; margin-bottom: 40px; }
-                    .info-col { width: 48%; }
-                    .info-col h3 { font-size: 11px; text-transform: uppercase; color: #666; margin-bottom: 5px; letter-spacing: 1px; }
-                    .info-col p { margin: 0; font-weight: 700; color: #ccc; font-size: 15px; }
-                    .status-badge { display: inline-block; padding: 4px 12px; border-radius: 999px; font-size: 12px; font-weight: bold; color: black; background-color: ${statusColor}; margin-top: 5px; }
-                    table { width: 100%; border-collapse: collapse; margin-bottom: 30px; }
-                    th { background-color: #222; text-align: left; padding: 15px 12px; font-size: 12px; text-transform: uppercase; color: #D4AF37; border-bottom: 2px solid #333; }
-                    td { padding: 20px 12px; border-bottom: 1px solid #222; color: #fff; }
-                    .text-right { text-align: right; } .text-center { text-align: center; }
-                    .summary-section { width: 100%; display: flex; justify-content: flex-end; }
-                    .summary-box { width: 350px; }
-                    .summary-row { display: flex; justify-content: space-between; padding: 10px 0; color: #999; font-size: 14px; }
-                    .summary-row.total { font-size: 20px; font-weight: 900; color: #fff; border-top: 2px solid #333; padding-top: 15px; margin-top: 5px; }
-                    .tagihan-badge { display: inline-block; padding: 6px 12px; border-radius: 8px; font-size: 15px; font-weight: 900; color: white; background-color: ${tagihanColor}; letter-spacing: 1px;}
-                    .footer { text-align: center; margin-top: 50px; padding-top: 20px; border-top: 1px solid #222; color: #666; font-size: 12px; line-height: 1.6; }
-                    @media print { body { padding: 0; margin: 0; background: #0a0a0a; } .invoice-box { border: none; box-shadow: none; padding: 0; } * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; } }
-                </style>
-                </head><body>
-                    <div class="invoice-box">
-                        <div class="header">
-                            <div class="header-left">${printLogoUrl ? `<img src="${printLogoUrl}" alt="Logo">` : `<h1>ELEGANCE WO</h1>`}<p>Merajut Cerita, Mencipta Makna.</p></div>
-                            <div class="header-right"><h2>INVOICE</h2><p>#${p['ID Booking'] || p['ID Transaksi']}</p></div>
-                        </div>
-                        <div class="info-section">
-                            <div class="info-col"><h3>Klien</h3><p>${p['Username Klien'] || p['Username Pembeli']}</p>${infoMetodeHtml}<h3 style="margin-top: 20px;">Status Pembayaran</h3><p style="color: ${tagihanColor};">${statBayarStr}</p></div>
-                            <div class="info-col text-right"><h3>Tanggal Transaksi</h3><p>${p.Tanggal.split(',')[0]}</p><h3 style="margin-top: 20px;">Status Acara</h3><span class="status-badge">${statAcara}</span></div>
-                        </div>
-                        <table><thead><tr><th>Paket Layanan</th><th>Pilihan</th><th class="text-center">Qty/Pax</th><th class="text-right">Harga Total</th></tr></thead><tbody><tr><td style="font-weight: 700; font-size: 15px;">${p['Nama Paket'] || p['Nama Baju']}</td><td style="font-size: 13px; color: #999;">${varDetailStr}</td><td class="text-center" style="font-weight: 600;">${p['Jumlah Pax/Item'] || p.Jumlah}</td><td class="text-right" style="font-weight: 700; color:#D4AF37;">${formatRp(totalHarga)}</td></tr></tbody></table>
-                        <div class="summary-section"><div class="summary-box">
-                                <div class="summary-row"><span>Total Biaya (Estimasi)</span><span style="font-weight: 600; color:#fff;">${formatRp(totalHarga)}</span></div>
-                                ${(isDP && sudahDP) ? `<div class="summary-row"><span>Deposit Dibayar</span><span style="font-weight: 600; color:#fff;">- ${formatRp(dpNominal)}</span></div>` : ''}
-                                ${(isDP && sudahLunas) ? `<div class="summary-row"><span>Pelunasan</span><span style="font-weight: 600; color:#fff;">- ${formatRp(totalHarga - dpNominal)}</span></div>` : ''}
-                                <div class="summary-row total"><span>${sudahLunas ? 'Status Tagihan' : 'Sisa Tagihan'}</span>${sudahLunas ? `<span class="tagihan-badge">LUNAS</span>` : `<span style="color: #ef4444;">${formatRp(sisaTagihan)}</span>`}</div>
-                        </div></div>
-                        <div class="footer"><p style="font-weight: 600; color: #999; font-size: 14px;">Terima kasih atas kepercayaan Anda merangkai momen berharga bersama kami.</p></div>
+                <!DOCTYPE html>
+                <html>
+                <head>
+                    <title>Invoice - ${p['ID Booking']||p['ID Transaksi']}</title>
+                    <style>
+                        body { font-family: 'Segoe UI', Arial, sans-serif; padding: 30px; font-size: 13px; color: #333; max-width: 800px; margin: auto; background: #fff; }
+                        .header { display: flex; justify-content: space-between; border-bottom: 2px solid #D4AF37; padding-bottom: 15px; margin-bottom: 20px; }
+                        .header img { max-height: 50px; }
+                        .header h1 { margin: 0; color: #D4AF37; font-size: 24px; }
+                        .title { text-align: center; font-size: 18px; font-weight: bold; margin-bottom: 20px; text-transform: uppercase; text-decoration: underline; }
+                        table { width: 100%; border-collapse: collapse; margin-bottom: 20px; }
+                        th, td { border: 1px solid #ddd; padding: 10px; vertical-align: middle; }
+                        th.bg-gray { background-color: #f9f9f9; text-align: left; }
+                        .section-title { background-color: #D4AF37; color: white; font-weight: bold; padding: 8px 10px; margin-top: 20px; margin-bottom: 10px; font-size: 14px; border-radius: 4px; }
+                        .text-right { text-align: right; }
+                        .text-center { text-align: center; }
+                        .font-bold { font-weight: bold; }
+                        @media print { body { padding: 0; margin: 0; } * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; } }
+                    </style>
+                </head>
+                <body>
+                    <div class="header">
+                        <div>${printLogoUrl ? `<img src="${printLogoUrl}">` : `<h1>ELEGANCE WO</h1>`}</div>
+                        <div style="text-align: right;"><b>INVOICE TAGIHAN</b><br>ID: ${p['ID Booking']||p['ID Transaksi']}</div>
+                    </div>
+                    <div class="title">INVOICE ACARA</div>
+                    
+                    <div class="section-title">INFORMASI KLIEN & ACARA</div>
+                    <table>
+                        <tr><th class="bg-gray" style="width: 35%;">Nama Klien</th><td>${p['Username Klien']||p['Username Pembeli']}</td></tr>
+                        <tr><th class="bg-gray">Tanggal Transaksi</th><td>${p.Tanggal.split(',')[0]}</td></tr>
+                        <tr><th class="bg-gray">Metode Pembayaran</th><td>${p['Metode Bayar'] || '-'} (${p['Tipe Pembayaran']})</td></tr>
+                        <tr><th class="bg-gray">Status Pembayaran</th><td style="color: ${tagihanColor}; font-weight: bold;">${statBayarStr}</td></tr>
+                        <tr><th class="bg-gray">Status Acara</th><td style="color: ${statusColor}; font-weight: bold;">${statAcara}</td></tr>
+                    </table>
+
+                    <div class="section-title">RINCIAN PESANAN</div>
+                    <table>
+                        <thead>
+                            <tr class="bg-gray">
+                                <th style="text-align: left;">Paket Layanan</th>
+                                <th style="text-align: left;">Pilihan / Varian</th>
+                                <th class="text-center">Qty / Pax</th>
+                                <th class="text-right">Harga Total</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="font-bold" style="font-size: 14px;">${p['Nama Paket']||p['Nama Baju']}</td>
+                                <td style="color: #555;">${varDetailStr}</td>
+                                <td class="text-center font-bold">${p['Jumlah Pax/Item']||p.Jumlah}</td>
+                                <td class="text-right font-bold" style="color: #D4AF37; font-size: 14px;">${formatRp(totalHarga)}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <div class="section-title">RINGKASAN BIAYA</div>
+                    <table>
+                        <tr><th class="bg-gray" style="width: 70%; text-align: right;">Total Biaya (Estimasi)</th><td class="text-right font-bold">${formatRp(totalHarga)}</td></tr>
+                        ${(isDP && sudahDP) ? `<tr><th class="bg-gray" style="width: 70%; text-align: right;">Deposit Dibayar</th><td class="text-right font-bold" style="color: #ef4444;">- ${formatRp(dpNominal)}</td></tr>` : ''}
+                        ${(isDP && sudahLunas) ? `<tr><th class="bg-gray" style="width: 70%; text-align: right;">Pelunasan${metodePelunasan}</th><td class="text-right font-bold" style="color: #ef4444;">- ${formatRp(totalHarga - dpNominal)}</td></tr>` : ''}
+                        <tr><th class="bg-gray" style="width: 70%; text-align: right; font-size: 15px;">${sudahLunas ? 'STATUS TAGIHAN' : 'SISA TAGIHAN'}</th><td class="text-right font-bold" style="font-size: 16px; color: ${tagihanColor};">${sudahLunas ? `LUNAS` : `${formatRp(sisaTagihan)}`}</td></tr>
+                    </table>
+                    
+                    <div style="margin-top: 40px; text-align: center; font-size: 11px; color: #777;">
+                        Terima kasih atas kepercayaan Anda merangkai momen berharga bersama kami.<br>
+                        Dicetak otomatis melalui Sistem Manajemen WO.
                     </div>
                     <script>window.onload = function() { setTimeout(() => { window.print(); }, 500); }<\/script>
-                </body></html>
+                </body>
+                </html>
             `);
             printWindow.document.close();
         }
-
         // --- CROPPER ---
         function openCropperSingle(event, previewId, targetVar, isLarge = false) {
             const file = event.target.files[0];
