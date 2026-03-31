@@ -155,7 +155,7 @@
 
     <script>
         // GANTI DENGAN URL WEB APP DEPLOY ANDA
-        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyZ-W43BGUbg7ZN_etEVcuQlq0-stRmgVRRaGZBUGL8ufF8psLyObibHX0QDnfLpxeg3A/exec'; 
+        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwhnZnQbZce8WHqAVZWc5arFqkm2iNpPnZV4x9_H8AlotAeDe8uygScfIF8ieoRQCPu3A/exec'; 
     </script>
 
     <!-- Sidebar Desktop -->
@@ -180,6 +180,7 @@
             <button onclick="switchTab('penjualan')" id="nav-penjualan"
                 class="w-full flex items-center gap-3 px-4 py-3.5 rounded-2xl text-zinc-400 hover:bg-zinc-800 hover:text-gold-400 font-semibold transition-all active:scale-95 whitespace-nowrap"><i
                     class="fa-solid fa-calendar-check w-5 text-lg"></i> Data Booking</button>
+                    <button onclick="switchTab('jadwal')" id="nav-jadwal" class="w-full flex items-center gap-3 px-4 py-3.5 rounded-2xl text-zinc-400 hover:bg-zinc-800 hover:text-gold-400 font-semibold transition-all active:scale-95 whitespace-nowrap"><i class="fa-solid fa-calendar-day w-5 text-lg"></i> Jadwal Event</button>
             <button onclick="switchTab('transkrip')" id="nav-transkrip"
                 class="w-full flex items-center gap-3 px-4 py-3.5 rounded-2xl text-zinc-400 hover:bg-zinc-800 hover:text-gold-400 font-semibold transition-all active:scale-95 whitespace-nowrap"><i
                     class="fa-solid fa-book w-5 text-lg"></i> Laporan Acara</button>
@@ -221,6 +222,7 @@
                 class="flex flex-col items-center justify-center gap-1.5 p-2 text-zinc-500 hover:text-gold-400 min-w-[72px] shrink-0 active:scale-90 transition-transform"><i
                     class="fa-solid fa-calendar-check text-[22px]"></i><span
                     class="text-[10px] font-bold">Booking</span></button>
+                    <button onclick="switchTab('jadwal')" id="nav-mob-jadwal" class="flex flex-col items-center justify-center gap-1.5 p-2 text-zinc-500 hover:text-gold-400 min-w-[72px] shrink-0 active:scale-90 transition-transform"><i class="fa-solid fa-calendar-day text-[22px]"></i><span class="text-[10px] font-bold">Jadwal</span></button>
             <button onclick="switchTab('transkrip')" id="nav-mob-transkrip"
                 class="flex flex-col items-center justify-center gap-1.5 p-2 text-zinc-500 hover:text-gold-400 min-w-[72px] shrink-0 active:scale-90 transition-transform"><i
                     class="fa-solid fa-book text-[22px]"></i><span class="text-[10px] font-bold">Laporan</span></button>
@@ -677,6 +679,71 @@
                                     class="fa-solid fa-times"></i></button>
                         </div>
                         <div id="kalender-list-acara" class="space-y-3 relative z-10"></div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- JADWAL EVENT SECTION -->
+            <section id="sec-jadwal" class="hidden space-y-4 md:space-y-6">
+                <!-- Header & Toggle View -->
+                <div class="bg-[#111] p-4 md:p-5 rounded-[24px] shadow-lg border border-zinc-800 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
+                    <div>
+                        <h3 class="font-bold text-white text-base md:text-lg tracking-tight">Manajemen Jadwal & Kru</h3>
+                        <p class="text-[10px] md:text-xs text-zinc-400">Atur penugasan kru untuk setiap event.</p>
+                    </div>
+                    <div class="flex items-center gap-2 w-full sm:w-auto justify-between sm:justify-end">
+                        <button onclick="bukaModalMasterKru()" class="bg-indigo-900/30 text-indigo-400 border border-indigo-500/30 px-3 py-1.5 rounded-lg text-[10px] md:text-xs font-bold hover:bg-indigo-600 hover:text-white transition"><i class="fa-solid fa-users-gear mr-1"></i> Data Kru</button>
+                        <div class="flex bg-black p-1 rounded-xl border border-zinc-800 shadow-inner">
+                            <button onclick="switchJadwalView('list')" id="btn-view-jadwal-list" class="bg-gold-500 text-black px-4 py-1.5 rounded-lg text-[10px] md:text-xs font-bold shadow-sm transition-colors flex items-center gap-1.5"><i class="fa-solid fa-table"></i> Tabel</button>
+                            <button onclick="switchJadwalView('calendar')" id="btn-view-jadwal-cal" class="text-zinc-400 hover:text-gold-400 hover:bg-zinc-900 px-4 py-1.5 rounded-lg text-[10px] md:text-xs font-bold transition-colors flex items-center gap-1.5"><i class="fa-solid fa-calendar-days"></i> Kalender</button>
+                        </div>
+                        <button onclick="renderJadwalEvent()" class="bg-zinc-800 text-gold-500 border border-zinc-700 w-8 h-8 rounded-full flex items-center justify-center hover:bg-zinc-700 transition active:scale-95 shrink-0"><i class="fa-solid fa-rotate-right text-xs"></i></button>
+                    </div>
+                </div>
+
+                <!-- TAMPILAN TABEL JADWAL -->
+                <div id="view-jadwal-list" class="bg-[#111] rounded-[32px] md:rounded-[40px] shadow-2xl border border-zinc-800 overflow-hidden transition-all duration-300">
+                    <div class="overflow-x-auto scroll-touch pb-4">
+                        <table class="w-full text-left text-sm whitespace-nowrap min-w-[1600px]">
+                            <thead class="bg-black border-b border-zinc-800 text-zinc-400">
+                                <tr>
+                                    <th class="px-4 py-3 text-[10px] uppercase font-bold text-gold-600">Aksi</th>
+                                    <th class="px-4 py-3 text-[10px] uppercase font-bold text-gold-600">ID & Klien</th>
+                                    <th class="px-4 py-3 text-[10px] uppercase font-bold text-gold-600">Judul Event (CPP & CPW)</th>
+                                    <th class="px-4 py-3 text-[10px] uppercase font-bold text-gold-600">Tgl & Lokasi Akad/Resepsi</th>
+                                    <th class="px-4 py-3 text-[10px] uppercase font-bold text-gold-600">Layanan & Pilihan</th>
+                                    <th class="px-4 py-3 text-[10px] uppercase font-bold text-blue-400">PJ / Penanggung Jawab</th>
+                                    <th class="px-4 py-3 text-[10px] uppercase font-bold text-emerald-400">Info TM (Tgl, Status, Lokasi)</th>
+                                    <th class="px-4 py-3 text-[10px] uppercase font-bold text-purple-400">Kru Inti (MC, Voc, Key, Sax)</th>
+                                    <th class="px-4 py-3 text-[10px] uppercase font-bold text-orange-400">Kru WO Tambahan</th>
+                                    <th class="px-4 py-3 text-[10px] uppercase font-bold text-zinc-400">Keterangan</th>
+                                </tr>
+                            </thead>
+                            <tbody id="table-jadwal-event" class="divide-y divide-zinc-800 border-b border-zinc-800"></tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- TAMPILAN KALENDER JADWAL -->
+                <div id="view-jadwal-kalender" class="hidden space-y-4 md:space-y-6 transition-all duration-300">
+                    <div class="bg-[#111] p-4 md:p-6 rounded-[32px] md:rounded-[40px] shadow-2xl border border-zinc-800">
+                        <div class="flex justify-between items-center mb-4 md:mb-6 border-b border-zinc-800 pb-4">
+                            <button onclick="ubahBulanJadwal(-1)" class="w-10 h-10 rounded-full bg-black border border-zinc-700 text-gold-500 hover:bg-gold-500 hover:text-black flex items-center justify-center transition shadow-sm"><i class="fa-solid fa-chevron-left"></i></button>
+                            <h3 id="jadwal-kalender-title" class="font-black text-lg md:text-2xl text-white tracking-widest uppercase">Bulan Tahun</h3>
+                            <button onclick="ubahBulanJadwal(1)" class="w-10 h-10 rounded-full bg-black border border-zinc-700 text-gold-500 hover:bg-gold-500 hover:text-black flex items-center justify-center transition shadow-sm"><i class="fa-solid fa-chevron-right"></i></button>
+                        </div>
+                        <div class="grid grid-cols-7 gap-1 md:gap-2 text-center mb-2">
+                            <div class="text-[10px] md:text-xs font-black text-red-500 py-1">Min</div><div class="text-[10px] md:text-xs font-bold text-zinc-500 py-1">Sen</div><div class="text-[10px] md:text-xs font-bold text-zinc-500 py-1">Sel</div><div class="text-[10px] md:text-xs font-bold text-zinc-500 py-1">Rab</div><div class="text-[10px] md:text-xs font-bold text-zinc-500 py-1">Kam</div><div class="text-[10px] md:text-xs font-bold text-zinc-500 py-1">Jum</div><div class="text-[10px] md:text-xs font-bold text-zinc-500 py-1">Sab</div>
+                        </div>
+                        <div id="jadwal-kalender-grid" class="grid grid-cols-7 gap-1 md:gap-2"></div>
+                    </div>
+                    <!-- Detail Tanggal Kalender -->
+                    <div id="jadwal-kalender-detail-container" class="hidden bg-[#111] p-4 md:p-6 rounded-[24px] shadow-2xl border border-gold-500/30 relative overflow-hidden">
+                        <div class="flex justify-between items-center mb-4 border-b border-zinc-800 pb-3">
+                            <h4 class="font-bold text-gold-500 text-sm md:text-base"><i class="fa-solid fa-calendar-day mr-2"></i>Jadwal Event: <span id="jadwal-kalender-tgl-terpilih" class="text-white"></span></h4>
+                            <button onclick="document.getElementById('jadwal-kalender-detail-container').classList.add('hidden')" class="text-zinc-500 hover:text-red-500 w-6 h-6 bg-black border border-zinc-800 rounded-full"><i class="fa-solid fa-times"></i></button>
+                        </div>
+                        <div id="jadwal-kalender-list-acara" class="space-y-3 relative z-10"></div>
                     </div>
                 </div>
             </section>
@@ -1181,6 +1248,97 @@
     </div>
 
     <!-- Modal Edit Berkas Admin -->
+     <!-- MODAL EDIT JADWAL & KRU -->
+    <div id="modal-edit-jadwal" class="modal opacity-0 pointer-events-none fixed inset-0 flex items-center justify-center z-[90] transition-opacity duration-300">
+        <div class="absolute inset-0 bg-black/80 backdrop-blur-md" onclick="toggleModalEditJadwal()"></div>
+        <div class="modal-sheet bg-[#111] w-full sm:max-w-4xl mx-auto rounded-[32px] shadow-[0_0_40px_rgba(212,175,55,0.15)] z-[95] flex flex-col relative pb-safe border border-gold-500/30 max-h-[90vh]">
+            <div class="px-5 py-4 flex justify-between items-center border-b border-zinc-800 shrink-0">
+                <h3 class="font-bold text-lg text-gold-500"><i class="fa-solid fa-clipboard-user mr-2"></i>Edit Penugasan & Jadwal</h3>
+                <button onclick="toggleModalEditJadwal()" class="bg-zinc-800 w-8 h-8 rounded-full text-zinc-300 hover:text-white"><i class="fa-solid fa-times"></i></button>
+            </div>
+            <div class="p-5 overflow-y-auto flex-1 space-y-5 hide-scrollbar">
+                <input type="hidden" id="ej-id-booking">
+                
+                <!-- Info Readonly -->
+                <div class="bg-black border border-zinc-800 p-4 rounded-xl grid grid-cols-2 md:grid-cols-4 gap-3 text-[10px] md:text-xs text-zinc-300">
+                    <div><span class="block text-zinc-500 font-bold mb-0.5">Klien:</span><span id="ej-info-klien" class="font-bold text-white">-</span></div>
+                    <div><span class="block text-zinc-500 font-bold mb-0.5">Judul Event:</span><span id="ej-info-judul" class="font-bold text-white">-</span></div>
+                    <div><span class="block text-zinc-500 font-bold mb-0.5">Paket:</span><span id="ej-info-paket" class="font-bold text-gold-400">-</span></div>
+                    <div><span class="block text-zinc-500 font-bold mb-0.5">Tgl Akad/Resepsi:</span><span id="ej-info-tgl" class="font-bold text-white">-</span></div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 border-t border-zinc-800 pt-4">
+                    <!-- Kolom Kiri: TM & PJ -->
+                    <div class="space-y-4">
+                        <div><label class="block text-xs font-bold text-gold-500 mb-1">Penanggung Jawab (PJ)</label><input type="text" id="ej-pj" placeholder="Nama PJ Utama" class="w-full bg-black border border-zinc-700 rounded-lg px-3 py-2 text-white text-xs outline-none focus:border-gold-500"></div>
+                        <div class="bg-blue-900/10 border border-blue-500/20 p-3 rounded-xl space-y-3">
+                            <h4 class="font-bold text-blue-400 text-xs border-b border-blue-500/20 pb-1">Info Technical Meeting (TM)</h4>
+                            <div><label class="block text-[10px] font-bold text-zinc-400 mb-1">Tanggal TM (Pilih)</label><input type="date" id="ej-tgl-tm" class="w-full bg-black border border-zinc-700 rounded-lg px-3 py-1.5 text-white text-xs outline-none"></div>
+                            <div><label class="block text-[10px] font-bold text-zinc-400 mb-1">Lokasi TM (Dari Berkas)</label><textarea id="ej-lokasi-tm" rows="2" readonly class="w-full bg-zinc-900 border border-zinc-800 text-zinc-500 text-xs rounded-lg px-3 py-1.5 outline-none resize-none cursor-not-allowed"></textarea></div>
+                            <div><label class="block text-[10px] font-bold text-zinc-400 mb-1">Status TM</label><select id="ej-status-tm" class="w-full bg-black border border-zinc-700 rounded-lg px-3 py-1.5 text-white text-xs outline-none focus:border-blue-500"><option value="Belum">Belum (Biru)</option><option value="Sudah">Sudah (Hijau)</option></select></div>
+                        </div>
+                    </div>
+
+                    <!-- Kolom Tengah: Kru Utama -->
+                    <div class="space-y-3 bg-purple-900/10 border border-purple-500/20 p-3 rounded-xl">
+                        <h4 class="font-bold text-purple-400 text-xs border-b border-purple-500/20 pb-1">Kru Utama (Talent)</h4>
+                        <div><label class="block text-[10px] font-bold text-zinc-400 mb-1">MC Acara</label><select id="ej-mc" class="sel-master w-full bg-black border border-zinc-700 rounded-lg px-3 py-1.5 text-white text-xs"></select></div>
+                        <div><label class="block text-[10px] font-bold text-zinc-400 mb-1">Vocal</label><select id="ej-vocal" class="sel-master w-full bg-black border border-zinc-700 rounded-lg px-3 py-1.5 text-white text-xs"></select></div>
+                        <div><label class="block text-[10px] font-bold text-zinc-400 mb-1">Keyboard</label><select id="ej-keyboard" class="sel-master w-full bg-black border border-zinc-700 rounded-lg px-3 py-1.5 text-white text-xs"></select></div>
+                        <div><label class="block text-[10px] font-bold text-zinc-400 mb-1">Saxophone</label><select id="ej-sexo" class="sel-master w-full bg-black border border-zinc-700 rounded-lg px-3 py-1.5 text-white text-xs"></select></div>
+                    </div>
+
+                    <!-- Kolom Kanan: WO & Ket -->
+                    <div class="space-y-4">
+                        <div class="bg-orange-900/10 border border-orange-500/20 p-3 rounded-xl">
+                            <div class="flex justify-between items-center border-b border-orange-500/20 pb-1 mb-2">
+                                <h4 class="font-bold text-orange-400 text-xs">Kru WO</h4>
+                                <button onclick="tambahBarisWO()" class="text-[9px] bg-orange-600 hover:bg-orange-500 text-white px-2 py-0.5 rounded font-bold transition"><i class="fa-solid fa-plus"></i> Tambah</button>
+                            </div>
+                            <div id="ej-container-wo" class="space-y-2 max-h-40 overflow-y-auto hide-scrollbar"></div>
+                        </div>
+                        <div><label class="block text-xs font-bold text-zinc-400 mb-1">Keterangan Khusus</label><textarea id="ej-keterangan" rows="2" class="w-full bg-black border border-zinc-700 rounded-lg px-3 py-2 text-white text-xs outline-none focus:border-gold-500 resize-none"></textarea></div>
+                    </div>
+                </div>
+            </div>
+            <div class="p-4 border-t border-zinc-800 flex justify-end gap-3 shrink-0">
+                <button onclick="toggleModalEditJadwal()" class="bg-zinc-800 text-zinc-300 px-5 py-2.5 rounded-xl font-bold hover:bg-zinc-700 text-sm">Batal</button>
+                <button onclick="simpanJadwalEvent()" class="bg-gold-500 text-black px-6 py-2.5 rounded-xl font-extrabold shadow-lg hover:bg-gold-400 text-sm"><i class="fa-solid fa-save mr-1"></i> Simpan Penugasan</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL MASTER DATA KRU -->
+    <div id="modal-master-kru" class="modal opacity-0 pointer-events-none fixed inset-0 flex items-center justify-center z-[100] transition-opacity duration-300">
+        <div class="absolute inset-0 bg-black/80 backdrop-blur-md" onclick="toggleModalMasterKru()"></div>
+        <div class="modal-sheet bg-[#111] w-full sm:max-w-md mx-auto rounded-[32px] shadow-[0_0_40px_rgba(212,175,55,0.15)] z-[105] flex flex-col relative p-5 border border-indigo-500/30 max-h-[85vh]">
+            <div class="flex justify-between items-center border-b border-zinc-800 pb-3 mb-4">
+                <h3 class="font-bold text-lg text-indigo-400"><i class="fa-solid fa-database mr-2"></i>Master Data Kru</h3>
+                <button onclick="toggleModalMasterKru()" class="bg-zinc-800 w-8 h-8 rounded-full text-zinc-300 hover:text-white"><i class="fa-solid fa-times"></i></button>
+            </div>
+            
+            <div class="mb-4">
+                <label class="block text-xs font-bold text-zinc-400 mb-1">Pilih Kategori Kru:</label>
+                <select id="mk-kategori" onchange="renderMasterKruList()" class="w-full bg-black border border-zinc-700 rounded-lg px-3 py-2 text-white text-sm outline-none focus:border-indigo-500">
+                    <option value="mc">MC Acara</option>
+                    <option value="vocal">Vocalist</option>
+                    <option value="keyboard">Keyboardist</option>
+                    <option value="sexo">Saxophone</option>
+                    <option value="wo">Kru WO Tambahan</option>
+                </select>
+            </div>
+
+            <div class="flex gap-2 mb-4">
+                <input type="text" id="mk-nama-baru" placeholder="Masukkan nama baru..." class="flex-1 bg-black border border-zinc-700 rounded-lg px-3 py-2 text-white text-sm outline-none focus:border-indigo-500">
+                <button onclick="tambahMasterKru()" class="bg-indigo-600 hover:bg-indigo-500 text-white px-4 py-2 rounded-lg font-bold text-sm shadow-md transition"><i class="fa-solid fa-plus"></i></button>
+            </div>
+
+            <div class="flex-1 overflow-y-auto hide-scrollbar bg-black border border-zinc-800 rounded-xl p-2 min-h-[200px]">
+                <ul id="mk-list" class="space-y-1"></ul>
+            </div>
+        </div>
+    </div>
+
     <div id="modal-edit-berkas"
         class="modal opacity-0 pointer-events-none fixed w-full h-full top-0 left-0 flex items-end sm:items-center justify-center z-[90] transition-opacity duration-300">
         <div class="absolute w-full h-full bg-black/80 backdrop-blur-md" onclick="toggleModalEditBerkas()"></div>
@@ -2849,7 +3007,7 @@
             `);
             printWindow.document.close();
         }
-        
+
         // --- CROPPER ---
         function openCropperSingle(event, previewId, targetVar, isLarge = false) {
             const file = event.target.files[0];
@@ -3359,16 +3517,24 @@
             } catch (e) {} showLoading(false);
         }
 
-        // TAMBAHKAN 'vendor' KE DALAM updateNavTitles dan switchTab
-        const oldUpdateNavTitles = updateNavTitles;
-        updateNavTitles = function(tab) {
-            oldUpdateNavTitles(tab);
-            if(tab === 'vendor') document.getElementById('page-title').textContent = 'Manajemen Vendor';
+       // Update Navigasi & Tab Array
+        function updateNavTitles(tab) {
+            const titles = {
+                'dashboard': 'Dashboard',
+                'produk': 'Katalog Paket',
+                'vendor': 'Manajemen Vendor',
+                'penjualan': 'Data Booking',
+                'jadwal': 'Jadwal & Penugasan Kru', // Tambahan Baru
+                'transkrip': 'Laporan Acara',
+                'pelanggan': 'Klien',
+                'pengaturan': 'Konfigurasi'
+            };
+            const titleEl = document.getElementById('page-title');
+            if(titleEl) titleEl.textContent = titles[tab] || 'Admin';
         }
 
-        const oldSwitchTab = switchTab;
-        switchTab = function(tab) {
-            const sections = ['dashboard', 'produk', 'penjualan', 'transkrip', 'pelanggan', 'pengaturan', 'vendor']; // Tambah vendor
+        function switchTab(tab) {
+            const sections = ['dashboard', 'produk', 'penjualan', 'transkrip', 'pelanggan', 'pengaturan', 'vendor', 'jadwal']; 
             sections.forEach(n => {
                 const el = document.getElementById(`sec-${n}`);
                 if(el) el.classList.add('hidden');
@@ -3378,7 +3544,9 @@
                 if (mobEl) mobEl.className = "flex flex-col items-center justify-center gap-1.5 p-2 text-zinc-500 hover:text-gold-400 min-w-[72px] shrink-0 active:scale-90 transition-transform";
             });
             
-            document.getElementById(`sec-${tab}`).classList.remove('hidden');
+            const targetSec = document.getElementById(`sec-${tab}`);
+            if(targetSec) targetSec.classList.remove('hidden');
+            
             const navActiveD = document.getElementById(`nav-${tab}`);
             if(navActiveD) navActiveD.className = "w-full flex items-center gap-3 px-4 py-3.5 rounded-2xl bg-gold-500 text-black font-bold transition-all shadow-md shadow-gold-900/20 active:scale-95 whitespace-nowrap";
             
@@ -3393,7 +3561,8 @@
             if (tab === 'transkrip') renderGridTranskrip();
             if (tab === 'pelanggan') fetchPelanggan(); 
             if (tab === 'pengaturan') fetchPengaturanAdmin();
-            if (tab === 'vendor') fetchVendor(); // <-- Fetch data saat dibuka
+            if (tab === 'vendor') fetchVendor(); 
+            if (tab === 'jadwal') renderJadwalEvent(); // Trigger fitur baru
         }
 
         // --- LOGIKA KALENDER VIEW ---
@@ -3612,6 +3781,398 @@
                 </body></html>
             `);
             printWindow.document.close();
+        }
+ // ==========================================
+        // LOGIKA JADWAL EVENT & KRU (MENGGUNAKAN GOOGLE SCRIPT API)
+        // ==========================================
+        
+        let globalJadwal = {};
+        let globalMasterKru = { mc:[], vocal:[], keyboard:[], sexo:[], wo:[] };
+        let currentDateJadwal = new Date();
+
+        async function fetchJadwalKru(force = false, silent = false) {
+            if (!force && dataLoaded.jadwal) return;
+            try {
+                const [resJadwal, resKru] = await Promise.all([
+                    fetch(`${SCRIPT_URL}?action=getJadwal`),
+                    fetch(`${SCRIPT_URL}?action=getMasterKru`)
+                ]);
+                const dataJ = await resJadwal.json();
+                const dataK = await resKru.json();
+                
+                if (dataJ.status === 'success') {
+                    globalJadwal = {};
+                    dataJ.data.forEach(j => {
+                        globalJadwal[j['ID Booking']] = {
+                            pj: j['PJ'], tglTm: j['Tgl TM'], statusTm: j['Status TM'],
+                            mc: j['MC'], vocal: j['Vocal'], keyboard: j['Keyboard'], sexo: j['Saxophone'],
+                            wo: j['WO'] ? JSON.parse(j['WO']) : [], keterangan: j['Keterangan']
+                        };
+                    });
+                }
+                if (dataK.status === 'success') {
+                    globalMasterKru = { mc:[], vocal:[], keyboard:[], sexo:[], wo:[] };
+                    dataK.data.forEach(k => {
+                        if(globalMasterKru[k.Kategori]) globalMasterKru[k.Kategori].push(k.Nama);
+                    });
+                }
+                dataLoaded.jadwal = true;
+            } catch(e) {}
+        }
+
+        // TAMBAHKAN PEMANGGILAN FETCH KE INIT APP & SYNC
+        const oldInitApp = initApp;
+        initApp = async function() {
+            await oldInitApp();
+            await fetchJadwalKru(true, true);
+        }
+        
+        const oldSyncAllDataSilently = syncAllDataSilently;
+        syncAllDataSilently = async function() {
+            await oldSyncAllDataSilently();
+            await fetchJadwalKru(true, true);
+        }
+
+        // 1. TAMPILAN TABEL JADWAL
+        function renderJadwalEvent() {
+            const tbody = document.getElementById('table-jadwal-event');
+            const validEvents = globalPenjualan.filter(p => p['Status Acara'] !== 'Dibatalkan' && p.Status !== 'Dibatalkan');
+
+            if(validEvents.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="10" class="text-center py-10 text-zinc-500 text-sm">Tidak ada jadwal event.</td></tr>`;
+                renderKalenderJadwal(validEvents);
+                return;
+            }
+
+            tbody.innerHTML = validEvents.map(p => {
+                const idTrx = p['ID Booking'] || p['ID Transaksi'];
+                const clientNm = p['Username Klien'] || p['Username Pembeli'];
+                const berkas = globalBerkas.find(b => b['ID Booking'] === idTrx) || {};
+                const jdwl = globalJadwal[idTrx] || {}; 
+
+                const judulEvent = (berkas['Nama CPP'] && berkas['Nama CPW']) ? `${berkas['Nama CPP']} & ${berkas['Nama CPW']}` : 'Belum isi berkas';
+                const tglAkad = berkas['Tgl Akad'] ? String(berkas['Tgl Akad']).split('T')[0] : '-';
+                const jamAkad = berkas['Waktu Akad'] || '-';
+                const locAkad = berkas['Vendor Venue'] || '-';
+                
+                const tglResepsi = berkas['Tgl Resepsi'] ? String(berkas['Tgl Resepsi']).split('T')[0] : '-';
+                const jamResepsi = berkas['Waktu Resepsi'] || '-';
+                
+                let statusTmUI = `<span class="bg-blue-900/30 text-blue-400 border border-blue-500/30 px-2 py-0.5 rounded text-[9px] font-bold">Belum</span>`;
+                if(jdwl.statusTm === 'Sudah') statusTmUI = `<span class="bg-emerald-900/30 text-emerald-400 border border-emerald-500/30 px-2 py-0.5 rounded text-[9px] font-bold">Sudah</span>`;
+
+                let woList = (jdwl.wo && jdwl.wo.length > 0) ? jdwl.wo.map((w,i) => `<span class="bg-orange-900/30 text-orange-400 border border-orange-500/30 px-1.5 py-0.5 rounded text-[9px] mr-1 block mb-1 w-max">WO${i+1}: ${w}</span>`).join('') : '-';
+
+                return `
+                <tr class="hover:bg-zinc-900 border-b border-zinc-800/50">
+                    <td class="px-4 py-3"><button onclick="bukaEditJadwal('${idTrx}')" class="bg-gold-500 hover:bg-gold-400 text-black px-3 py-1.5 rounded-lg text-[10px] font-bold shadow-md"><i class="fa-solid fa-pen mr-1"></i> Edit Jadwal</button></td>
+                    <td class="px-4 py-3 text-xs"><span class="font-mono text-gold-500 block">${idTrx}</span><span class="text-zinc-400">@${clientNm}</span></td>
+                    <td class="px-4 py-3 text-xs font-bold text-white">${judulEvent}</td>
+                    <td class="px-4 py-3 text-[10px]">
+                        <p class="text-emerald-400 mb-0.5"><b>Akad:</b> ${tglAkad} (${jamAkad})</p>
+                        <p class="text-blue-400 mb-0.5"><b>Res:</b> ${tglResepsi} (${jamResepsi})</p>
+                        <p class="text-zinc-400 truncate max-w-[150px]"><i class="fa-solid fa-location-dot"></i> ${locAkad}</p>
+                    </td>
+                    <td class="px-4 py-3 text-[10px] text-zinc-300 whitespace-normal max-w-[150px] leading-tight">${p['Nama Paket'] || p['Nama Baju']}</td>
+                    <td class="px-4 py-3 text-xs font-bold text-blue-400">${jdwl.pj || '-'}</td>
+                    <td class="px-4 py-3 text-[10px] text-zinc-300">
+                        <span class="block mb-1"><b>Tgl:</b> ${jdwl.tglTm || '-'}</span>
+                        <div class="flex items-center gap-2 mb-1"><b>Sts:</b> ${statusTmUI}</div>
+                        <span class="block truncate max-w-[150px]" title="${berkas['Tgl & Lokasi TM']||'-'}"><i class="fa-solid fa-location-dot"></i> ${berkas['Tgl & Lokasi TM'] || '-'}</span>
+                    </td>
+                    <td class="px-4 py-3 text-[10px] text-purple-300 leading-relaxed">
+                        <b>MC:</b> ${jdwl.mc || '-'}<br>
+                        <b>Voc:</b> ${jdwl.vocal || '-'}<br>
+                        <b>Key:</b> ${jdwl.keyboard || '-'}<br>
+                        <b>Sax:</b> ${jdwl.sexo || '-'}
+                    </td>
+                    <td class="px-4 py-3 text-xs whitespace-normal max-w-[150px]">${woList}</td>
+                    <td class="px-4 py-3 text-[10px] text-zinc-400 whitespace-normal max-w-[150px] italic">${jdwl.keterangan || '-'}</td>
+                </tr>`;
+            }).join('');
+
+            renderKalenderJadwal(validEvents);
+        }
+
+        // 2. TOGGLE VIEW (TABLE / KALENDER)
+        function switchJadwalView(view) {
+            const btnList = document.getElementById('btn-view-jadwal-list');
+            const btnCal = document.getElementById('btn-view-jadwal-cal');
+            const vList = document.getElementById('view-jadwal-list');
+            const vCal = document.getElementById('view-jadwal-kalender');
+
+            if(view === 'list') {
+                btnList.className = "bg-gold-500 text-black px-4 py-1.5 rounded-lg text-[10px] md:text-xs font-bold shadow-sm transition-colors flex items-center gap-1.5";
+                btnCal.className = "text-zinc-400 hover:text-gold-400 hover:bg-zinc-900 px-4 py-1.5 rounded-lg text-[10px] md:text-xs font-bold transition-colors flex items-center gap-1.5";
+                vList.classList.remove('hidden'); vCal.classList.add('hidden');
+            } else {
+                btnCal.className = "bg-gold-500 text-black px-4 py-1.5 rounded-lg text-[10px] md:text-xs font-bold shadow-sm transition-colors flex items-center gap-1.5";
+                btnList.className = "text-zinc-400 hover:text-gold-400 hover:bg-zinc-900 px-4 py-1.5 rounded-lg text-[10px] md:text-xs font-bold transition-colors flex items-center gap-1.5";
+                vList.classList.add('hidden'); vCal.classList.remove('hidden');
+            }
+        }
+
+        // 3. KALENDER JADWAL LOGIC
+        function ubahBulanJadwal(offset) {
+            currentDateJadwal.setMonth(currentDateJadwal.getMonth() + offset);
+            document.getElementById('jadwal-kalender-detail-container').classList.add('hidden');
+            renderJadwalEvent(); 
+        }
+
+        function renderKalenderJadwal(validEvents) {
+            const year = currentDateJadwal.getFullYear();
+            const month = currentDateJadwal.getMonth();
+            const monthNames = ["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"];
+            
+            document.getElementById('jadwal-kalender-title').textContent = `${monthNames[month]} ${year}`;
+
+            const firstDay = new Date(year, month, 1).getDay(); 
+            const daysInMonth = new Date(year, month + 1, 0).getDate();
+            const grid = document.getElementById('jadwal-kalender-grid');
+            grid.innerHTML = '';
+
+            const mapJadwal = {};
+            validEvents.forEach(p => {
+                const idTrx = p['ID Booking'] || p['ID Transaksi'];
+                const berkas = globalBerkas.find(b => b['ID Booking'] === idTrx);
+                let tglPakai = p.Tanggal; 
+                if(berkas && berkas['Tgl Akad']) tglPakai = berkas['Tgl Akad']; 
+                
+                let d = parseTanggalBooking(tglPakai);
+                if (!d && tglPakai.includes('-')) d = new Date(tglPakai); 
+                
+                if (d && d.getFullYear() === year && d.getMonth() === month) {
+                    let tglKey = d.getDate();
+                    if (!mapJadwal[tglKey]) mapJadwal[tglKey] = [];
+                    mapJadwal[tglKey].push({ p: p, b: berkas });
+                }
+            });
+
+            for (let i = 0; i < firstDay; i++) grid.innerHTML += `<div class="p-2 md:p-4 rounded-xl bg-black/20 border border-transparent"></div>`;
+
+            let today = new Date();
+            for (let i = 1; i <= daysInMonth; i++) {
+                let isToday = (i === today.getDate() && month === today.getMonth() && year === today.getFullYear());
+                let events = mapJadwal[i] || [];
+                let hasEvent = events.length > 0;
+
+                let extraClass = "bg-black border-zinc-800 text-zinc-300 hover:bg-zinc-800";
+                let badge = ""; let countText = "";
+
+                if (hasEvent) {
+                    extraClass = "bg-gold-500/20 border-gold-500/50 text-gold-400 hover:bg-gold-500/30 cursor-pointer shadow-[0_0_15px_rgba(212,175,55,0.1)] transition-transform hover:scale-105 active:scale-95 z-10";
+                    countText = `<p class="text-[8px] md:text-[9px] font-medium text-gold-200 truncate mt-0.5 hidden sm:block">${events.length} Jadwal</p>`;
+                    badge = `<div class="absolute -top-1.5 -right-1.5 w-4 h-4 md:w-5 md:h-5 bg-red-600 text-white rounded-full flex items-center justify-center text-[9px] md:text-[10px] font-bold shadow-md border border-black">${events.length}</div>`;
+                } else if (isToday) {
+                    extraClass = "bg-blue-900/20 border-blue-500/30 text-blue-400";
+                }
+
+                let paramDate = `${year}-${String(month + 1).padStart(2, '0')}-${String(i).padStart(2, '0')}`;
+                grid.innerHTML += `<div ${hasEvent ? `onclick="lihatDetailKalenderJadwal('${paramDate}')"` : ''} class="relative p-2 md:p-3 rounded-xl md:rounded-2xl border flex flex-col items-center justify-center min-h-[44px] md:min-h-[64px] transition-colors ${extraClass}"><span class="text-xs md:text-sm font-bold ${isToday && !hasEvent ? 'text-blue-400' : ''}">${i}</span>${countText}${badge}</div>`;
+            }
+        }
+
+        function lihatDetailKalenderJadwal(dateStr) {
+            const targetDate = new Date(dateStr);
+            document.getElementById('jadwal-kalender-tgl-terpilih').textContent = targetDate.toLocaleDateString('id-ID', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
+
+            const listContainer = document.getElementById('jadwal-kalender-list-acara');
+            let html = '';
+
+            const validEvents = globalPenjualan.filter(p => p['Status Acara'] !== 'Dibatalkan' && p.Status !== 'Dibatalkan');
+            let acaraHariIni = validEvents.filter(p => {
+                const berkas = globalBerkas.find(b => b['ID Booking'] === (p['ID Booking']||p['ID Transaksi']));
+                let tglPakai = p.Tanggal; if(berkas && berkas['Tgl Akad']) tglPakai = berkas['Tgl Akad'];
+                let d = parseTanggalBooking(tglPakai);
+                if (!d && tglPakai.includes('-')) d = new Date(tglPakai);
+                if(!d) return false;
+                return d.toISOString().split('T')[0] === dateStr;
+            });
+
+            acaraHariIni.forEach(p => {
+                const idTrx = p['ID Booking'] || p['ID Transaksi'];
+                const nmPkt = p['Nama Paket'] || p['Nama Baju'];
+                const clientNm = p['Username Klien'] || p['Username Pembeli'];
+                const jdwl = globalJadwal[idTrx] || {};
+
+                html += `
+                    <div class="bg-black p-3 md:p-4 rounded-xl border border-zinc-700 flex flex-col md:flex-row justify-between items-start md:items-center gap-3">
+                        <div>
+                            <span class="text-[9px] md:text-[10px] font-mono font-bold text-gold-500 block">${idTrx} &bull; @${clientNm}</span>
+                            <h5 class="font-bold text-white text-sm mt-1">${nmPkt}</h5>
+                            <p class="text-[10px] text-zinc-400 mt-1"><b>PJ:</b> ${jdwl.pj||'-'} | <b>MC:</b> ${jdwl.mc||'-'}</p>
+                        </div>
+                        <button onclick="bukaEditJadwal('${idTrx}')" class="bg-gold-500 hover:bg-gold-400 text-black px-4 py-2 rounded-lg text-[10px] font-bold shadow-md w-full md:w-auto transition"><i class="fa-solid fa-pen mr-1"></i> Atur Jadwal & Kru</button>
+                    </div>`;
+            });
+
+            listContainer.innerHTML = html;
+            document.getElementById('jadwal-kalender-detail-container').classList.remove('hidden');
+            setTimeout(() => document.getElementById('jadwal-kalender-detail-container').scrollIntoView({ behavior: 'smooth', block: 'nearest' }), 50);
+        }
+
+        // 4. LOGIKA EDIT PENUGASAN (MODAL)
+        function toggleModalEditJadwal() {
+            const modal = document.getElementById('modal-edit-jadwal');
+            if (modal.classList.contains('opacity-0')) { modal.classList.remove('opacity-0', 'pointer-events-none'); setTimeout(() => modal.classList.add('show'), 10); } 
+            else { modal.classList.remove('show'); setTimeout(() => { modal.classList.add('opacity-0', 'pointer-events-none'); }, 300); }
+        }
+
+        function populateSelectOptions(selId, masterType, selectedVal) {
+            const sel = document.getElementById(selId);
+            sel.innerHTML = `<option value="">-- Pilih --</option>` + globalMasterKru[masterType].map(v => `<option value="${v}">${v}</option>`).join('');
+            if(selectedVal && globalMasterKru[masterType].includes(selectedVal)) sel.value = selectedVal;
+        }
+
+        function bukaEditJadwal(idTrx) {
+            const p = globalPenjualan.find(x => (x['ID Booking']||x['ID Transaksi']) === idTrx);
+            const berkas = globalBerkas.find(b => b['ID Booking'] === idTrx) || {};
+            const jdwl = globalJadwal[idTrx] || {};
+
+            document.getElementById('ej-id-booking').value = idTrx;
+            document.getElementById('ej-info-klien').textContent = `@${p['Username Klien']||p['Username Pembeli']}`;
+            document.getElementById('ej-info-judul').textContent = (berkas['Nama CPP'] && berkas['Nama CPW']) ? `${berkas['Nama CPP']} & ${berkas['Nama CPW']}` : 'Belum diisi';
+            document.getElementById('ej-info-paket').textContent = p['Nama Paket']||p['Nama Baju'];
+            document.getElementById('ej-info-tgl').textContent = berkas['Tgl Akad'] ? String(berkas['Tgl Akad']).split('T')[0] : '-';
+            
+            document.getElementById('ej-pj').value = jdwl.pj || '';
+            document.getElementById('ej-tgl-tm').value = jdwl.tglTm || '';
+            document.getElementById('ej-lokasi-tm').value = berkas['Tgl & Lokasi TM'] || 'Belum diisi di Berkas Klien';
+            document.getElementById('ej-status-tm').value = jdwl.statusTm || 'Belum';
+            document.getElementById('ej-keterangan').value = jdwl.keterangan || '';
+
+            populateSelectOptions('ej-mc', 'mc', jdwl.mc);
+            populateSelectOptions('ej-vocal', 'vocal', jdwl.vocal);
+            populateSelectOptions('ej-keyboard', 'keyboard', jdwl.keyboard);
+            populateSelectOptions('ej-sexo', 'sexo', jdwl.sexo);
+
+            const contWo = document.getElementById('ej-container-wo');
+            contWo.innerHTML = '';
+            if(jdwl.wo && jdwl.wo.length > 0) {
+                jdwl.wo.forEach(val => tambahBarisWO(val));
+            } else {
+                tambahBarisWO(); 
+            }
+
+            toggleModalEditJadwal();
+        }
+
+        function tambahBarisWO(val = '') {
+            const cont = document.getElementById('ej-container-wo');
+            const num = cont.children.length + 1;
+            const div = document.createElement('div');
+            div.className = "flex gap-2 items-center wo-row";
+            
+            let options = `<option value="">-- Pilih Kru WO --</option>` + globalMasterKru.wo.map(v => `<option value="${v}" ${v===val?'selected':''}>${v}</option>`).join('');
+            
+            div.innerHTML = `
+                <span class="text-[10px] text-zinc-500 font-bold w-8">WO${num}</span>
+                <select class="wo-sel flex-1 bg-black border border-zinc-700 rounded px-2 py-1 text-[10px] text-white outline-none focus:border-orange-500">${options}</select>
+                <button type="button" onclick="this.parentElement.remove()" class="text-zinc-500 hover:text-red-500 w-5 h-5 flex items-center justify-center"><i class="fa-solid fa-times text-[10px]"></i></button>
+            `;
+            cont.appendChild(div);
+        }
+
+        async function simpanJadwalEvent() {
+            const idTrx = document.getElementById('ej-id-booking').value;
+            const btn = event.target;
+            const oriText = btn.innerHTML;
+            btn.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin"></i> Menyimpan...';
+            btn.disabled = true;
+
+            let woArr = [];
+            document.querySelectorAll('.wo-sel').forEach(el => { if(el.value) woArr.push(el.value); });
+
+            const payload = {
+                action: "saveJadwal",
+                id_booking: idTrx,
+                pj: document.getElementById('ej-pj').value,
+                tgl_tm: document.getElementById('ej-tgl-tm').value,
+                status_tm: document.getElementById('ej-status-tm').value,
+                mc: document.getElementById('ej-mc').value,
+                vocal: document.getElementById('ej-vocal').value,
+                keyboard: document.getElementById('ej-keyboard').value,
+                sexo: document.getElementById('ej-sexo').value,
+                keterangan: document.getElementById('ej-keterangan').value,
+                wo: JSON.stringify(woArr)
+            };
+
+            try {
+                const res = await fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify(payload), headers: { 'Content-Type': 'text/plain' } });
+                const data = await res.json();
+                if(data.status === 'success') {
+                    await fetchJadwalKru(true);
+                    renderJadwalEvent();
+                    toggleModalEditJadwal();
+                    alert("Penugasan & Jadwal Tersimpan!");
+                } else alert("Gagal menyimpan: " + data.message);
+            } catch(e) { alert("Kesalahan koneksi!"); }
+            finally { btn.innerHTML = oriText; btn.disabled = false; }
+        }
+
+        // 5. LOGIKA MASTER DATA KRU
+        function toggleModalMasterKru() {
+            const modal = document.getElementById('modal-master-kru');
+            if (modal.classList.contains('opacity-0')) { 
+                modal.classList.remove('opacity-0', 'pointer-events-none'); setTimeout(() => modal.classList.add('show'), 10);
+                renderMasterKruList();
+            } else { modal.classList.remove('show'); setTimeout(() => { modal.classList.add('opacity-0', 'pointer-events-none'); }, 300); }
+        }
+
+        function renderMasterKruList() {
+            const kat = document.getElementById('mk-kategori').value;
+            const ul = document.getElementById('mk-list');
+            const data = globalMasterKru[kat] || [];
+            
+            if(data.length === 0) {
+                ul.innerHTML = `<li class="text-center text-[10px] text-zinc-500 py-4">Belum ada data.</li>`;
+                return;
+            }
+
+            ul.innerHTML = data.map((nm, idx) => `
+                <li class="flex justify-between items-center bg-[#111] border border-zinc-800 p-2 rounded-lg">
+                    <span class="text-xs font-bold text-zinc-300">${nm}</span>
+                    <button onclick="hapusMasterKru('${kat}', ${idx})" class="text-zinc-500 hover:text-red-500 w-6 h-6 flex items-center justify-center rounded transition"><i class="fa-solid fa-trash text-[10px]"></i></button>
+                </li>
+            `).join('');
+        }
+
+        async function tambahMasterKru() {
+            const kat = document.getElementById('mk-kategori').value;
+            const ipt = document.getElementById('mk-nama-baru');
+            const val = ipt.value.trim();
+            if(!val) return;
+            
+            if(!globalMasterKru[kat]) globalMasterKru[kat] = [];
+            if(globalMasterKru[kat].includes(val)) { alert("Nama ini sudah ada!"); return; }
+
+            ipt.disabled = true;
+            const payload = { action: "addMasterKru", kategori: kat, nama: val };
+            try {
+                const res = await fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify(payload), headers: { 'Content-Type': 'text/plain' } });
+                const data = await res.json();
+                if(data.status === 'success') {
+                    globalMasterKru[kat].push(val);
+                    ipt.value = "";
+                    renderMasterKruList();
+                } else alert(data.message);
+            } catch(e) { alert("Gagal koneksi"); }
+            finally { ipt.disabled = false; }
+        }
+
+        async function hapusMasterKru(kat, idx) {
+            if(!confirm("Hapus data kru ini?")) return;
+            const nama = globalMasterKru[kat][idx];
+            
+            const payload = { action: "deleteMasterKru", kategori: kat, nama: nama };
+            try {
+                const res = await fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify(payload), headers: { 'Content-Type': 'text/plain' } });
+                const data = await res.json();
+                if(data.status === 'success') {
+                    globalMasterKru[kat].splice(idx, 1);
+                    renderMasterKruList();
+                } else alert(data.message);
+            } catch(e) { alert("Gagal koneksi"); }
         }
 
         window.onload = initApp;
