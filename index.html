@@ -596,7 +596,7 @@
                 <!-- Header & Toggle View -->
                 <div class="bg-[#111] p-4 md:p-5 rounded-[24px] shadow-lg border border-zinc-800">
                     <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
-                        <h3 class="font-bold text-white text-base md:text-lg tracking-tight">Jadwal Acara Klien</h3>
+                        <h3 class="font-bold text-white text-base md:text-lg tracking-tight">Data Tanggal Pesanan Masuk</h3>
 
                         <div class="flex items-center gap-2 w-full sm:w-auto justify-between sm:justify-end">
                             <!-- Toggle Button -->
@@ -627,7 +627,7 @@
                     class="bg-[#111] rounded-[32px] md:rounded-[40px] shadow-2xl border border-zinc-800 overflow-hidden transition-all duration-300">
                     <div
                         class="flex flex-col sm:flex-row justify-between items-start sm:items-center p-4 md:p-6 border-b border-zinc-800 gap-3">
-                        <h3 class="font-bold text-white text-base md:text-xl tracking-tight">Booking Acara: <span
+                        <h3 class="font-bold text-white text-base md:text-xl tracking-tight">Pesanan Masuk: <span
                                 id="label-bulan-aktif" class="text-gold-500">Semua Waktu</span></h3>
 
                         <!-- TAMBAHAN KOLOM PENCARIAN BOOKING -->
@@ -1010,7 +1010,7 @@
                         class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-4 md:mb-6 gap-4 border-b border-zinc-800 pb-4">
                         <div>
                             <h3 class="text-base md:text-xl font-bold mb-1 md:mb-2 text-gold-500 tracking-tight">
-                                Personalisasi Sistem WO</h3>
+                                Settingan Sistem WO</h3>
                             <p class="text-[10px] md:text-xs text-zinc-400">Ubah tampilan dan rekening untuk Klien.</p>
                         </div>
                         <!-- Tombol dipindah ke sini dengan atribut form="form-pengaturan" -->
@@ -1034,7 +1034,7 @@
                                 <div>
                                     <label class="block font-bold text-xs md:text-sm text-zinc-400 mb-1">Nama Rekening /
                                         Perusahaan</label>
-                                    <input type="text" id="set-qris-name" placeholder="PT Elegance Event"
+                                    <input type="text" id="set-qris-name" placeholder="HNP WO"
                                         class="w-full bg-[#111] border border-zinc-800 rounded-xl px-3 py-2.5 md:px-4 md:py-3 focus:ring-1 focus:ring-gold-500 focus:border-gold-500 outline-none font-medium text-sm text-white placeholder-zinc-600">
                                 </div>
                             </div>
@@ -2686,7 +2686,7 @@
                     const idTrx = p['ID Booking'] || p['ID Transaksi']; const statusAcara = p['Status Acara'] || p.Status || "Menunggu Konfirmasi"; const isDP = p['Tipe Pembayaran'] === 'DP'; const isCustomUnpriced = (p['ID Paket'] === 'CUSTOM' || p['ID Baju'] === 'CUSTOM') && parseInt(p['Total Harga']) === 0; const nmPkt = p['Nama Paket'] || p['Nama Baju']; const clientNm = p['Username Klien'] || p['Username Pembeli']; const qtyP = p['Jumlah Pax/Item'] || p.Jumlah;
                     let statBayarList = p['Status Pembayaran'] || ''; let isLunas = statBayarList.includes('Lunas');
                     let metodeBayarAwalList = p['Metode Bayar'] || 'Transfer'; let metodeDisplay1List = metodeBayarAwalList;
-                    if (statBayarList.includes('Belum DP (Cash)') || statBayarList.includes('Sudah DP (Cash)')) metodeDisplay1List = 'Cash'; else if (statBayarList.includes('Sudah DP (QRIS)')) metodeDisplay1List = 'QRIS'; else if (statBayarList.includes('Lunas (QRIS)') && !isDP) metodeDisplay1List = 'QRIS'; else if (statBayarList.includes('Lunas (Cash)') && !isDP) metodeDisplay1List = 'Cash';
+                    if (statBayarList.includes('Belum DP (Cash)') || statBayarList.includes('Sudah DP (Cash)')) metodeDisplay1List = 'Cash'; else if (statBayarList.includes('Sudah DP (TRANSFER/QRIS)')) metodeDisplay1List = 'QRIS'; else if (statBayarList.includes('Lunas (QRIS)') && !isDP) metodeDisplay1List = 'QRIS'; else if (statBayarList.includes('Lunas (Cash)') && !isDP) metodeDisplay1List = 'Cash';
 
                     let badgeColor = statusAcara === 'Diproses' || statusAcara === 'Diskusi Lanjutan' ? "bg-blue-900/30 border border-blue-500/20 text-blue-400" : (statusAcara === 'Selesai' ? "bg-emerald-900/30 border border-emerald-500/20 text-emerald-400" : (statusAcara === 'Dibatalkan' ? "bg-red-900/30 border border-red-500/20 text-red-400" : "bg-orange-900/30 border border-orange-500/20 text-orange-400"));
                     const bayarBadge = isDP ? "bg-purple-900/30 text-purple-400 border border-purple-500/20" : "bg-emerald-900/30 text-emerald-400 border border-emerald-500/20";
