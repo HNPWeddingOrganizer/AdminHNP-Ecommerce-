@@ -4415,18 +4415,23 @@
             const mapJadwal = {};
             validEvents.forEach(p => {
                 const idTrx = p['ID Booking'] || p['ID Transaksi'];
-                const berkas = globalBerkas.find(b => b['ID Booking'] === idTrx);
-                let tglPakai = p.Tanggal;
-                if (berkas && berkas['Tgl Akad']) tglPakai = berkas['Tgl Akad'];
+                const berkas = globalBerkas.find(b => b['ID Booking'] === idTrx) || {};
+                
+                let tglAkadStr = berkas['Tgl Akad'] ? String(berkas['Tgl Akad']).split('T')[0] : '';
+                let tglResepsiStr = berkas['Tgl Resepsi'] ? String(berkas['Tgl Resepsi']).split('T')[0] : '';
 
-                let d = getValidEventDate(p, berkas);
-                if (!d && tglPakai.includes('-')) d = new Date(tglPakai);
+                // Tangkap tanggal Akad dan Resepsi
+                let validDates = [];
+                if(tglAkadStr) validDates.push(new Date(tglAkadStr));
+                if(tglResepsiStr && tglResepsiStr !== tglAkadStr) validDates.push(new Date(tglResepsiStr));
 
-                if (d && d.getFullYear() === year && d.getMonth() === month) {
-                    let tglKey = d.getDate();
-                    if (!mapJadwal[tglKey]) mapJadwal[tglKey] = [];
-                    mapJadwal[tglKey].push({ p: p, b: berkas });
-                }
+                validDates.forEach(d => {
+                    if (d.getFullYear() === year && d.getMonth() === month) {
+                        let tglKey = d.getDate();
+                        if (!mapJadwal[tglKey]) mapJadwal[tglKey] = [];
+                        mapJadwal[tglKey].push({ p: p, b: berkas });
+                    }
+                });
             });
 
             for (let i = 0; i < firstDay; i++) grid.innerHTML += `<div class="p-2 md:p-4 rounded-xl bg-black/20 border border-transparent"></div>`;
@@ -4461,13 +4466,12 @@
             let html = '';
 
             const validEvents = globalPenjualan.filter(p => p['Status Acara'] !== 'Dibatalkan' && p.Status !== 'Dibatalkan');
-            let acaraHariIni = validEvents.filter(p => {
-                const berkas = globalBerkas.find(b => b['ID Booking'] === (p['ID Booking'] || p['ID Transaksi']));
-                let tglPakai = p.Tanggal; if (berkas && berkas['Tgl Akad']) tglPakai = berkas['Tgl Akad'];
-                let d = getValidEventDate(p, berkas);
-                if (!d && tglPakai.includes('-')) d = new Date(tglPakai);
-                if (!d) return false;
-                return d.toISOString().split('T')[0] === dateStr;
+           let acaraHariIni = validEvents.filter(p => {
+                const berkas = globalBerkas.find(b => b['ID Booking'] === (p['ID Booking'] || p['ID Transaksi'])) || {};
+                let tglAkadStr = berkas['Tgl Akad'] ? String(berkas['Tgl Akad']).split('T')[0] : '';
+                let tglResepsiStr = berkas['Tgl Resepsi'] ? String(berkas['Tgl Resepsi']).split('T')[0] : '';
+                
+                return tglAkadStr === dateStr || tglResepsiStr === dateStr;
             });
 
             acaraHariIni.forEach(p => {
@@ -4758,21 +4762,25 @@
                         </div>`;
                     }
 
-                    // --- 2. CEK EVENT WEDDING ---
-                    let d = getValidEventDate(p, berkas);
-                    let tglPakai = p.Tanggal; 
-                    if(berkas['Tgl Akad']) tglPakai = berkas['Tgl Akad']; 
-                    if (!d && tglPakai.includes('-')) d = new Date(tglPakai); 
+                    // --- 2. CEK EVENT WEDDING (Berdasarkan Tgl Akad & Resepsi) ---
+                    let tglAkadStr = berkas['Tgl Akad'] ? String(berkas['Tgl Akad']).split('T')[0] : '';
+                    let tglResepsiStr = berkas['Tgl Resepsi'] ? String(berkas['Tgl Resepsi']).split('T')[0] : '';
 
-                    if (d && d.getFullYear() === year && d.getMonth() === month && d.getDate() === i) {
-                        let waktuAkad = berkas['Waktu Akad'] || '-';
+                    if (tglAkadStr === paramDate || tglResepsiStr === paramDate) {
+                        let labelAcara = [];
+                        if (tglAkadStr === paramDate) labelAcara.push("AKAD");
+                        if (tglResepsiStr === paramDate && tglResepsiStr !== tglAkadStr) labelAcara.push("RESEPSI");
+                        else if (tglResepsiStr === paramDate && tglResepsiStr === tglAkadStr) labelAcara = ["AKAD & RESEPSI"];
+
+                        // Ambil waktu yang sesuai (Akad atau Resepsi)
+                        let waktuAcara = (tglAkadStr === paramDate) ? (berkas['Waktu Akad'] || '-') : (berkas['Waktu Resepsi'] || '-');
                         let venue = berkas['Vendor Venue'] || '-';
                         let tglIndo = formatDateIndo(paramDate);
 
                         eventHtml += `
                         <div class="mt-1 p-1.5 rounded-lg text-[9px] text-black border border-gold-600 bg-gold-500 leading-tight w-full text-left shadow-sm">
-                            <span class="font-bold uppercase"><i class="fa-solid fa-ring"></i> WEDDING @${user}</span><br>
-                            <span class="text-[8px] font-bold mt-0.5 block opacity-80">${tglIndo} | ${waktuAkad}</span>
+                            <span class="font-bold uppercase"><i class="fa-solid fa-ring"></i> ${labelAcara.join(' & ')} @${user}</span><br>
+                            <span class="text-[8px] font-bold mt-0.5 block opacity-80">${tglIndo} | ${waktuAcara}</span>
                             <span class="text-[8px] font-bold truncate block mt-0.5"><i class="fa-solid fa-location-dot"></i> ${venue}</span>
                         </div>`;
                     }
@@ -4819,33 +4827,27 @@
                 const jdwl = globalJadwal[idTrx] || {};
                 const berkas = globalBerkas.find(b => b['ID Booking'] === idTrx) || {};
 
-               // 1. Cek Apakah Ada Wedding Hari Ini
-                let d = getValidEventDate(p, berkas);
-                let tglPakai = p.Tanggal; 
-                if (berkas['Tgl Akad']) tglPakai = berkas['Tgl Akad']; 
-                if (!d && tglPakai.includes('-')) d = new Date(tglPakai); 
+               const mapJadwal = {};
+            validEvents.forEach(p => {
+                const idTrx = p['ID Booking'] || p['ID Transaksi'];
+                const berkas = globalBerkas.find(b => b['ID Booking'] === idTrx) || {};
+                
+                let tglAkadStr = berkas['Tgl Akad'] ? String(berkas['Tgl Akad']).split('T')[0] : '';
+                let tglResepsiStr = berkas['Tgl Resepsi'] ? String(berkas['Tgl Resepsi']).split('T')[0] : '';
 
-                // Mencegah bug zona waktu (UTC) dengan menggunakan fungsi waktu lokal
-                let isWeddingToday = false;
-                if (d) {
-                    let dYear = d.getFullYear();
-                    let dMonth = String(d.getMonth() + 1).padStart(2, '0');
-                    let dDay = String(d.getDate()).padStart(2, '0');
-                    let localDateStr = `${dYear}-${dMonth}-${dDay}`;
-                    if (localDateStr === dateStr) isWeddingToday = true;
-                }
+                // Tangkap tanggal Akad dan Resepsi
+                let validDates = [];
+                if(tglAkadStr) validDates.push(new Date(tglAkadStr));
+                if(tglResepsiStr && tglResepsiStr !== tglAkadStr) validDates.push(new Date(tglResepsiStr));
 
-                if (isWeddingToday) {
-                    let waktuAkad = berkas['Waktu Akad'] || '-';
-                    let venue = berkas['Vendor Venue'] || '-';
-                    htmlWedding += `
-                    <div onclick="toggleModalDetailHNP(); setTimeout(()=>bukaEditBerkasAdmin('${idTrx}'), 300)" class="bg-gold-500/10 border border-gold-500/40 p-3 rounded-xl cursor-pointer hover:bg-gold-500/20 transition-colors shadow-sm relative overflow-hidden group">
-                        <div class="absolute right-3 top-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 transition-opacity text-gold-500"><i class="fa-solid fa-chevron-right"></i></div>
-                        <p class="font-bold text-gold-400 text-sm mb-1"><i class="fa-solid fa-ring mr-1 text-gold-500"></i> Wedding @${user}</p>
-                        <p class="text-[10px] text-zinc-400 mb-1 font-mono">ID: ${idTrx}</p>
-                        <p class="text-xs text-white"><i class="fa-regular fa-clock mr-1 text-zinc-500"></i> ${waktuAkad} | <i class="fa-solid fa-location-dot mx-1 text-zinc-500"></i> ${venue}</p>
-                    </div>`;
-                }
+                validDates.forEach(d => {
+                    if (d.getFullYear() === year && d.getMonth() === month) {
+                        let tglKey = d.getDate();
+                        if (!mapJadwal[tglKey]) mapJadwal[tglKey] = [];
+                        mapJadwal[tglKey].push({ p: p, b: berkas });
+                    }
+                });
+            });
 
                 // 2. Cek Apakah Ada TM Hari Ini
                 if (jdwl.tglTm === dateStr) {
