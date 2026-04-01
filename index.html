@@ -3603,7 +3603,11 @@
             let tglAkad = berkas ? berkas['Tgl Akad'] : ''; if (tglAkad && tglAkad.includes('T')) tglAkad = tglAkad.split('T')[0]; document.getElementById('ab-tgl-akad').value = tglAkad;
             document.getElementById('ab-wkt-akad').value = berkas ? berkas['Waktu Akad'] : '';
             let tglResepsi = berkas ? berkas['Tgl Resepsi'] : ''; if (tglResepsi && tglResepsi.includes('T')) tglResepsi = tglResepsi.split('T')[0]; document.getElementById('ab-tgl-resepsi').value = tglResepsi;
-            document.getElementById('ab-wkt-resepsi').value = berkas ? berkas['Waktu Resepsi'] : ''; document.getElementById('ab-undangan').value = berkas ? berkas['Jumlah Undangan'] : ''; document.getElementById('ab-konsep').value = berkas ? berkas['Konsep Pernikahan'] : ''; document.getElementById('ab-makeup').value = berkas ? berkas['Konsep Make Up'] : ''; document.getElementById('ab-busana').value = berkas ? berkas['Busana Pengantin'] : ''; document.getElementById('ab-prewed').value = berkas ? berkas['Tgl & Lokasi Prewedding'] : '';
+            let wktResepsi = berkas ? (berkas['Waktu Resepsi'] || '') : '';
+            let arrWktResepsi = wktResepsi.split(/\s*-\s*/); // Memisahkan waktu berdasarkan strip (-)
+            document.getElementById('ab-wkt-resepsi-mulai').value = arrWktResepsi[0] || '';
+            document.getElementById('ab-wkt-resepsi-selesai').value = arrWktResepsi[1] || '';
+            document.getElementById('ab-undangan').value = berkas ? berkas['Jumlah Undangan'] : ''; document.getElementById('ab-konsep').value = berkas ? berkas['Konsep Pernikahan'] : ''; document.getElementById('ab-makeup').value = berkas ? berkas['Konsep Make Up'] : ''; document.getElementById('ab-busana').value = berkas ? berkas['Busana Pengantin'] : ''; document.getElementById('ab-prewed').value = berkas ? berkas['Tgl & Lokasi Prewedding'] : '';
             // Sinkronisasi data TM dari Jadwal Event
             const jdwlBerkas = globalJadwal[idTrx] || {};
             let infoTmBerkas = berkas ? berkas['Tgl & Lokasi TM'] : '';
@@ -3664,7 +3668,11 @@
                 });
             }
 
-            const payload = { action: "saveBerkas", id_booking: idBooking, username: document.getElementById('ab-username').value, cpp: document.getElementById('ab-cpp').value, cpw: document.getElementById('ab-cpw').value, tgl_akad: document.getElementById('ab-tgl-akad').value, waktu_akad: document.getElementById('ab-wkt-akad').value, tgl_resepsi: document.getElementById('ab-tgl-resepsi').value, waktu_resepsi: document.getElementById('ab-wkt-resepsi').value, undangan: document.getElementById('ab-undangan').value, konsep: document.getElementById('ab-konsep').value, makeup: document.getElementById('ab-makeup').value, busana: document.getElementById('ab-busana').value, pesanan: document.getElementById('ab-pesanan').value, prewed: document.getElementById('ab-prewed').value, tm: document.getElementById('ab-tm').value, v_dekorasi: document.getElementById('v-ab-dekorasi').value, v_mua: document.getElementById('v-ab-mua').value, v_keluarga: document.getElementById('v-ab-keluarga').value, v_mc: document.getElementById('v-ab-mc').value, v_ent: document.getElementById('v-ab-ent').value, v_catering: document.getElementById('v-ab-catering').value, v_dok: document.getElementById('v-ab-dok').value, v_sound: document.getElementById('v-ab-sound').value, v_attire: document.getElementById('v-ab-attire').value, v_venue: document.getElementById('v-ab-venue').value, catatan: document.getElementById('ab-catatan').value, file_panduan: berkasAdminBase64, file_panduan_lama: berkasAdminLama, data_upgrade: JSON.stringify(upgradeArr) };
+            let wktResMulai = document.getElementById('ab-wkt-resepsi-mulai').value;
+            let wktResSelesai = document.getElementById('ab-wkt-resepsi-selesai').value;
+            let wktResGabung = (wktResMulai && wktResSelesai) ? `${wktResMulai} - ${wktResSelesai}` : (wktResMulai || wktResSelesai || '');
+
+            const payload = { action: "saveBerkas", id_booking: idBooking, username: document.getElementById('ab-username').value, cpp: document.getElementById('ab-cpp').value, cpw: document.getElementById('ab-cpw').value, tgl_akad: document.getElementById('ab-tgl-akad').value, waktu_akad: document.getElementById('ab-wkt-akad').value, tgl_resepsi: document.getElementById('ab-tgl-resepsi').value, waktu_resepsi: wktResGabung, undangan: document.getElementById('ab-undangan').value, konsep: document.getElementById('ab-konsep').value, makeup: document.getElementById('ab-makeup').value, busana: document.getElementById('ab-busana').value, pesanan: document.getElementById('ab-pesanan').value, prewed: document.getElementById('ab-prewed').value, tm: document.getElementById('ab-tm').value, v_dekorasi: document.getElementById('v-ab-dekorasi').value, v_mua: document.getElementById('v-ab-mua').value, v_keluarga: document.getElementById('v-ab-keluarga').value, v_mc: document.getElementById('v-ab-mc').value, v_ent: document.getElementById('v-ab-ent').value, v_catering: document.getElementById('v-ab-catering').value, v_dok: document.getElementById('v-ab-dok').value, v_sound: document.getElementById('v-ab-sound').value, v_attire: document.getElementById('v-ab-attire').value, v_venue: document.getElementById('v-ab-venue').value, catatan: document.getElementById('ab-catatan').value, file_panduan: berkasAdminBase64, file_panduan_lama: berkasAdminLama, data_upgrade: JSON.stringify(upgradeArr) };
 
             try {
                 const res = await fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify(payload), headers: { 'Content-Type': 'text/plain' } });
@@ -4162,14 +4170,39 @@
         function ubahFilterJadwal() {
             activeJadwalTahun = document.getElementById('filter-jadwal-tahun').value;
             activeJadwalBulan = 'Semua'; // Reset bulan ke Semua jika tahun diubah
+            
+            // --- SINKRONISASI KE TAMPILAN KALENDER ---
+            if (activeJadwalTahun !== 'Semua') {
+                currentDateJadwal.setFullYear(parseInt(activeJadwalTahun));
+            } else {
+                currentDateJadwal.setFullYear(new Date().getFullYear());
+            }
+            currentDateJadwal.setMonth(new Date().getMonth()); // Reset bulan ke bulan ini
+            // -----------------------------------------
+
             renderFilterBulanJadwal();
             renderJadwalEvent();
         }
 
         function setBulanJadwal(bulanVal) {
             activeJadwalBulan = bulanVal;
+            
+            // --- SINKRONISASI KE TAMPILAN KALENDER ---
+            if (activeJadwalTahun !== 'Semua') {
+                currentDateJadwal.setFullYear(parseInt(activeJadwalTahun));
+            } else {
+                currentDateJadwal.setFullYear(new Date().getFullYear());
+            }
+
+            if (bulanVal !== 'Semua') {
+                currentDateJadwal.setMonth(parseInt(bulanVal) - 1);
+            } else {
+                currentDateJadwal.setMonth(new Date().getMonth());
+            }
+            // -----------------------------------------
+
             renderFilterBulanJadwal();
-            renderJadwalEvent();
+            renderJadwalEvent(); // (Di dalam renderJadwalEvent sudah otomatis memanggil renderKalenderJadwal)
         }
 
         function renderFilterBulanJadwal() {
