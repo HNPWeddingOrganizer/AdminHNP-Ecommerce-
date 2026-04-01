@@ -164,7 +164,8 @@
         <div class="p-8 pb-4 flex items-center gap-3">
             <div
                 class="w-10 h-10 rounded-full bg-gradient-to-r from-gold-600 to-gold-400 text-black flex items-center justify-center shadow-lg shadow-gold-900/50 shrink-0">
-                <i class="fa-solid fa-chess-rook text-xl"></i></div>
+                <i class="fa-solid fa-chess-rook text-xl"></i>
+            </div>
             <h1 class="text-xl font-bold tracking-tight text-gold-500 whitespace-nowrap">HNP Admin</h1>
         </div>
         <nav class="flex-1 p-4 space-y-1.5 overflow-y-auto hide-scrollbar">
@@ -180,10 +181,12 @@
             <button onclick="switchTab('penjualan')" id="nav-penjualan"
                 class="w-full flex items-center gap-3 px-4 py-3.5 rounded-2xl text-zinc-400 hover:bg-zinc-800 hover:text-gold-400 font-semibold transition-all active:scale-95 whitespace-nowrap"><i
                     class="fa-solid fa-calendar-check w-5 text-lg"></i> Data Booking</button>
-                    <button onclick="switchTab('hnp')" id="nav-hnp"
+            <button onclick="switchTab('hnp')" id="nav-hnp"
                 class="w-full flex items-center gap-3 px-4 py-3.5 rounded-2xl text-zinc-400 hover:bg-zinc-800 hover:text-gold-400 font-semibold transition-all active:scale-95 whitespace-nowrap"><i
                     class="fa-solid fa-calendar-check w-5 text-lg"></i> Jadwal HNP</button>
-                    <button onclick="switchTab('jadwal')" id="nav-jadwal" class="w-full flex items-center gap-3 px-4 py-3.5 rounded-2xl text-zinc-400 hover:bg-zinc-800 hover:text-gold-400 font-semibold transition-all active:scale-95 whitespace-nowrap"><i class="fa-solid fa-calendar-day w-5 text-lg"></i> Jadwal Event</button>
+            <button onclick="switchTab('jadwal')" id="nav-jadwal"
+                class="w-full flex items-center gap-3 px-4 py-3.5 rounded-2xl text-zinc-400 hover:bg-zinc-800 hover:text-gold-400 font-semibold transition-all active:scale-95 whitespace-nowrap"><i
+                    class="fa-solid fa-calendar-day w-5 text-lg"></i> Jadwal Event</button>
             <button onclick="switchTab('transkrip')" id="nav-transkrip"
                 class="w-full flex items-center gap-3 px-4 py-3.5 rounded-2xl text-zinc-400 hover:bg-zinc-800 hover:text-gold-400 font-semibold transition-all active:scale-95 whitespace-nowrap"><i
                     class="fa-solid fa-book w-5 text-lg"></i> Laporan Acara</button>
@@ -217,7 +220,8 @@
                     class="text-[10px] font-bold">Dash</span></button>
             <button onclick="switchTab('produk')" id="nav-mob-produk"
                 class="flex flex-col items-center justify-center gap-1.5 p-2 text-zinc-500 hover:text-gold-400 min-w-[72px] shrink-0 active:scale-90 transition-transform"><i
-                    class="fa-solid fa-layer-group text-[22px]"></i><span class="text-[10px] font-bold">Paket</span></button>
+                    class="fa-solid fa-layer-group text-[22px]"></i><span
+                    class="text-[10px] font-bold">Paket</span></button>
             <button onclick="switchTab('vendor')" id="nav-mob-vendor"
                 class="flex flex-col items-center justify-center gap-1.5 p-2 text-zinc-500 hover:text-gold-400 min-w-[72px] shrink-0 active:scale-90 transition-transform"><i
                     class="fa-solid fa-store text-[22px]"></i><span class="text-[10px] font-bold">Vendor</span></button>
@@ -225,10 +229,14 @@
                 class="flex flex-col items-center justify-center gap-1.5 p-2 text-zinc-500 hover:text-gold-400 min-w-[72px] shrink-0 active:scale-90 transition-transform"><i
                     class="fa-solid fa-calendar-check text-[22px]"></i><span
                     class="text-[10px] font-bold">Booking</span></button>
-                    <button onclick="switchTab('hnp')" id="nav-mob-hnp"
+            <button onclick="switchTab('hnp')" id="nav-mob-hnp"
                 class="flex flex-col items-center justify-center gap-1.5 p-2 text-zinc-500 hover:text-gold-400 min-w-[72px] shrink-0 active:scale-90 transition-transform"><i
-                    class="fa-solid fa-calendar-check text-[22px]"></i><span class="text-[10px] font-bold">HNP</span></button>
-                    <button onclick="switchTab('jadwal')" id="nav-mob-jadwal" class="flex flex-col items-center justify-center gap-1.5 p-2 text-zinc-500 hover:text-gold-400 min-w-[72px] shrink-0 active:scale-90 transition-transform"><i class="fa-solid fa-calendar-day text-[22px]"></i><span class="text-[10px] font-bold">Jadwal</span></button>
+                    class="fa-solid fa-calendar-check text-[22px]"></i><span
+                    class="text-[10px] font-bold">HNP</span></button>
+            <button onclick="switchTab('jadwal')" id="nav-mob-jadwal"
+                class="flex flex-col items-center justify-center gap-1.5 p-2 text-zinc-500 hover:text-gold-400 min-w-[72px] shrink-0 active:scale-90 transition-transform"><i
+                    class="fa-solid fa-calendar-day text-[22px]"></i><span
+                    class="text-[10px] font-bold">Jadwal</span></button>
             <button onclick="switchTab('transkrip')" id="nav-mob-transkrip"
                 class="flex flex-col items-center justify-center gap-1.5 p-2 text-zinc-500 hover:text-gold-400 min-w-[72px] shrink-0 active:scale-90 transition-transform"><i
                     class="fa-solid fa-book text-[22px]"></i><span class="text-[10px] font-bold">Laporan</span></button>
@@ -293,7 +301,8 @@
                         <div class="flex justify-between items-start">
                             <div
                                 class="w-10 h-10 md:w-12 md:h-12 rounded-[14px] md:rounded-2xl bg-blue-900/30 border border-blue-500/20 text-blue-400 flex items-center justify-center text-lg md:text-xl shadow-inner">
-                                <i class="fa-solid fa-layer-group"></i></div>
+                                <i class="fa-solid fa-layer-group"></i>
+                            </div>
                             <span
                                 class="text-[9px] md:text-[10px] font-bold text-blue-400 opacity-0 group-hover:opacity-100 transition-opacity bg-blue-900/20 px-2 py-1 md:px-2.5 md:py-1.5 rounded-lg flex items-center gap-1">Lihat
                                 <i class="fa-solid fa-arrow-right"></i></span>
@@ -308,7 +317,8 @@
                         <div class="flex justify-between items-start">
                             <div
                                 class="w-10 h-10 md:w-12 md:h-12 rounded-[14px] md:rounded-2xl bg-emerald-900/30 border border-emerald-500/20 text-emerald-400 flex items-center justify-center text-lg md:text-xl shadow-inner">
-                                <i class="fa-solid fa-calendar-check"></i></div>
+                                <i class="fa-solid fa-calendar-check"></i>
+                            </div>
                             <span
                                 class="text-[9px] md:text-[10px] font-bold text-emerald-400 opacity-0 group-hover:opacity-100 transition-opacity bg-emerald-900/20 px-2 py-1 md:px-2.5 md:py-1.5 rounded-lg flex items-center gap-1">Lihat
                                 <i class="fa-solid fa-arrow-right"></i></span>
@@ -323,7 +333,8 @@
                         <div class="flex justify-between items-start">
                             <div
                                 class="w-10 h-10 md:w-12 md:h-12 rounded-[14px] md:rounded-2xl bg-gold-500/20 border border-gold-500/40 text-gold-400 flex items-center justify-center text-lg md:text-xl shadow-inner">
-                                <i class="fa-solid fa-wallet"></i></div>
+                                <i class="fa-solid fa-wallet"></i>
+                            </div>
                             <span
                                 class="text-[9px] md:text-[10px] font-bold text-gold-400 opacity-0 group-hover:opacity-100 transition-opacity bg-gold-500/10 px-2 py-1 md:px-2.5 md:py-1.5 rounded-lg flex items-center gap-1">Rekap
                                 <i class="fa-solid fa-arrow-right"></i></span>
@@ -347,7 +358,8 @@
                             id="title-form-produk">
                             <div
                                 class="w-6 h-6 md:w-7 md:h-7 rounded-full bg-gold-500/20 text-gold-400 flex items-center justify-center text-[10px] md:text-xs border border-gold-500/30">
-                                <i class="fa-solid fa-plus" id="icon-form-produk"></i></div>
+                                <i class="fa-solid fa-plus" id="icon-form-produk"></i>
+                            </div>
                             <span>Tambah Paket Baru</span>
                         </h3>
                         <div class="flex gap-2 w-full sm:w-auto justify-end">
@@ -425,7 +437,8 @@
                                     class="text-center flex flex-col items-center py-4 md:py-6 w-full">
                                     <div
                                         class="w-12 h-12 md:w-14 md:h-14 bg-zinc-900 border border-zinc-800 rounded-full flex items-center justify-center shadow-sm mb-2 md:mb-3 text-gold-500">
-                                        <i class="fa-solid fa-camera text-lg md:text-xl"></i></div>
+                                        <i class="fa-solid fa-camera text-lg md:text-xl"></i>
+                                    </div>
                                     <span class="text-xs md:text-sm font-bold text-zinc-300">Ketuk untuk memilih
                                         foto</span>
                                 </div>
@@ -486,26 +499,34 @@
 
             <!-- VENDOR SECTION -->
             <section id="sec-vendor" class="hidden space-y-4 md:space-y-8">
-                <div class="bg-[#111] p-4 sm:p-5 md:p-8 rounded-[32px] md:rounded-[40px] shadow-2xl border border-gold-500/20 transition-all hidden" id="form-vendor-container">
+                <div class="bg-[#111] p-4 sm:p-5 md:p-8 rounded-[32px] md:rounded-[40px] shadow-2xl border border-gold-500/20 transition-all hidden"
+                    id="form-vendor-container">
                     <div class="flex justify-between items-center mb-4 md:mb-6">
-                        <h3 class="text-base md:text-xl font-bold text-gold-500 flex items-center gap-2" id="title-form-vendor">
+                        <h3 class="text-base md:text-xl font-bold text-gold-500 flex items-center gap-2"
+                            id="title-form-vendor">
                             <i class="fa-solid fa-plus text-xs"></i> Tambah Vendor
                         </h3>
                         <div class="flex gap-2">
-                            <button type="button" onclick="batalEditVendor()" id="btn-batal-edit-vendor" class="hidden text-xs bg-zinc-800 text-zinc-300 font-bold px-3 py-1.5 rounded-full hover:bg-zinc-700">Batal</button>
-                            <button type="button" onclick="toggleFormVendor()" class="text-xs bg-zinc-800 text-zinc-300 font-bold px-3 py-1.5 rounded-full hover:bg-zinc-700"><i class="fa-solid fa-times"></i> Tutup</button>
+                            <button type="button" onclick="batalEditVendor()" id="btn-batal-edit-vendor"
+                                class="hidden text-xs bg-zinc-800 text-zinc-300 font-bold px-3 py-1.5 rounded-full hover:bg-zinc-700">Batal</button>
+                            <button type="button" onclick="toggleFormVendor()"
+                                class="text-xs bg-zinc-800 text-zinc-300 font-bold px-3 py-1.5 rounded-full hover:bg-zinc-700"><i
+                                    class="fa-solid fa-times"></i> Tutup</button>
                         </div>
                     </div>
-                    
-                    <form id="form-vendor" onsubmit="handleSaveVendor(event)" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+
+                    <form id="form-vendor" onsubmit="handleSaveVendor(event)"
+                        class="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <input type="hidden" id="v-id">
                         <div>
                             <label class="block text-xs font-bold text-zinc-400 mb-1">Nama Vendor</label>
-                            <input type="text" id="v-nama" required placeholder="Cth: Dekorasi Indah" class="w-full bg-black border border-zinc-800 rounded-xl px-4 py-3 text-white outline-none focus:border-gold-500">
+                            <input type="text" id="v-nama" required placeholder="Cth: Dekorasi Indah"
+                                class="w-full bg-black border border-zinc-800 rounded-xl px-4 py-3 text-white outline-none focus:border-gold-500">
                         </div>
                         <div>
                             <label class="block text-xs font-bold text-zinc-400 mb-1">Kategori Vendor</label>
-                            <select id="v-kategori" required class="w-full bg-black border border-zinc-800 rounded-xl px-4 py-3 text-white outline-none focus:border-gold-500">
+                            <select id="v-kategori" required
+                                class="w-full bg-black border border-zinc-800 rounded-xl px-4 py-3 text-white outline-none focus:border-gold-500">
                                 <option value="" disabled selected>Pilih Kategori</option>
                                 <option value="Dekorasi">Dekorasi</option>
                                 <option value="MUA & Busana">MUA & Busana</option>
@@ -518,31 +539,41 @@
                         </div>
                         <div class="col-span-1 md:col-span-2">
                             <label class="block text-xs font-bold text-zinc-400 mb-1">Deskripsi Vendor</label>
-                            <textarea id="v-deskripsi" rows="3" placeholder="Deskripsi singkat..." class="w-full bg-black border border-zinc-800 rounded-xl px-4 py-3 text-white outline-none focus:border-gold-500 resize-none"></textarea>
+                            <textarea id="v-deskripsi" rows="3" placeholder="Deskripsi singkat..."
+                                class="w-full bg-black border border-zinc-800 rounded-xl px-4 py-3 text-white outline-none focus:border-gold-500 resize-none"></textarea>
                         </div>
                         <div class="col-span-1 md:col-span-2">
                             <label class="block text-xs font-bold text-zinc-400 mb-1">Galeri (Multi Foto)</label>
-                            <div onclick="document.getElementById('v-gambar-file').click()" class="relative w-full min-h-[8rem] rounded-xl bg-black border border-zinc-800 hover:border-gold-500 flex flex-col justify-center cursor-pointer overflow-hidden p-3">
-                                <input type="file" id="v-gambar-file" accept="image/*" multiple class="hidden" onchange="previewImageMultipleVendor(event)">
+                            <div onclick="document.getElementById('v-gambar-file').click()"
+                                class="relative w-full min-h-[8rem] rounded-xl bg-black border border-zinc-800 hover:border-gold-500 flex flex-col justify-center cursor-pointer overflow-hidden p-3">
+                                <input type="file" id="v-gambar-file" accept="image/*" multiple class="hidden"
+                                    onchange="previewImageMultipleVendor(event)">
                                 <div id="upload-placeholder-vendor" class="text-center">
                                     <i class="fa-solid fa-camera text-gold-500 text-xl mb-2"></i>
                                     <p class="text-xs font-bold text-zinc-300">Pilih Foto Vendor</p>
                                 </div>
-                                <div id="v-gambar-preview-container" class="hidden flex flex-wrap gap-2 items-center justify-center w-full"></div>
+                                <div id="v-gambar-preview-container"
+                                    class="hidden flex flex-wrap gap-2 items-center justify-center w-full"></div>
                             </div>
                         </div>
                         <div class="col-span-1 md:col-span-2 flex justify-end mt-2">
-                            <button type="submit" id="btn-submit-vendor" class="bg-gold-500 text-black px-6 py-3 rounded-full font-bold shadow-lg hover:bg-gold-400 transition-all text-sm w-full md:w-auto"><i class="fa-solid fa-save"></i> Simpan Vendor</button>
+                            <button type="submit" id="btn-submit-vendor"
+                                class="bg-gold-500 text-black px-6 py-3 rounded-full font-bold shadow-lg hover:bg-gold-400 transition-all text-sm w-full md:w-auto"><i
+                                    class="fa-solid fa-save"></i> Simpan Vendor</button>
                         </div>
                     </form>
                 </div>
-                
+
                 <div class="bg-[#111] rounded-[32px] shadow-2xl border border-zinc-800 overflow-hidden">
                     <div class="flex justify-between items-center p-4 md:p-6 border-b border-zinc-800">
                         <h3 class="font-bold text-gold-500 text-lg">Daftar Referensi Vendor</h3>
                         <div class="flex gap-2">
-                            <button onclick="toggleFormVendor()" class="bg-gold-500 text-black px-4 py-2 rounded-full text-xs font-bold shadow-md"><i class="fa-solid fa-plus"></i> Tambah</button>
-                            <button onclick="fetchVendor(true)" class="bg-zinc-800 text-gold-500 w-8 h-8 rounded-full flex items-center justify-center"><i class="fa-solid fa-rotate-right"></i></button>
+                            <button onclick="toggleFormVendor()"
+                                class="bg-gold-500 text-black px-4 py-2 rounded-full text-xs font-bold shadow-md"><i
+                                    class="fa-solid fa-plus"></i> Tambah</button>
+                            <button onclick="fetchVendor(true)"
+                                class="bg-zinc-800 text-gold-500 w-8 h-8 rounded-full flex items-center justify-center"><i
+                                    class="fa-solid fa-rotate-right"></i></button>
                         </div>
                     </div>
                     <div class="overflow-x-auto pb-2">
@@ -697,7 +728,9 @@
                             class="w-10 h-10 rounded-full bg-black border border-zinc-700 text-gold-500 hover:bg-gold-500 hover:text-black flex items-center justify-center transition shadow-sm"><i
                                 class="fa-solid fa-chevron-left"></i></button>
                         <div class="text-center">
-                            <h3 id="hnp-kalender-title" class="font-black text-lg md:text-2xl text-white tracking-widest uppercase">Bulan Tahun</h3>
+                            <h3 id="hnp-kalender-title"
+                                class="font-black text-lg md:text-2xl text-white tracking-widest uppercase">Bulan Tahun
+                            </h3>
                             <p class="text-[10px] text-zinc-400 mt-1">Klik tanggal untuk menambah catatan khusus.</p>
                         </div>
                         <button onclick="ubahBulanHNP(1)"
@@ -719,151 +752,198 @@
                 </div>
             </section>
 
-    <!-- Modal Catatan HNP -->
-    <div id="modal-catatan-hnp" class="modal opacity-0 pointer-events-none fixed inset-0 flex items-center justify-center z-[100] transition-opacity duration-300">
-        <div class="absolute inset-0 bg-black/80 backdrop-blur-sm" onclick="toggleModalCatatanHNP()"></div>
-        <div class="modal-sheet bg-[#111] w-full sm:max-w-md mx-auto rounded-[32px] shadow-[0_0_40px_rgba(212,175,55,0.15)] z-[105] flex flex-col relative p-5 border border-gold-500/30">
-            <div class="flex justify-between items-center border-b border-zinc-800 pb-3 mb-4">
-                <h3 class="font-bold text-lg text-gold-500"><i class="fa-solid fa-pen-to-square mr-2"></i>Catatan HNP</h3>
-                <button onclick="toggleModalCatatanHNP()" class="bg-zinc-800 w-8 h-8 rounded-full text-zinc-300 hover:text-white"><i class="fa-solid fa-times"></i></button>
-            </div>
-            <input type="hidden" id="hnp-tgl-input">
-            <p id="hnp-tgl-label" class="text-xs text-zinc-400 font-bold mb-3">Tanggal: -</p>
-            <textarea id="hnp-catatan-input" rows="6" placeholder="Ketik catatan aktivitas atau memo di sini..." class="w-full bg-black border border-zinc-700 rounded-xl px-4 py-3 text-white text-sm outline-none focus:border-gold-500 resize-none"></textarea>
-            <button onclick="simpanCatatanHNP()" id="btn-simpan-hnp" class="mt-4 bg-gold-500 hover:bg-gold-400 text-black font-bold py-3 rounded-xl transition shadow-lg w-full">Simpan Catatan</button>
-        </div>
-    </div>
-
-    <!-- Modal Edit TM Cepat (Dari HNP) -->
-    <div id="modal-edit-tm-hnp" class="modal opacity-0 pointer-events-none fixed inset-0 flex items-center justify-center z-[110] transition-opacity duration-300">
-        <div class="absolute inset-0 bg-black/80 backdrop-blur-sm" onclick="toggleModalTmHNP()"></div>
-        <div class="modal-sheet bg-[#111] w-full sm:max-w-md mx-auto rounded-[32px] shadow-[0_0_40px_rgba(59,130,246,0.15)] z-[115] flex flex-col relative p-5 border border-blue-500/30">
-            <div class="flex justify-between items-center border-b border-zinc-800 pb-3 mb-4">
-                <h3 class="font-bold text-lg text-blue-400"><i class="fa-solid fa-handshake mr-2"></i>Update Info TM</h3>
-                <button onclick="toggleModalTmHNP()" class="bg-zinc-800 w-8 h-8 rounded-full text-zinc-300 hover:text-white"><i class="fa-solid fa-times"></i></button>
-            </div>
-            <input type="hidden" id="hnp-tm-id">
-            <p id="hnp-tm-klien" class="text-xs text-zinc-300 font-bold mb-3 pb-2 border-b border-zinc-800">Klien: -</p>
-            <div class="space-y-3">
-                <div class="grid grid-cols-2 gap-2">
-                    <div><label class="block text-xs font-bold text-zinc-400 mb-1">Tgl TM</label><input type="date" id="hnp-tm-tgl" class="w-full bg-black border border-zinc-700 rounded-lg px-3 py-2 text-white text-xs outline-none focus:border-blue-500"></div>
-                    <div><label class="block text-xs font-bold text-zinc-400 mb-1">Waktu</label><input type="time" id="hnp-tm-wkt" class="w-full bg-black border border-zinc-700 rounded-lg px-3 py-2 text-white text-xs outline-none focus:border-blue-500"></div>
+            <!-- Modal Catatan HNP -->
+            <div id="modal-catatan-hnp"
+                class="modal opacity-0 pointer-events-none fixed inset-0 flex items-center justify-center z-[100] transition-opacity duration-300">
+                <div class="absolute inset-0 bg-black/80 backdrop-blur-sm" onclick="toggleModalCatatanHNP()"></div>
+                <div
+                    class="modal-sheet bg-[#111] w-full sm:max-w-md mx-auto rounded-[32px] shadow-[0_0_40px_rgba(212,175,55,0.15)] z-[105] flex flex-col relative p-5 border border-gold-500/30">
+                    <div class="flex justify-between items-center border-b border-zinc-800 pb-3 mb-4">
+                        <h3 class="font-bold text-lg text-gold-500"><i
+                                class="fa-solid fa-pen-to-square mr-2"></i>Catatan HNP</h3>
+                        <button onclick="toggleModalCatatanHNP()"
+                            class="bg-zinc-800 w-8 h-8 rounded-full text-zinc-300 hover:text-white"><i
+                                class="fa-solid fa-times"></i></button>
+                    </div>
+                    <input type="hidden" id="hnp-tgl-input">
+                    <p id="hnp-tgl-label" class="text-xs text-zinc-400 font-bold mb-3">Tanggal: -</p>
+                    <textarea id="hnp-catatan-input" rows="6" placeholder="Ketik catatan aktivitas atau memo di sini..."
+                        class="w-full bg-black border border-zinc-700 rounded-xl px-4 py-3 text-white text-sm outline-none focus:border-gold-500 resize-none"></textarea>
+                    <button onclick="simpanCatatanHNP()" id="btn-simpan-hnp"
+                        class="mt-4 bg-gold-500 hover:bg-gold-400 text-black font-bold py-3 rounded-xl transition shadow-lg w-full">Simpan
+                        Catatan</button>
                 </div>
-                <div><label class="block text-xs font-bold text-zinc-400 mb-1">Lokasi</label><input type="text" id="hnp-tm-lok" class="w-full bg-black border border-zinc-700 rounded-lg px-3 py-2 text-white text-xs outline-none focus:border-blue-500"></div>
-                <div><label class="block text-xs font-bold text-zinc-400 mb-1">Status TM</label><select id="hnp-tm-stat" class="w-full bg-black border border-zinc-700 rounded-lg px-3 py-2 text-white text-xs outline-none focus:border-blue-500"><option value="Belum">Belum (Biru)</option><option value="Sudah">Sudah (Hijau)</option></select></div>
             </div>
-            <button onclick="simpanTmHNP()" id="btn-simpan-tm-hnp" class="mt-5 bg-blue-600 hover:bg-blue-500 text-white font-bold py-3 rounded-xl transition shadow-lg w-full">Simpan Info TM</button>
-        </div>
-    </div>
+
+            <!-- Modal Edit TM Cepat (Dari HNP) -->
+            <div id="modal-edit-tm-hnp"
+                class="modal opacity-0 pointer-events-none fixed inset-0 flex items-center justify-center z-[110] transition-opacity duration-300">
+                <div class="absolute inset-0 bg-black/80 backdrop-blur-sm" onclick="toggleModalTmHNP()"></div>
+                <div
+                    class="modal-sheet bg-[#111] w-full sm:max-w-md mx-auto rounded-[32px] shadow-[0_0_40px_rgba(59,130,246,0.15)] z-[115] flex flex-col relative p-5 border border-blue-500/30">
+                    <div class="flex justify-between items-center border-b border-zinc-800 pb-3 mb-4">
+                        <h3 class="font-bold text-lg text-blue-400"><i class="fa-solid fa-handshake mr-2"></i>Update
+                            Info TM</h3>
+                        <button onclick="toggleModalTmHNP()"
+                            class="bg-zinc-800 w-8 h-8 rounded-full text-zinc-300 hover:text-white"><i
+                                class="fa-solid fa-times"></i></button>
+                    </div>
+                    <input type="hidden" id="hnp-tm-id">
+                    <p id="hnp-tm-klien" class="text-xs text-zinc-300 font-bold mb-3 pb-2 border-b border-zinc-800">
+                        Klien: -</p>
+                    <div class="space-y-3">
+                        <div class="grid grid-cols-2 gap-2">
+                            <div><label class="block text-xs font-bold text-zinc-400 mb-1">Tgl TM</label><input
+                                    type="date" id="hnp-tm-tgl"
+                                    class="w-full bg-black border border-zinc-700 rounded-lg px-3 py-2 text-white text-xs outline-none focus:border-blue-500">
+                            </div>
+                            <div><label class="block text-xs font-bold text-zinc-400 mb-1">Waktu</label><input
+                                    type="time" id="hnp-tm-wkt"
+                                    class="w-full bg-black border border-zinc-700 rounded-lg px-3 py-2 text-white text-xs outline-none focus:border-blue-500">
+                            </div>
+                        </div>
+                        <div><label class="block text-xs font-bold text-zinc-400 mb-1">Lokasi</label><input type="text"
+                                id="hnp-tm-lok"
+                                class="w-full bg-black border border-zinc-700 rounded-lg px-3 py-2 text-white text-xs outline-none focus:border-blue-500">
+                        </div>
+                        <div><label class="block text-xs font-bold text-zinc-400 mb-1">Status TM</label><select
+                                id="hnp-tm-stat"
+                                class="w-full bg-black border border-zinc-700 rounded-lg px-3 py-2 text-white text-xs outline-none focus:border-blue-500">
+                                <option value="Belum">Belum (Biru)</option>
+                                <option value="Sudah">Sudah (Hijau)</option>
+                            </select></div>
+                    </div>
+                    <button onclick="simpanTmHNP()" id="btn-simpan-tm-hnp"
+                        class="mt-5 bg-blue-600 hover:bg-blue-500 text-white font-bold py-3 rounded-xl transition shadow-lg w-full">Simpan
+                        Info TM</button>
+                </div>
+            </div>
 
             <!-- JADWAL EVENT SECTION -->
             <section id="sec-jadwal" class="hidden space-y-4 md:space-y-6">
                 <!-- Header & Toggle View -->
-                <div class="bg-[#111] p-4 md:p-5 rounded-[24px] shadow-lg border border-zinc-800 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
+                <div
+                    class="bg-[#111] p-4 md:p-5 rounded-[24px] shadow-lg border border-zinc-800 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
                     <div>
                         <h3 class="font-bold text-white text-base md:text-lg tracking-tight">Manajemen Jadwal & Kru</h3>
                         <p class="text-[10px] md:text-xs text-zinc-400">Atur penugasan kru untuk setiap event.</p>
                     </div>
                     <div class="flex items-center gap-2 w-full sm:w-auto justify-between sm:justify-end">
-                        <button onclick="bukaModalMasterKru()" class="bg-indigo-900/30 text-indigo-400 border border-indigo-500/30 px-3 py-1.5 rounded-lg text-[10px] md:text-xs font-bold hover:bg-indigo-600 hover:text-white transition"><i class="fa-solid fa-users-gear mr-1"></i> Data Kru</button>
-<div class="flex bg-black p-1 rounded-xl border border-zinc-800 shadow-inner">
-    <button onclick="switchJadwalView('list')" id="btn-view-jadwal-list"
-        class="bg-gold-500 text-black px-4 py-1.5 rounded-lg text-[10px] md:text-xs font-bold shadow-sm transition-colors flex items-center gap-1.5"><i
-            class="fa-solid fa-table"></i> Tabel</button>
-    <button onclick="switchJadwalView('calendar')" id="btn-view-jadwal-cal"
-        class="text-zinc-400 hover:text-gold-400 hover:bg-zinc-900 px-4 py-1.5 rounded-lg text-[10px] md:text-xs font-bold transition-colors flex items-center gap-1.5"><i
-            class="fa-solid fa-calendar-days"></i> Kalender</button>
-</div>
-<button onclick="renderJadwalEvent()"
-    class="bg-zinc-800 text-gold-500 border border-zinc-700 w-8 h-8 rounded-full flex items-center justify-center hover:bg-zinc-700 transition active:scale-95 shrink-0"><i
-        class="fa-solid fa-rotate-right text-xs"></i></button>
-</div>
-</div>
+                        <button onclick="bukaModalMasterKru()"
+                            class="bg-indigo-900/30 text-indigo-400 border border-indigo-500/30 px-3 py-1.5 rounded-lg text-[10px] md:text-xs font-bold hover:bg-indigo-600 hover:text-white transition"><i
+                                class="fa-solid fa-users-gear mr-1"></i> Data Kru</button>
+                        <div class="flex bg-black p-1 rounded-xl border border-zinc-800 shadow-inner">
+                            <button onclick="switchJadwalView('list')" id="btn-view-jadwal-list"
+                                class="bg-gold-500 text-black px-4 py-1.5 rounded-lg text-[10px] md:text-xs font-bold shadow-sm transition-colors flex items-center gap-1.5"><i
+                                    class="fa-solid fa-table"></i> Tabel</button>
+                            <button onclick="switchJadwalView('calendar')" id="btn-view-jadwal-cal"
+                                class="text-zinc-400 hover:text-gold-400 hover:bg-zinc-900 px-4 py-1.5 rounded-lg text-[10px] md:text-xs font-bold transition-colors flex items-center gap-1.5"><i
+                                    class="fa-solid fa-calendar-days"></i> Kalender</button>
+                        </div>
+                        <button onclick="renderJadwalEvent()"
+                            class="bg-zinc-800 text-gold-500 border border-zinc-700 w-8 h-8 rounded-full flex items-center justify-center hover:bg-zinc-700 transition active:scale-95 shrink-0"><i
+                                class="fa-solid fa-rotate-right text-xs"></i></button>
+                    </div>
+                </div>
 
-<!-- TAMBAHAN: Filter Tahun, Bulan & Info Jumlah Event -->
-<div
-    class="flex flex-wrap md:flex-nowrap justify-between items-center gap-3 bg-[#111] p-3 md:p-4 rounded-[20px] shadow-sm border border-zinc-800">
-    <div class="flex items-center gap-2">
-        <select id="filter-jadwal-tahun" onchange="ubahFilterJadwal()"
-            class="bg-black border border-zinc-700 text-gold-500 rounded-lg px-3 py-1.5 text-xs font-bold outline-none focus:border-gold-500">
-            <option value="Semua">Semua Tahun</option>
-        </select>
-        <!-- Container Button Bulan Dinamis -->
-        <div id="filter-jadwal-bulan-container" class="flex gap-2 overflow-x-auto hide-scrollbar scroll-touch pb-1 max-w-[60vw] md:max-w-xl"></div>
-    </div>
-    <div
-        class="bg-gold-500/20 border border-gold-500/40 px-4 py-1.5 rounded-lg text-xs font-bold text-gold-400 shadow-inner">
-        Total Event: <span id="info-jumlah-event" class="text-white text-sm">0</span>
-    </div>
-</div>
-<!-- TAMPILAN TABEL JADWAL -->
-<div id="view-jadwal-list"
-    class="bg-[#111] rounded-[32px] md:rounded-[40px] shadow-2xl border border-zinc-800 overflow-hidden transition-all duration-300">
-    <div class="overflow-x-auto scroll-touch pb-4">
-        <table class="w-full text-left text-sm whitespace-nowrap min-w-[1600px]">
-            <thead class="bg-black border-b border-zinc-800 text-zinc-400">
-                <tr>
-                    <th class="px-4 py-3 text-[10px] uppercase font-bold text-gold-600">Aksi</th>
-                    <th class="px-4 py-3 text-[10px] uppercase font-bold text-gold-600">ID & Klien</th>
-                    <th class="px-4 py-3 text-[10px] uppercase font-bold text-gold-600">Judul Event (CPP & CPW)</th>
-                    <th class="px-4 py-3 text-[10px] uppercase font-bold text-gold-600">Tgl & Lokasi Akad/Resepsi</th>
-                    <th class="px-4 py-3 text-[10px] uppercase font-bold text-gold-600">Layanan & Pilihan</th>
-                    <th class="px-4 py-3 text-[10px] uppercase font-bold text-blue-400">PJ / Penanggung Jawab</th>
-                    <th class="px-4 py-3 text-[10px] uppercase font-bold text-emerald-400">Info TM (Tgl, Status, Lokasi)
-                    </th>
-                    <th class="px-4 py-3 text-[10px] uppercase font-bold text-purple-400">Kru Inti (MC, Voc, Key, Sax)
-                    </th>
-                    <th class="px-4 py-3 text-[10px] uppercase font-bold text-orange-400">Kru WO Tambahan</th>
-                    <th class="px-4 py-3 text-[10px] uppercase font-bold text-zinc-400">Keterangan</th>
-                </tr>
-            </thead>
-            <tbody id="table-jadwal-event" class="divide-y divide-zinc-800 border-b border-zinc-800"></tbody>
-        </table>
-    </div>
-</div>
+                <!-- TAMBAHAN: Filter Tahun, Bulan & Info Jumlah Event -->
+                <div
+                    class="flex flex-wrap md:flex-nowrap justify-between items-center gap-3 bg-[#111] p-3 md:p-4 rounded-[20px] shadow-sm border border-zinc-800">
+                    <div class="flex items-center gap-2">
+                        <select id="filter-jadwal-tahun" onchange="ubahFilterJadwal()"
+                            class="bg-black border border-zinc-700 text-gold-500 rounded-lg px-3 py-1.5 text-xs font-bold outline-none focus:border-gold-500">
+                            <option value="Semua">Semua Tahun</option>
+                        </select>
+                        <!-- Container Button Bulan Dinamis -->
+                        <div id="filter-jadwal-bulan-container"
+                            class="flex gap-2 overflow-x-auto hide-scrollbar scroll-touch pb-1 max-w-[60vw] md:max-w-xl">
+                        </div>
+                    </div>
+                    <div
+                        class="bg-gold-500/20 border border-gold-500/40 px-4 py-1.5 rounded-lg text-xs font-bold text-gold-400 shadow-inner">
+                        Total Event: <span id="info-jumlah-event" class="text-white text-sm">0</span>
+                    </div>
+                </div>
+                <!-- TAMPILAN TABEL JADWAL -->
+                <div id="view-jadwal-list"
+                    class="bg-[#111] rounded-[32px] md:rounded-[40px] shadow-2xl border border-zinc-800 overflow-hidden transition-all duration-300">
+                    <div class="overflow-x-auto scroll-touch pb-4">
+                        <table class="w-full text-left text-sm whitespace-nowrap min-w-[1600px]">
+                            <thead class="bg-black border-b border-zinc-800 text-zinc-400">
+                                <tr>
+                                    <th class="px-4 py-3 text-[10px] uppercase font-bold text-gold-600">Aksi</th>
+                                    <th class="px-4 py-3 text-[10px] uppercase font-bold text-gold-600">ID & Klien</th>
+                                    <th class="px-4 py-3 text-[10px] uppercase font-bold text-gold-600">Judul Event (CPP
+                                        & CPW)</th>
+                                    <th class="px-4 py-3 text-[10px] uppercase font-bold text-gold-600">Tgl & Lokasi
+                                        Akad/Resepsi</th>
+                                    <th class="px-4 py-3 text-[10px] uppercase font-bold text-gold-600">Layanan &
+                                        Pilihan</th>
+                                    <th class="px-4 py-3 text-[10px] uppercase font-bold text-blue-400">PJ / Penanggung
+                                        Jawab</th>
+                                    <th class="px-4 py-3 text-[10px] uppercase font-bold text-emerald-400">Info TM (Tgl,
+                                        Status, Lokasi)
+                                    </th>
+                                    <th class="px-4 py-3 text-[10px] uppercase font-bold text-purple-400">Kru Inti (MC,
+                                        Voc, Key, Sax)
+                                    </th>
+                                    <th class="px-4 py-3 text-[10px] uppercase font-bold text-orange-400">Kru WO
+                                        Tambahan</th>
+                                    <th class="px-4 py-3 text-[10px] uppercase font-bold text-zinc-400">Keterangan</th>
+                                </tr>
+                            </thead>
+                            <tbody id="table-jadwal-event" class="divide-y divide-zinc-800 border-b border-zinc-800">
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
 
-<!-- TAMPILAN KALENDER JADWAL -->
-<div id="view-jadwal-kalender" class="hidden space-y-4 md:space-y-6 transition-all duration-300">
-    <div class="bg-[#111] p-4 md:p-6 rounded-[32px] md:rounded-[40px] shadow-2xl border border-zinc-800">
-        <div class="flex justify-between items-center mb-4 md:mb-6 border-b border-zinc-800 pb-4">
-            <button onclick="ubahBulanJadwal(-1)"
-                class="w-10 h-10 rounded-full bg-black border border-zinc-700 text-gold-500 hover:bg-gold-500 hover:text-black flex items-center justify-center transition shadow-sm"><i
-                    class="fa-solid fa-chevron-left"></i></button>
-            <h3 id="jadwal-kalender-title" class="font-black text-lg md:text-2xl text-white tracking-widest uppercase">
-                Bulan Tahun</h3>
-            <button onclick="ubahBulanJadwal(1)"
-                class="w-10 h-10 rounded-full bg-black border border-zinc-700 text-gold-500 hover:bg-gold-500 hover:text-black flex items-center justify-center transition shadow-sm"><i
-                    class="fa-solid fa-chevron-right"></i></button>
-        </div>
-        <div class="grid grid-cols-7 gap-1 md:gap-2 text-center mb-2">
-            <div class="text-[10px] md:text-xs font-black text-red-500 py-1">Min</div>
-            <div class="text-[10px] md:text-xs font-bold text-zinc-500 py-1">Sen</div>
-            <div class="text-[10px] md:text-xs font-bold text-zinc-500 py-1">Sel</div>
-            <div class="text-[10px] md:text-xs font-bold text-zinc-500 py-1">Rab</div>
-            <div class="text-[10px] md:text-xs font-bold text-zinc-500 py-1">Kam</div>
-            <div class="text-[10px] md:text-xs font-bold text-zinc-500 py-1">Jum</div>
-            <div class="text-[10px] md:text-xs font-bold text-zinc-500 py-1">Sab</div>
-        </div>
-        <div id="jadwal-kalender-grid" class="grid grid-cols-7 gap-1 md:gap-2"></div>
-    </div>
-    <!-- Detail Tanggal Kalender -->
-    <div id="jadwal-kalender-detail-container"
-        class="hidden bg-[#111] p-4 md:p-6 rounded-[24px] shadow-2xl border border-gold-500/30 relative overflow-hidden">
-        <div class="flex justify-between items-center mb-4 border-b border-zinc-800 pb-3">
-            <h4 class="font-bold text-gold-500 text-sm md:text-base"><i class="fa-solid fa-calendar-day mr-2"></i>Jadwal
-                Event: <span id="jadwal-kalender-tgl-terpilih" class="text-white"></span></h4>
-            <button onclick="document.getElementById('jadwal-kalender-detail-container').classList.add('hidden')"
-                class="text-zinc-500 hover:text-red-500 w-6 h-6 bg-black border border-zinc-800 rounded-full"><i
-                    class="fa-solid fa-times"></i></button>
-        </div>
-        <div id="jadwal-kalender-list-acara" class="space-y-3 relative z-10"></div>
-    </div>
-</div>
-</section>
+                <!-- TAMPILAN KALENDER JADWAL -->
+                <div id="view-jadwal-kalender" class="hidden space-y-4 md:space-y-6 transition-all duration-300">
+                    <div
+                        class="bg-[#111] p-4 md:p-6 rounded-[32px] md:rounded-[40px] shadow-2xl border border-zinc-800">
+                        <div class="flex justify-between items-center mb-4 md:mb-6 border-b border-zinc-800 pb-4">
+                            <button onclick="ubahBulanJadwal(-1)"
+                                class="w-10 h-10 rounded-full bg-black border border-zinc-700 text-gold-500 hover:bg-gold-500 hover:text-black flex items-center justify-center transition shadow-sm"><i
+                                    class="fa-solid fa-chevron-left"></i></button>
+                            <h3 id="jadwal-kalender-title"
+                                class="font-black text-lg md:text-2xl text-white tracking-widest uppercase">
+                                Bulan Tahun</h3>
+                            <button onclick="ubahBulanJadwal(1)"
+                                class="w-10 h-10 rounded-full bg-black border border-zinc-700 text-gold-500 hover:bg-gold-500 hover:text-black flex items-center justify-center transition shadow-sm"><i
+                                    class="fa-solid fa-chevron-right"></i></button>
+                        </div>
+                        <div class="grid grid-cols-7 gap-1 md:gap-2 text-center mb-2">
+                            <div class="text-[10px] md:text-xs font-black text-red-500 py-1">Min</div>
+                            <div class="text-[10px] md:text-xs font-bold text-zinc-500 py-1">Sen</div>
+                            <div class="text-[10px] md:text-xs font-bold text-zinc-500 py-1">Sel</div>
+                            <div class="text-[10px] md:text-xs font-bold text-zinc-500 py-1">Rab</div>
+                            <div class="text-[10px] md:text-xs font-bold text-zinc-500 py-1">Kam</div>
+                            <div class="text-[10px] md:text-xs font-bold text-zinc-500 py-1">Jum</div>
+                            <div class="text-[10px] md:text-xs font-bold text-zinc-500 py-1">Sab</div>
+                        </div>
+                        <div id="jadwal-kalender-grid" class="grid grid-cols-7 gap-1 md:gap-2"></div>
+                    </div>
+                    <!-- Detail Tanggal Kalender -->
+                    <div id="jadwal-kalender-detail-container"
+                        class="hidden bg-[#111] p-4 md:p-6 rounded-[24px] shadow-2xl border border-gold-500/30 relative overflow-hidden">
+                        <div class="flex justify-between items-center mb-4 border-b border-zinc-800 pb-3">
+                            <h4 class="font-bold text-gold-500 text-sm md:text-base"><i
+                                    class="fa-solid fa-calendar-day mr-2"></i>Jadwal
+                                Event: <span id="jadwal-kalender-tgl-terpilih" class="text-white"></span></h4>
+                            <button
+                                onclick="document.getElementById('jadwal-kalender-detail-container').classList.add('hidden')"
+                                class="text-zinc-500 hover:text-red-500 w-6 h-6 bg-black border border-zinc-800 rounded-full"><i
+                                    class="fa-solid fa-times"></i></button>
+                        </div>
+                        <div id="jadwal-kalender-list-acara" class="space-y-3 relative z-10"></div>
+                    </div>
+                </div>
+            </section>
 
-<!-- TRANSKRIP SECTION -->
-<section id="sec-transkrip" class="hidden space-y-4 md:space-y-8">
-    <div class="bg-[#111] p-4 md:p-8 rounded-[32px] md:rounded-[40px] shadow-2xl border border-zinc-800">
+            <!-- TRANSKRIP SECTION -->
+            <section id="sec-transkrip" class="hidden space-y-4 md:space-y-8">
+                <div class="bg-[#111] p-4 md:p-8 rounded-[32px] md:rounded-[40px] shadow-2xl border border-zinc-800">
                     <div class="flex justify-between items-center mb-4 md:mb-6">
                         <div>
                             <h3 class="text-base md:text-xl font-bold text-gold-500 tracking-tight">Laporan
@@ -883,17 +963,20 @@
             <!-- PELANGGAN SECTION -->
             <section id="sec-pelanggan" class="hidden space-y-4 md:space-y-8">
                 <div class="bg-[#111] p-4 md:p-8 rounded-[32px] md:rounded-[40px] shadow-2xl border border-zinc-800">
-                    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-4 md:mb-6 gap-3">
+                    <div
+                        class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-4 md:mb-6 gap-3">
                         <div>
                             <h3 class="text-base md:text-xl font-bold text-gold-500 tracking-tight">Database Klien</h3>
-                            <p class="text-[10px] md:text-xs text-zinc-400 font-medium mt-0.5 md:mt-1">Daftar klien yang terdaftar
+                            <p class="text-[10px] md:text-xs text-zinc-400 font-medium mt-0.5 md:mt-1">Daftar klien yang
+                                terdaftar
                                 di sistem.
                             </p>
                         </div>
                         <div class="flex items-center gap-2 w-full sm:w-auto">
                             <!-- TAMBAHAN KOLOM PENCARIAN KLIEN -->
                             <div class="relative w-full sm:w-64">
-                                <i class="fa-solid fa-search absolute left-3 top-1/2 -translate-y-1/2 text-zinc-500 text-xs"></i>
+                                <i
+                                    class="fa-solid fa-search absolute left-3 top-1/2 -translate-y-1/2 text-zinc-500 text-xs"></i>
                                 <input type="text" id="search-pelanggan" onkeyup="renderGridPelanggan()"
                                     placeholder="Cari Nama / Username..."
                                     class="w-full bg-black border border-zinc-700 rounded-full px-3 py-1.5 pl-8 focus:ring-1 focus:ring-gold-500 focus:border-gold-500 outline-none text-xs text-white placeholder-zinc-600 transition-all">
@@ -911,13 +994,16 @@
             <!-- PENGATURAN SECTION -->
             <section id="sec-pengaturan" class="hidden space-y-4 md:space-y-8">
                 <div class="bg-[#111] p-4 md:p-8 rounded-[32px] md:rounded-[40px] shadow-2xl border border-zinc-800">
-                    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-4 md:mb-6 gap-4 border-b border-zinc-800 pb-4">
+                    <div
+                        class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-4 md:mb-6 gap-4 border-b border-zinc-800 pb-4">
                         <div>
-                            <h3 class="text-base md:text-xl font-bold mb-1 md:mb-2 text-gold-500 tracking-tight">Personalisasi Sistem WO</h3>
+                            <h3 class="text-base md:text-xl font-bold mb-1 md:mb-2 text-gold-500 tracking-tight">
+                                Personalisasi Sistem WO</h3>
                             <p class="text-[10px] md:text-xs text-zinc-400">Ubah tampilan dan rekening untuk Klien.</p>
                         </div>
                         <!-- Tombol dipindah ke sini dengan atribut form="form-pengaturan" -->
-                        <button type="submit" form="form-pengaturan" id="btn-save-pengaturan" class="w-full sm:w-auto bg-gradient-to-r from-gold-600 to-gold-400 text-black px-6 py-2.5 md:py-3 rounded-xl md:rounded-full font-extrabold shadow-[0_0_15px_rgba(212,175,55,0.3)] active:scale-95 text-xs md:text-sm transition-all hover:brightness-110 shrink-0">
+                        <button type="submit" form="form-pengaturan" id="btn-save-pengaturan"
+                            class="w-full sm:w-auto bg-gradient-to-r from-gold-600 to-gold-400 text-black px-6 py-2.5 md:py-3 rounded-xl md:rounded-full font-extrabold shadow-[0_0_15px_rgba(212,175,55,0.3)] active:scale-95 text-xs md:text-sm transition-all hover:brightness-110 shrink-0">
                             <i class="fa-solid fa-floppy-disk mr-2"></i> Simpan Pengaturan
                         </button>
                     </div>
@@ -1361,47 +1447,58 @@
     </div>
 
     <!-- Modal Edit Berkas Admin -->
-     <!-- MODAL EDIT JADWAL & KRU -->
-    <div id="modal-edit-jadwal" class="modal opacity-0 pointer-events-none fixed inset-0 flex items-center justify-center z-[90] transition-opacity duration-300">
+    <!-- MODAL EDIT JADWAL & KRU -->
+    <div id="modal-edit-jadwal"
+        class="modal opacity-0 pointer-events-none fixed inset-0 flex items-center justify-center z-[90] transition-opacity duration-300">
         <div class="absolute inset-0 bg-black/80 backdrop-blur-md" onclick="toggleModalEditJadwal()"></div>
-        <div class="modal-sheet bg-[#111] w-full sm:max-w-4xl mx-auto rounded-[32px] shadow-[0_0_40px_rgba(212,175,55,0.15)] z-[95] flex flex-col relative pb-safe border border-gold-500/30 max-h-[90vh]">
+        <div
+            class="modal-sheet bg-[#111] w-full sm:max-w-4xl mx-auto rounded-[32px] shadow-[0_0_40px_rgba(212,175,55,0.15)] z-[95] flex flex-col relative pb-safe border border-gold-500/30 max-h-[90vh]">
             <div class="px-5 py-4 flex justify-between items-center border-b border-zinc-800 shrink-0">
-                <h3 class="font-bold text-lg text-gold-500"><i class="fa-solid fa-clipboard-user mr-2"></i>Edit Penugasan & Jadwal</h3>
-                <button onclick="toggleModalEditJadwal()" class="bg-zinc-800 w-8 h-8 rounded-full text-zinc-300 hover:text-white"><i class="fa-solid fa-times"></i></button>
+                <h3 class="font-bold text-lg text-gold-500"><i class="fa-solid fa-clipboard-user mr-2"></i>Edit
+                    Penugasan & Jadwal</h3>
+                <button onclick="toggleModalEditJadwal()"
+                    class="bg-zinc-800 w-8 h-8 rounded-full text-zinc-300 hover:text-white"><i
+                        class="fa-solid fa-times"></i></button>
             </div>
             <div class="p-5 overflow-y-auto flex-1 space-y-5 hide-scrollbar">
                 <input type="hidden" id="ej-id-booking">
-                
+
                 <!-- Info Readonly -->
-                <div class="bg-black border border-zinc-800 p-4 rounded-xl grid grid-cols-2 md:grid-cols-4 gap-3 text-[10px] md:text-xs text-zinc-300">
-                    <div><span class="block text-zinc-500 font-bold mb-0.5">Klien:</span><span id="ej-info-klien" class="font-bold text-white">-</span></div>
-                    <div><span class="block text-zinc-500 font-bold mb-0.5">Judul Event:</span><span id="ej-info-judul" class="font-bold text-white">-</span></div>
-                    <div><span class="block text-zinc-500 font-bold mb-0.5">Paket:</span><span id="ej-info-paket" class="font-bold text-gold-400">-</span></div>
-                    <div><span class="block text-zinc-500 font-bold mb-0.5">Tgl Akad/Resepsi:</span><span id="ej-info-tgl" class="font-bold text-white">-</span></div>
+                <div
+                    class="bg-black border border-zinc-800 p-4 rounded-xl grid grid-cols-2 md:grid-cols-4 gap-3 text-[10px] md:text-xs text-zinc-300">
+                    <div><span class="block text-zinc-500 font-bold mb-0.5">Klien:</span><span id="ej-info-klien"
+                            class="font-bold text-white">-</span></div>
+                    <div><span class="block text-zinc-500 font-bold mb-0.5">Judul Event:</span><span id="ej-info-judul"
+                            class="font-bold text-white">-</span></div>
+                    <div><span class="block text-zinc-500 font-bold mb-0.5">Paket:</span><span id="ej-info-paket"
+                            class="font-bold text-gold-400">-</span></div>
+                    <div><span class="block text-zinc-500 font-bold mb-0.5">Tgl Akad/Resepsi:</span><span
+                            id="ej-info-tgl" class="font-bold text-white">-</span></div>
                 </div>
 
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-4 border-t border-zinc-800 pt-4">
                     <!-- Kolom Kiri: TM & PJ -->
                     <div class="space-y-4">
-                        <div><label class="block text-xs font-bold text-gold-500 mb-1">Penanggung Jawab (PJ)</label><input type="text"
-                                id="ej-pj" placeholder="Nama PJ Utama"
+                        <div><label class="block text-xs font-bold text-gold-500 mb-1">Penanggung Jawab
+                                (PJ)</label><input type="text" id="ej-pj" placeholder="Nama PJ Utama"
                                 class="w-full bg-black border border-zinc-700 rounded-lg px-3 py-2 text-white text-xs outline-none focus:border-gold-500">
                         </div>
                         <div class="bg-blue-900/10 border border-blue-500/20 p-3 rounded-xl space-y-3">
-                            <h4 class="font-bold text-blue-400 text-xs border-b border-blue-500/20 pb-1">Info Technical Meeting (TM)
+                            <h4 class="font-bold text-blue-400 text-xs border-b border-blue-500/20 pb-1">Info Technical
+                                Meeting (TM)
                             </h4>
                             <div class="grid grid-cols-2 gap-2">
-                                <div><label class="block text-[10px] font-bold text-zinc-400 mb-1">Tanggal TM</label><input type="date"
-                                        id="ej-tgl-tm"
+                                <div><label class="block text-[10px] font-bold text-zinc-400 mb-1">Tanggal
+                                        TM</label><input type="date" id="ej-tgl-tm"
                                         class="w-full bg-black border border-zinc-700 rounded-lg px-2 py-1.5 text-white text-xs outline-none focus:border-blue-500">
                                 </div>
-                                <div><label class="block text-[10px] font-bold text-zinc-400 mb-1">Waktu TM</label><input type="time"
-                                        id="ej-wkt-tm"
+                                <div><label class="block text-[10px] font-bold text-zinc-400 mb-1">Waktu
+                                        TM</label><input type="time" id="ej-wkt-tm"
                                         class="w-full bg-black border border-zinc-700 rounded-lg px-2 py-1.5 text-white text-xs outline-none focus:border-blue-500">
                                 </div>
                             </div>
-                            <div><label class="block text-[10px] font-bold text-zinc-400 mb-1">Lokasi TM</label><textarea
-                                    id="ej-lokasi-tm" rows="2"
+                            <div><label class="block text-[10px] font-bold text-zinc-400 mb-1">Lokasi
+                                    TM</label><textarea id="ej-lokasi-tm" rows="2"
                                     class="w-full bg-black border border-zinc-700 text-white text-xs rounded-lg px-3 py-1.5 outline-none resize-none focus:border-blue-500"
                                     placeholder="Ketik lokasi TM..."></textarea></div>
                             <div><label class="block text-[10px] font-bold text-zinc-400 mb-1">Status TM</label><select
@@ -1412,14 +1509,27 @@
                                 </select></div>
                         </div>
                     </div>
-                
+
                     <!-- Kolom Tengah: Kru Utama -->
                     <div class="space-y-3 bg-purple-900/10 border border-purple-500/20 p-3 rounded-xl">
-                        <h4 class="font-bold text-purple-400 text-xs border-b border-purple-500/20 pb-1">Kru Utama (Talent)</h4>
-                        <div><label class="block text-[10px] font-bold text-zinc-400 mb-1">MC Acara</label><select id="ej-mc" class="sel-master w-full bg-black border border-zinc-700 rounded-lg px-3 py-1.5 text-white text-xs"></select></div>
-                        <div><label class="block text-[10px] font-bold text-zinc-400 mb-1">Vocal</label><select id="ej-vocal" class="sel-master w-full bg-black border border-zinc-700 rounded-lg px-3 py-1.5 text-white text-xs"></select></div>
-                        <div><label class="block text-[10px] font-bold text-zinc-400 mb-1">Keyboard</label><select id="ej-keyboard" class="sel-master w-full bg-black border border-zinc-700 rounded-lg px-3 py-1.5 text-white text-xs"></select></div>
-                        <div><label class="block text-[10px] font-bold text-zinc-400 mb-1">Saxophone</label><select id="ej-sexo" class="sel-master w-full bg-black border border-zinc-700 rounded-lg px-3 py-1.5 text-white text-xs"></select></div>
+                        <h4 class="font-bold text-purple-400 text-xs border-b border-purple-500/20 pb-1">Kru Utama
+                            (Talent)</h4>
+                        <div><label class="block text-[10px] font-bold text-zinc-400 mb-1">MC Acara</label><select
+                                id="ej-mc"
+                                class="sel-master w-full bg-black border border-zinc-700 rounded-lg px-3 py-1.5 text-white text-xs"></select>
+                        </div>
+                        <div><label class="block text-[10px] font-bold text-zinc-400 mb-1">Vocal</label><select
+                                id="ej-vocal"
+                                class="sel-master w-full bg-black border border-zinc-700 rounded-lg px-3 py-1.5 text-white text-xs"></select>
+                        </div>
+                        <div><label class="block text-[10px] font-bold text-zinc-400 mb-1">Keyboard</label><select
+                                id="ej-keyboard"
+                                class="sel-master w-full bg-black border border-zinc-700 rounded-lg px-3 py-1.5 text-white text-xs"></select>
+                        </div>
+                        <div><label class="block text-[10px] font-bold text-zinc-400 mb-1">Saxophone</label><select
+                                id="ej-sexo"
+                                class="sel-master w-full bg-black border border-zinc-700 rounded-lg px-3 py-1.5 text-white text-xs"></select>
+                        </div>
                     </div>
 
                     <!-- Kolom Kanan: WO & Ket -->
@@ -1427,33 +1537,47 @@
                         <div class="bg-orange-900/10 border border-orange-500/20 p-3 rounded-xl">
                             <div class="flex justify-between items-center border-b border-orange-500/20 pb-1 mb-2">
                                 <h4 class="font-bold text-orange-400 text-xs">Kru WO</h4>
-                                <button onclick="tambahBarisWO()" class="text-[9px] bg-orange-600 hover:bg-orange-500 text-white px-2 py-0.5 rounded font-bold transition"><i class="fa-solid fa-plus"></i> Tambah</button>
+                                <button onclick="tambahBarisWO()"
+                                    class="text-[9px] bg-orange-600 hover:bg-orange-500 text-white px-2 py-0.5 rounded font-bold transition"><i
+                                        class="fa-solid fa-plus"></i> Tambah</button>
                             </div>
                             <div id="ej-container-wo" class="space-y-2 max-h-40 overflow-y-auto hide-scrollbar"></div>
                         </div>
-                        <div><label class="block text-xs font-bold text-zinc-400 mb-1">Keterangan Khusus</label><textarea id="ej-keterangan" rows="2" class="w-full bg-black border border-zinc-700 rounded-lg px-3 py-2 text-white text-xs outline-none focus:border-gold-500 resize-none"></textarea></div>
+                        <div><label class="block text-xs font-bold text-zinc-400 mb-1">Keterangan
+                                Khusus</label><textarea id="ej-keterangan" rows="2"
+                                class="w-full bg-black border border-zinc-700 rounded-lg px-3 py-2 text-white text-xs outline-none focus:border-gold-500 resize-none"></textarea>
+                        </div>
                     </div>
                 </div>
             </div>
             <div class="p-4 border-t border-zinc-800 flex justify-end gap-3 shrink-0">
-                <button onclick="toggleModalEditJadwal()" class="bg-zinc-800 text-zinc-300 px-5 py-2.5 rounded-xl font-bold hover:bg-zinc-700 text-sm">Batal</button>
-                <button onclick="simpanJadwalEvent()" class="bg-gold-500 text-black px-6 py-2.5 rounded-xl font-extrabold shadow-lg hover:bg-gold-400 text-sm"><i class="fa-solid fa-save mr-1"></i> Simpan Penugasan</button>
+                <button onclick="toggleModalEditJadwal()"
+                    class="bg-zinc-800 text-zinc-300 px-5 py-2.5 rounded-xl font-bold hover:bg-zinc-700 text-sm">Batal</button>
+                <button onclick="simpanJadwalEvent()"
+                    class="bg-gold-500 text-black px-6 py-2.5 rounded-xl font-extrabold shadow-lg hover:bg-gold-400 text-sm"><i
+                        class="fa-solid fa-save mr-1"></i> Simpan Penugasan</button>
             </div>
         </div>
     </div>
 
     <!-- MODAL MASTER DATA KRU -->
-    <div id="modal-master-kru" class="modal opacity-0 pointer-events-none fixed inset-0 flex items-center justify-center z-[100] transition-opacity duration-300">
+    <div id="modal-master-kru"
+        class="modal opacity-0 pointer-events-none fixed inset-0 flex items-center justify-center z-[100] transition-opacity duration-300">
         <div class="absolute inset-0 bg-black/80 backdrop-blur-md" onclick="bukaModalMasterKru()"></div>
-        <div class="modal-sheet bg-[#111] w-full sm:max-w-md mx-auto rounded-[32px] shadow-[0_0_40px_rgba(212,175,55,0.15)] z-[105] flex flex-col relative p-5 border border-indigo-500/30 max-h-[85vh]">
+        <div
+            class="modal-sheet bg-[#111] w-full sm:max-w-md mx-auto rounded-[32px] shadow-[0_0_40px_rgba(212,175,55,0.15)] z-[105] flex flex-col relative p-5 border border-indigo-500/30 max-h-[85vh]">
             <div class="flex justify-between items-center border-b border-zinc-800 pb-3 mb-4">
-                <h3 class="font-bold text-lg text-indigo-400"><i class="fa-solid fa-database mr-2"></i>Master Data Kru</h3>
-                <button onclick="bukaModalMasterKru()" class="bg-zinc-800 w-8 h-8 rounded-full text-zinc-300 hover:text-white"><i class="fa-solid fa-times"></i></button>
+                <h3 class="font-bold text-lg text-indigo-400"><i class="fa-solid fa-database mr-2"></i>Master Data Kru
+                </h3>
+                <button onclick="bukaModalMasterKru()"
+                    class="bg-zinc-800 w-8 h-8 rounded-full text-zinc-300 hover:text-white"><i
+                        class="fa-solid fa-times"></i></button>
             </div>
-            
+
             <div class="mb-4">
                 <label class="block text-xs font-bold text-zinc-400 mb-1">Pilih Kategori Kru:</label>
-                <select id="mk-kategori" onchange="renderMasterKruList()" class="w-full bg-black border border-zinc-700 rounded-lg px-3 py-2 text-white text-sm outline-none focus:border-indigo-500">
+                <select id="mk-kategori" onchange="renderMasterKruList()"
+                    class="w-full bg-black border border-zinc-700 rounded-lg px-3 py-2 text-white text-sm outline-none focus:border-indigo-500">
                     <option value="mc">MC Acara</option>
                     <option value="vocal">Vocalist</option>
                     <option value="keyboard">Keyboardist</option>
@@ -1462,12 +1586,17 @@
                 </select>
             </div>
 
-           <div class="flex gap-2 mb-4">
-                <textarea id="mk-nama-baru" rows="2" placeholder="Cth: Andi, Budi, Citra (Pisahkan dengan koma jika lebih dari 1)" class="flex-1 bg-black border border-zinc-700 rounded-lg px-3 py-2 text-white text-sm outline-none focus:border-indigo-500 resize-none"></textarea>
-                <button id="btn-add-kru" onclick="tambahMasterKru()" class="bg-indigo-600 hover:bg-indigo-500 text-white px-4 py-2 rounded-lg font-bold text-sm shadow-md transition flex items-center justify-center h-auto min-w-[50px]"><i class="fa-solid fa-plus"></i></button>
+            <div class="flex gap-2 mb-4">
+                <textarea id="mk-nama-baru" rows="2"
+                    placeholder="Cth: Andi, Budi, Citra (Pisahkan dengan koma jika lebih dari 1)"
+                    class="flex-1 bg-black border border-zinc-700 rounded-lg px-3 py-2 text-white text-sm outline-none focus:border-indigo-500 resize-none"></textarea>
+                <button id="btn-add-kru" onclick="tambahMasterKru()"
+                    class="bg-indigo-600 hover:bg-indigo-500 text-white px-4 py-2 rounded-lg font-bold text-sm shadow-md transition flex items-center justify-center h-auto min-w-[50px]"><i
+                        class="fa-solid fa-plus"></i></button>
             </div>
 
-            <div class="flex-1 overflow-y-auto hide-scrollbar bg-black border border-zinc-800 rounded-xl p-2 min-h-[200px]">
+            <div
+                class="flex-1 overflow-y-auto hide-scrollbar bg-black border border-zinc-800 rounded-xl p-2 min-h-[200px]">
                 <ul id="mk-list" class="space-y-1"></ul>
             </div>
         </div>
@@ -1481,12 +1610,17 @@
             <div class="w-12 h-1.5 bg-zinc-700 mx-auto rounded-full mt-3 sm:hidden shrink-0"></div>
             <div class="px-5 sm:px-6 py-4 flex justify-between items-center shrink-0 border-b border-zinc-800">
                 <div>
-                    <h3 class="font-bold text-lg sm:text-xl text-gold-500 tracking-tight"><i class="fa-solid fa-folder-open mr-2"></i>Data Pemberkasan Klien</h3>
+                    <h3 class="font-bold text-lg sm:text-xl text-gold-500 tracking-tight"><i
+                            class="fa-solid fa-folder-open mr-2"></i>Data Pemberkasan Klien</h3>
                     <p id="ab-id-title" class="text-[10px] md:text-xs text-zinc-400 font-mono mt-0.5">ID: -</p>
                 </div>
                 <div class="flex items-center gap-2">
-                    <button type="button" onclick="cetakBerkasAdmin()" title="Cetak Berkas" class="bg-gold-500/20 hover:bg-gold-500 text-gold-500 hover:text-black w-8 h-8 rounded-full flex items-center justify-center transition-colors shadow-sm shrink-0"><i class="fa-solid fa-print"></i></button>
-                    <button type="button" onclick="toggleModalEditBerkas()" title="Tutup" class="bg-zinc-800 hover:bg-zinc-700 text-zinc-300 w-8 h-8 rounded-full flex items-center justify-center transition-colors shrink-0"><i class="fa-solid fa-times"></i></button>
+                    <button type="button" onclick="cetakBerkasAdmin()" title="Cetak Berkas"
+                        class="bg-gold-500/20 hover:bg-gold-500 text-gold-500 hover:text-black w-8 h-8 rounded-full flex items-center justify-center transition-colors shadow-sm shrink-0"><i
+                            class="fa-solid fa-print"></i></button>
+                    <button type="button" onclick="toggleModalEditBerkas()" title="Tutup"
+                        class="bg-zinc-800 hover:bg-zinc-700 text-zinc-300 w-8 h-8 rounded-full flex items-center justify-center transition-colors shrink-0"><i
+                            class="fa-solid fa-times"></i></button>
                 </div>
             </div>
 
@@ -1553,18 +1687,23 @@
                     </div>
 
                     <div class="md:col-span-2 border-t border-zinc-800 pt-4 mt-2">
-                    <label class="flex items-center gap-2 cursor-pointer w-max mb-3">
-                        <input type="checkbox" id="ab-is-upgrade" class="w-4 h-4 accent-gold-500 rounded bg-black border-zinc-700" onchange="toggleAbUpgradeArea()">
-                        <span class="font-bold text-blue-400 text-sm">Ada Upgrade / Tambahan Paket?</span>
-                    </label>
-                    <div id="area-ab-upgrade-paket" class="hidden bg-blue-900/10 border border-blue-500/20 p-4 rounded-xl space-y-3">
-                        <div class="flex justify-between items-center mb-1">
-                            <h5 class="font-bold text-white text-xs">Rincian Tambahan / Upgrade</h5>
-                            <button type="button" onclick="addAbUpgradeRow()" class="bg-blue-600 hover:bg-blue-500 text-white px-3 py-1 rounded text-[10px] font-bold shadow-sm transition"><i class="fa-solid fa-plus"></i> Tambah Item</button>
+                        <label class="flex items-center gap-2 cursor-pointer w-max mb-3">
+                            <input type="checkbox" id="ab-is-upgrade"
+                                class="w-4 h-4 accent-gold-500 rounded bg-black border-zinc-700"
+                                onchange="toggleAbUpgradeArea()">
+                            <span class="font-bold text-blue-400 text-sm">Ada Upgrade / Tambahan Paket?</span>
+                        </label>
+                        <div id="area-ab-upgrade-paket"
+                            class="hidden bg-blue-900/10 border border-blue-500/20 p-4 rounded-xl space-y-3">
+                            <div class="flex justify-between items-center mb-1">
+                                <h5 class="font-bold text-white text-xs">Rincian Tambahan / Upgrade</h5>
+                                <button type="button" onclick="addAbUpgradeRow()"
+                                    class="bg-blue-600 hover:bg-blue-500 text-white px-3 py-1 rounded text-[10px] font-bold shadow-sm transition"><i
+                                        class="fa-solid fa-plus"></i> Tambah Item</button>
+                            </div>
+                            <div id="list-ab-upgrade-paket" class="space-y-2"></div>
                         </div>
-                        <div id="list-ab-upgrade-paket" class="space-y-2"></div>
                     </div>
-                </div>
                     <div><label class="block font-bold text-zinc-400 mb-1 text-xs">Paket Pesanan</label><input
                             id="ab-pesanan" type="text"
                             class="w-full bg-black border border-zinc-700 rounded-xl px-4 py-2.5 text-white text-sm focus:border-gold-500 outline-none">
@@ -1798,7 +1937,7 @@
 
                 updateProgress(50, 'Menarik Database Layanan...');
                 await fetchProduk(true, true);
-                
+
                 // Di bawah fetchProduk atau dimana saja yang sesuai
                 updateProgress(55, 'Memuat Data HNP...');
                 await fetchCatatanHNP(true, true);
@@ -1867,7 +2006,7 @@
         }
 
         function switchTab(tab) {
-           const sections = ['dashboard', 'produk', 'penjualan', 'transkrip', 'pelanggan', 'pengaturan', 'vendor', 'jadwal', 'hnp'];
+            const sections = ['dashboard', 'produk', 'penjualan', 'transkrip', 'pelanggan', 'pengaturan', 'vendor', 'jadwal', 'hnp'];
 
             sections.forEach(n => {
                 document.getElementById(`sec-${n}`).classList.add('hidden');
@@ -1917,7 +2056,7 @@
                 fetchPenjualan(true, true),
                 fetchPelanggan(true, true),
                 fetchCatatanHNP(true, true) // <--- TAMBAHKAN BARIS INI
-                
+
             ]);
 
             if (syncIcon) syncIcon.classList.remove('fa-spin');
@@ -2464,13 +2603,13 @@
                 const data = await resPenjualan.json();
                 const dataBerkas = await resBerkas.json();
 
-                if (data.status === 'success') { 
-                    globalPenjualan = data.data.reverse(); 
-                    if(dataBerkas.status === 'success') globalBerkas = dataBerkas.data;
-                    dataLoaded.penjualan = true; 
+                if (data.status === 'success') {
+                    globalPenjualan = data.data.reverse();
+                    if (dataBerkas.status === 'success') globalBerkas = dataBerkas.data;
+                    dataLoaded.penjualan = true;
                     renderFilterBulan(); renderTabelPenjualan(activeBulanFilter); renderGridTranskrip(); renderKalender();
                 }
-            } catch (err) {} 
+            } catch (err) { }
             if (!silent) showLoading(false);
         }
 
@@ -2524,9 +2663,9 @@
 
                     let badgeColor = statusAcara === 'Diproses' || statusAcara === 'Diskusi Lanjutan' ? "bg-blue-900/30 border border-blue-500/20 text-blue-400" : (statusAcara === 'Selesai' ? "bg-emerald-900/30 border border-emerald-500/20 text-emerald-400" : (statusAcara === 'Dibatalkan' ? "bg-red-900/30 border border-red-500/20 text-red-400" : "bg-orange-900/30 border border-orange-500/20 text-orange-400"));
                     const bayarBadge = isDP ? "bg-purple-900/30 text-purple-400 border border-purple-500/20" : "bg-emerald-900/30 text-emerald-400 border border-emerald-500/20";
-                    
+
                     let varDetailHtml = "";
-                    try { const varObj = JSON.parse(p['Detail Pilihan'] || p['Varian Detail']); if (Array.isArray(varObj)) { varDetailHtml = `<div class="flex flex-wrap gap-1 mt-1">` + varObj.map(v => `<span class="bg-zinc-800 text-zinc-300 border border-zinc-700 px-1.5 py-0.5 rounded text-[8px] md:text-[9px] font-bold whitespace-nowrap">${v.opsi1||v.ukuran}-${v.opsi2||v.lengan}(${v.jumlah})</span>`).join('') + `</div>`; } else if (varObj.opsi1 || varObj.ukuran) { varDetailHtml = `<span class="bg-zinc-800 text-zinc-300 border border-zinc-700 px-1.5 py-0.5 rounded text-[8px] md:text-[9px] font-bold block mt-1 w-max">${varObj.opsi1||varObj.ukuran} - ${varObj.opsi2||varObj.lengan}</span>`; } } catch(e){}
+                    try { const varObj = JSON.parse(p['Detail Pilihan'] || p['Varian Detail']); if (Array.isArray(varObj)) { varDetailHtml = `<div class="flex flex-wrap gap-1 mt-1">` + varObj.map(v => `<span class="bg-zinc-800 text-zinc-300 border border-zinc-700 px-1.5 py-0.5 rounded text-[8px] md:text-[9px] font-bold whitespace-nowrap">${v.opsi1 || v.ukuran}-${v.opsi2 || v.lengan}(${v.jumlah})</span>`).join('') + `</div>`; } else if (varObj.opsi1 || varObj.ukuran) { varDetailHtml = `<span class="bg-zinc-800 text-zinc-300 border border-zinc-700 px-1.5 py-0.5 rounded text-[8px] md:text-[9px] font-bold block mt-1 w-max">${varObj.opsi1 || varObj.ukuran} - ${varObj.opsi2 || varObj.lengan}</span>`; } } catch (e) { }
 
                     // Upgrade Badge
                     const berkas = globalBerkas.find(b => b['ID Booking'] === idTrx);
@@ -2541,7 +2680,7 @@
                     if (p['Bukti Pembayaran'] && p['Bukti Pembayaran'] !== "Bayar Cash" && p['Bukti Pembayaran'] !== "Bayar Cash di Kantor" && p['Bukti Pembayaran'] !== "-") {
                         bukti1 = `<button onclick="bukaBuktiModal('${p['Bukti Pembayaran']}')" class="bg-zinc-800 text-gold-500 hover:bg-gold-500 hover:text-black border border-gold-500/30 px-2 md:px-3 py-1 md:py-1.5 rounded-lg md:rounded-xl text-[9px] md:text-[10px] font-bold transition-colors"><i class="fa-solid fa-image"></i> Awal</button>`;
                     }
-                    
+
                     let bukti2 = `<span class="text-[9px] md:text-[10px] text-zinc-700">-</span>`;
                     if (isDP) { if (p['Bukti Pelunasan'] && p['Bukti Pelunasan'].startsWith('http')) { bukti2 = `<button onclick="bukaBuktiModal('${p['Bukti Pelunasan']}')" class="bg-emerald-900/30 text-emerald-400 border border-emerald-500/20 hover:bg-emerald-600 hover:text-white px-2 md:px-3 py-1 md:py-1.5 rounded-lg md:rounded-xl text-[9px] md:text-[10px] font-bold transition-colors"><i class="fa-solid fa-image"></i> Lunas</button>`; } else { bukti2 = `<span class="text-[8px] md:text-[9px] text-orange-400 font-bold bg-orange-900/30 border border-orange-500/20 px-1.5 md:px-2 py-0.5 md:py-1 rounded">Pending</span>`; } }
 
@@ -2553,7 +2692,7 @@
                         <td class="px-3 md:px-5 py-2.5 md:py-3 cursor-pointer" onclick="bukaDetailPesananModal('${idTrx}')"><span class="font-mono font-bold text-gold-500 block text-[10px] md:text-[11px]">${idTrx}</span><span class="text-[9px] md:text-[10px] text-zinc-300 block mt-0.5 md:mt-1 truncate max-w-[100px] md:max-w-[150px]"><i class="fa-regular fa-user text-zinc-500"></i> ${clientNm || '-'}</span><span class="text-[8px] md:text-[9px] text-zinc-600 block mt-0.5">${p.Tanggal.split(' ')[0]}</span></td>
                         <td class="px-3 md:px-5 py-2.5 md:py-3 cursor-pointer" onclick="bukaDetailPesananModal('${idTrx}')"><p class="font-bold text-white text-[10px] md:text-[11px] w-28 md:w-40 truncate" title="${nmPkt}">${nmPkt} ${upgradeBadge}</p>${varDetailHtml}</td>
                         <td class="px-3 md:px-5 py-2.5 md:py-3 cursor-pointer" onclick="bukaDetailPesananModal('${idTrx}')"><p class="text-gold-400 font-extrabold text-[10px] md:text-[11px] mt-0.5 md:mt-1">${hargaTampil}</p><p class="text-[8px] md:text-[9px] text-zinc-500 font-normal mt-0.5">${qtyP} Pax/Item</p></td>
-                        <td class="px-3 md:px-5 py-2.5 md:py-3 text-center"><span class="px-1.5 md:px-2 py-0.5 md:py-1 rounded text-[8px] md:text-[9px] font-bold uppercase bg-zinc-800 text-zinc-300 block mb-0.5 md:mb-1 border border-zinc-700">${metodeDisplay1List}</span><span class="px-1.5 md:px-2 py-0.5 md:py-1 rounded text-[8px] md:text-[9px] font-bold uppercase ${bayarBadge} block mb-1" title="${p['Detail DP']||''}">${p['Tipe Pembayaran']}</span>${fileDesign}</td>
+                        <td class="px-3 md:px-5 py-2.5 md:py-3 text-center"><span class="px-1.5 md:px-2 py-0.5 md:py-1 rounded text-[8px] md:text-[9px] font-bold uppercase bg-zinc-800 text-zinc-300 block mb-0.5 md:mb-1 border border-zinc-700">${metodeDisplay1List}</span><span class="px-1.5 md:px-2 py-0.5 md:py-1 rounded text-[8px] md:text-[9px] font-bold uppercase ${bayarBadge} block mb-1" title="${p['Detail DP'] || ''}">${p['Tipe Pembayaran']}</span>${fileDesign}</td>
                         <td class="px-3 md:px-5 py-2.5 md:py-3 text-center" onclick="event.stopPropagation()">
                             <select onchange="updateDBStatus('${idTrx}', 'pembayaran', this.value)" class="w-full min-w-[90px] bg-black border border-zinc-700 text-gold-500 text-[9px] md:text-[10px] font-bold rounded px-1 py-1.5 outline-none text-center cursor-pointer mb-1 focus:border-gold-500"><option value="${statBayarList}" hidden selected>${statBayarList || 'Status'}</option><option value="Belum Bayar">Belum Bayar</option><option value="Belum DP (Cash)">Belum DP (Cash)</option><option value="Sudah DP (QRIS)">Sudah DP (QRIS)</option><option value="Sudah DP (Cash)">Sudah DP (Cash)</option><option value="Lunas (QRIS)">Lunas (QRIS)</option><option value="Lunas (Cash)">Lunas (Cash)</option></select>
                             <div class="flex justify-center gap-1 mt-1">${bukti1} ${bukti2}</div>
@@ -2571,7 +2710,8 @@
         function toggleAbUpgradeArea() {
             const isChecked = document.getElementById('ab-is-upgrade').checked;
             const area = document.getElementById('area-ab-upgrade-paket');
-            if (isChecked) { area.classList.remove('hidden'); if(document.getElementById('list-ab-upgrade-paket').children.length === 0) addAbUpgradeRow();
+            if (isChecked) {
+                area.classList.remove('hidden'); if (document.getElementById('list-ab-upgrade-paket').children.length === 0) addAbUpgradeRow();
             } else { area.classList.add('hidden'); }
         }
 
@@ -2889,8 +3029,8 @@
                         <div class="overflow-hidden"><h4 class="font-bold text-white text-xs md:text-sm truncate">${p['Nama Lengkap']}</h4><p class="text-[9px] md:text-[10px] text-gold-600 truncate">@${p.Username}</p></div>
                     </div>
                 `).join('');
-            } else { 
-                grid.innerHTML = `<div class="col-span-full py-10 md:py-12 text-center text-zinc-600 text-xs md:text-sm">Klien tidak ditemukan.</div>`; 
+            } else {
+                grid.innerHTML = `<div class="col-span-full py-10 md:py-12 text-center text-zinc-600 text-xs md:text-sm">Klien tidak ditemukan.</div>`;
             }
         }
 
@@ -2950,7 +3090,7 @@
         }
 
         function bukaDetailPesananModal(idTrx) {
-            const trx = globalPenjualan.find(p => (p['ID Booking']||p['ID Transaksi']) === idTrx); if (!trx) return;
+            const trx = globalPenjualan.find(p => (p['ID Booking'] || p['ID Transaksi']) === idTrx); if (!trx) return;
             const content = document.getElementById('content-detail-pesanan'); currentTrxPrint = trx;
 
             const berkas = globalBerkas.find(b => b['ID Booking'] === idTrx); let berkasHtml = ''; let upgradeRincianHtml = '';
@@ -2961,11 +3101,11 @@
                     <div class="absolute top-0 right-0 w-20 h-20 bg-gold-600/10 blur-xl rounded-full pointer-events-none"></div>
                     <h5 class="font-bold text-gold-500 text-xs md:text-sm mb-2 border-b border-zinc-800 pb-2"><i class="fa-solid fa-folder-open mr-1"></i> Data Pemberkasan Klien</h5>
                     <div class="grid grid-cols-2 gap-2 text-[10px] md:text-[11px] mb-2">
-                        <div><span class="text-zinc-500 block">CPP:</span><span class="font-bold text-white">${berkas['Nama CPP']||'-'}</span></div>
-                        <div><span class="text-zinc-500 block">CPW:</span><span class="font-bold text-white">${berkas['Nama CPW']||'-'}</span></div>
-                        <div><span class="text-zinc-500 block">Tgl Akad:</span><span class="font-bold text-zinc-300">${berkas['Tgl Akad'] ? String(berkas['Tgl Akad']).split('T')[0] : '-'} (${berkas['Waktu Akad']||'-'})</span></div>
-                        <div><span class="text-zinc-500 block">Tgl Resepsi:</span><span class="font-bold text-zinc-300">${berkas['Tgl Resepsi'] ? String(berkas['Tgl Resepsi']).split('T')[0] : '-'} (${berkas['Waktu Resepsi']||'-'})</span></div>
-                        <div class="col-span-2"><span class="text-zinc-500 block">Konsep & Tema:</span><span class="font-medium text-zinc-300">${berkas['Konsep Pernikahan']||'-'}</span></div>
+                        <div><span class="text-zinc-500 block">CPP:</span><span class="font-bold text-white">${berkas['Nama CPP'] || '-'}</span></div>
+                        <div><span class="text-zinc-500 block">CPW:</span><span class="font-bold text-white">${berkas['Nama CPW'] || '-'}</span></div>
+                        <div><span class="text-zinc-500 block">Tgl Akad:</span><span class="font-bold text-zinc-300">${berkas['Tgl Akad'] ? String(berkas['Tgl Akad']).split('T')[0] : '-'} (${berkas['Waktu Akad'] || '-'})</span></div>
+                        <div><span class="text-zinc-500 block">Tgl Resepsi:</span><span class="font-bold text-zinc-300">${berkas['Tgl Resepsi'] ? String(berkas['Tgl Resepsi']).split('T')[0] : '-'} (${berkas['Waktu Resepsi'] || '-'})</span></div>
+                        <div class="col-span-2"><span class="text-zinc-500 block">Konsep & Tema:</span><span class="font-medium text-zinc-300">${berkas['Konsep Pernikahan'] || '-'}</span></div>
                     </div>
                     ${fileLampiran}
                 </div>`;
@@ -2973,28 +3113,28 @@
                 if (berkas['Data Upgrade'] && berkas['Data Upgrade'] !== '[]' && berkas['Data Upgrade'] !== '') {
                     try {
                         let upgArr = JSON.parse(berkas['Data Upgrade']);
-                        if(upgArr.length > 0) {
+                        if (upgArr.length > 0) {
                             upgradeRincianHtml = `<div class="mt-3 pt-3 border-t border-zinc-800"><p class="text-[10px] font-bold text-blue-400 mb-1"><i class="fa-solid fa-arrow-up-right-dots"></i> Rincian Upgrade Tambahan:</p><ul class="list-disc list-inside text-xs text-zinc-300 space-y-1">`;
                             upgArr.forEach(u => { let sub = parseInt(u.jumlah) * parseInt(u.harga); upgradeRincianHtml += `<li><span class="font-medium">${u.nama}</span> (x${u.jumlah}) - <span class="text-gold-400 font-semibold">${formatRp(sub)}</span></li>`; });
                             upgradeRincianHtml += `</ul></div>`;
                         }
-                    } catch(e){}
+                    } catch (e) { }
                 }
             }
 
             let bukti1HTML = `<div class="text-center text-[9px] md:text-[10px] text-zinc-500 bg-zinc-900 border border-zinc-800 py-1.5 md:py-2 rounded-lg mb-2">Cash di Kantor</div>`;
             if (trx['Bukti Pembayaran'] && trx['Bukti Pembayaran'] !== "Bayar Cash" && trx['Bukti Pembayaran'] !== "Bayar Cash di Kantor" && trx['Bukti Pembayaran'] !== "-") bukti1HTML = `<button type="button" onclick="bukaBuktiModal('${trx['Bukti Pembayaran']}')" class="w-full bg-gold-500/10 text-gold-500 border border-gold-500/20 font-bold py-2 md:py-2.5 rounded-lg text-[10px] md:text-[11px] mb-2 hover:bg-gold-500 hover:text-black transition-colors"><i class="fa-solid fa-image"></i> Struk Utama/DP</button>`;
-            
+
             let bukti2HTML = "";
             if (trx['Tipe Pembayaran'] === 'DP') {
-               if (trx['Bukti Pelunasan'] && trx['Bukti Pelunasan'].startsWith("http")) bukti2HTML = `<button type="button" onclick="bukaBuktiModal('${trx['Bukti Pelunasan']}')" class="w-full bg-emerald-900/30 text-emerald-400 border border-emerald-500/20 font-bold py-2 md:py-2.5 rounded-lg text-[10px] md:text-[11px] hover:bg-emerald-600 hover:text-white transition-colors"><i class="fa-solid fa-image"></i> Struk Pelunasan</button>`;
-               else bukti2HTML = `<div class="text-center text-[9px] md:text-[10px] text-orange-400 bg-orange-900/30 border border-orange-500/20 py-1.5 md:py-2 rounded-lg font-bold">Belum ada struk pelunasan</div>`;
+                if (trx['Bukti Pelunasan'] && trx['Bukti Pelunasan'].startsWith("http")) bukti2HTML = `<button type="button" onclick="bukaBuktiModal('${trx['Bukti Pelunasan']}')" class="w-full bg-emerald-900/30 text-emerald-400 border border-emerald-500/20 font-bold py-2 md:py-2.5 rounded-lg text-[10px] md:text-[11px] hover:bg-emerald-600 hover:text-white transition-colors"><i class="fa-solid fa-image"></i> Struk Pelunasan</button>`;
+                else bukti2HTML = `<div class="text-center text-[9px] md:text-[10px] text-orange-400 bg-orange-900/30 border border-orange-500/20 py-1.5 md:py-2 rounded-lg font-bold">Belum ada struk pelunasan</div>`;
             }
-            
+
             let statAcara = trx['Status Acara'] || trx.Status; let statusColor = statAcara === 'Diproses' || statAcara === 'Diskusi Lanjutan' ? 'bg-blue-900/30 text-blue-400 border-blue-500/20' : (statAcara === 'Selesai' ? 'bg-emerald-900/30 text-emerald-400 border-emerald-500/20' : (statAcara === 'Dibatalkan' ? 'bg-red-900/30 text-red-400 border-red-500/20' : 'bg-orange-900/30 text-orange-400 border-orange-500/20'));
 
             let varDetailHtml = "-";
-            try { const varObj = JSON.parse(trx['Detail Pilihan'] || trx['Varian Detail']); if (Array.isArray(varObj)) { varDetailHtml = `<ul class="list-disc list-inside text-xs text-zinc-400 ml-4 mt-1">` + varObj.map(v => `<li>${v.opsi1||v.ukuran} - ${v.opsi2||v.lengan} (x${v.jumlah})</li>`).join('') + `</ul>`; } else if (varObj.opsi1||varObj.ukuran) { varDetailHtml = `<span class="bg-zinc-800 text-zinc-300 px-2 py-0.5 rounded text-[10px] font-bold inline-block mt-1 border border-zinc-700">${varObj.opsi1||varObj.ukuran} - ${varObj.opsi2||varObj.lengan}</span>`; } } catch(e){}
+            try { const varObj = JSON.parse(trx['Detail Pilihan'] || trx['Varian Detail']); if (Array.isArray(varObj)) { varDetailHtml = `<ul class="list-disc list-inside text-xs text-zinc-400 ml-4 mt-1">` + varObj.map(v => `<li>${v.opsi1 || v.ukuran} - ${v.opsi2 || v.lengan} (x${v.jumlah})</li>`).join('') + `</ul>`; } else if (varObj.opsi1 || varObj.ukuran) { varDetailHtml = `<span class="bg-zinc-800 text-zinc-300 px-2 py-0.5 rounded text-[10px] font-bold inline-block mt-1 border border-zinc-700">${varObj.opsi1 || varObj.ukuran} - ${varObj.opsi2 || varObj.lengan}</span>`; } } catch (e) { }
 
             const isDP = trx['Tipe Pembayaran'] === 'DP'; let totalHarga = parseInt(trx['Total Harga']) || 0; let dpNominal = 0; if (isDP && trx['Detail DP']) { const match = String(trx['Detail DP']).match(/Rp\s*(\d+)/); if (match) dpNominal = parseInt(match[1]); }
             let statBayarStr = trx['Status Pembayaran'] || ''; let sudahLunas = statBayarStr.toLowerCase().includes('lunas'); let sudahDP = statBayarStr.toLowerCase().includes('sudah dp') || sudahLunas;
@@ -3008,8 +3148,8 @@
             if (metodeDisplay2) infoMetodeHtml += `<div class="flex justify-between mb-1.5"><span class="text-[9px] md:text-[10px] text-zinc-500">Metode Pelunasan</span><span class="text-[9px] md:text-[10px] font-bold text-emerald-400">Pelunasan (${metodeDisplay2})</span></div>`;
 
             content.innerHTML = `
-                <div class="flex justify-between items-center mb-3"><span class="font-mono text-[9px] md:text-[10px] font-bold text-gold-500">${trx['ID Booking']||trx['ID Transaksi']}</span><span class="px-2 py-1 rounded text-[9px] md:text-[10px] font-bold uppercase border ${statusColor}">${statAcara||'Menunggu'}</span></div>
-                <div class="mb-3 md:mb-4"><p class="font-bold text-white text-sm md:text-base">${trx['Nama Paket']||trx['Nama Baju']}</p><p class="text-[9px] md:text-[10px] font-bold text-zinc-500 mt-0.5">${trx['Jumlah Pax/Item']||trx.Jumlah} Item/Pax</p><div class="mt-2 text-sm text-zinc-400"><span class="font-bold text-gold-600 text-[10px]">Rincian Layanan:</span> ${varDetailHtml}</div>${upgradeRincianHtml}</div>
+                <div class="flex justify-between items-center mb-3"><span class="font-mono text-[9px] md:text-[10px] font-bold text-gold-500">${trx['ID Booking'] || trx['ID Transaksi']}</span><span class="px-2 py-1 rounded text-[9px] md:text-[10px] font-bold uppercase border ${statusColor}">${statAcara || 'Menunggu'}</span></div>
+                <div class="mb-3 md:mb-4"><p class="font-bold text-white text-sm md:text-base">${trx['Nama Paket'] || trx['Nama Baju']}</p><p class="text-[9px] md:text-[10px] font-bold text-zinc-500 mt-0.5">${trx['Jumlah Pax/Item'] || trx.Jumlah} Item/Pax</p><div class="mt-2 text-sm text-zinc-400"><span class="font-bold text-gold-600 text-[10px]">Rincian Layanan:</span> ${varDetailHtml}</div>${upgradeRincianHtml}</div>
                 ${berkasHtml}
                 <div class="bg-black border border-zinc-800 p-3 md:p-4 rounded-xl mb-3 md:mb-4 shadow-sm">
                     ${infoMetodeHtml}
@@ -3025,12 +3165,12 @@
             const modal = document.getElementById('modal-detail-pesanan'); modal.classList.remove('opacity-0', 'pointer-events-none'); setTimeout(() => modal.classList.add('show'), 10); document.body.classList.add('modal-active');
         }
 
-       function cetakStruk() {
-            if(!currentTrxPrint) return;
+        function cetakStruk() {
+            if (!currentTrxPrint) return;
             const p = currentTrxPrint; const isDP = p['Tipe Pembayaran'] === 'DP';
             let totalHarga = parseInt(p['Total Harga']) || 0; let dpNominal = 0;
-            if(isDP && p['Detail DP']) { const match = String(p['Detail DP']).match(/Rp\s*(\d+)/); if(match) dpNominal = parseInt(match[1]); }
-            
+            if (isDP && p['Detail DP']) { const match = String(p['Detail DP']).match(/Rp\s*(\d+)/); if (match) dpNominal = parseInt(match[1]); }
+
             let statBayarStr = String(p['Status Pembayaran'] || '');
             let sudahLunas = statBayarStr.toLowerCase().includes('lunas');
             let sudahDP = statBayarStr.toLowerCase().includes('sudah dp') || sudahLunas;
@@ -3044,24 +3184,24 @@
             }
 
             let statAcara = p['Status Acara'] || p.Status;
-            let statusColor = "#D4AF37"; if(statAcara === 'Selesai') statusColor = "#10b981"; if(statAcara === 'Dibatalkan') statusColor = "#ef4444"; 
-            
+            let statusColor = "#D4AF37"; if (statAcara === 'Selesai') statusColor = "#10b981"; if (statAcara === 'Dibatalkan') statusColor = "#ef4444";
+
             let tagihanStatus = sudahLunas ? "LUNAS" : "BELUM LUNAS";
             if (statBayarStr.toLowerCase().includes('belum bayar') || statBayarStr.toLowerCase().includes('belum dp')) {
                 tagihanStatus = "BELUM LUNAS";
             }
             let tagihanColor = (tagihanStatus === 'LUNAS') ? '#10b981' : '#ef4444';
             let metodePelunasan = ""; if (sudahLunas && statBayarStr.includes('(')) { metodePelunasan = " " + statBayarStr.substring(statBayarStr.indexOf('(')); }
-            
+
             let varDetailStr = "-";
             try {
                 const varObj = JSON.parse(p['Detail Pilihan'] || p['Varian Detail']);
-                if(Array.isArray(varObj)) { varDetailStr = varObj.map(v => `${v.opsi1||v.ukuran}-${v.opsi2||v.lengan}(${v.jumlah})`).join(', '); } 
-                else if (varObj.opsi1 || varObj.ukuran) { varDetailStr = `${varObj.opsi1||varObj.ukuran} - ${varObj.opsi2||varObj.lengan}`; }
-            } catch(e){}
+                if (Array.isArray(varObj)) { varDetailStr = varObj.map(v => `${v.opsi1 || v.ukuran}-${v.opsi2 || v.lengan}(${v.jumlah})`).join(', '); }
+                else if (varObj.opsi1 || varObj.ukuran) { varDetailStr = `${varObj.opsi1 || varObj.ukuran} - ${varObj.opsi2 || varObj.lengan}`; }
+            } catch (e) { }
 
             // TARIK DATA UPGRADE UNTUK DI TAMPILKAN DI INVOICE
-            const berkas = globalBerkas.find(b => b['ID Booking'] === (p['ID Booking']||p['ID Transaksi']));
+            const berkas = globalBerkas.find(b => b['ID Booking'] === (p['ID Booking'] || p['ID Transaksi']));
             let upgradeTotal = 0; let upgradeRows = '';
             if (berkas && berkas['Data Upgrade'] && berkas['Data Upgrade'] !== '[]' && berkas['Data Upgrade'] !== '') {
                 try {
@@ -3070,7 +3210,7 @@
                         let sub = parseInt(u.jumlah) * parseInt(u.harga); upgradeTotal += sub;
                         upgradeRows += `<tr><td style="font-weight: 500; color:#555;">&nbsp;&nbsp;↳ Tambahan/Upgrade: ${u.nama}</td><td style="font-size: 12px; color: #999;">-</td><td class="text-center" style="font-weight: 500;">${u.jumlah}</td><td class="text-right" style="color: #666; font-weight: bold;">${formatRp(sub)}</td></tr>`;
                     });
-                } catch(e){}
+                } catch (e) { }
             }
 
             const printLogoUrl = appSettings.logo_light || appSettings.logo_dark || '';
@@ -3079,7 +3219,7 @@
                 <!DOCTYPE html>
                 <html>
                 <head>
-                    <title>Invoice - ${p['ID Booking']||p['ID Transaksi']}</title>
+                    <title>Invoice - ${p['ID Booking'] || p['ID Transaksi']}</title>
                     <style>
                         body { font-family: 'Segoe UI', Arial, sans-serif; padding: 30px; font-size: 13px; color: #333; max-width: 800px; margin: auto; background: #fff; }
                         .header { display: flex; justify-content: space-between; border-bottom: 2px solid #D4AF37; padding-bottom: 15px; margin-bottom: 20px; }
@@ -3099,13 +3239,13 @@
                 <body>
                     <div class="header">
                         <div>${printLogoUrl ? `<img src="${printLogoUrl}">` : `<h1>ELEGANCE WO</h1>`}</div>
-                        <div style="text-align: right;"><b>INVOICE TAGIHAN</b><br>ID: ${p['ID Booking']||p['ID Transaksi']}</div>
+                        <div style="text-align: right;"><b>INVOICE TAGIHAN</b><br>ID: ${p['ID Booking'] || p['ID Transaksi']}</div>
                     </div>
                     <div class="title">INVOICE ACARA</div>
                     
                     <div class="section-title">INFORMASI KLIEN & ACARA</div>
                     <table>
-                        <tr><th class="bg-gray" style="width: 35%;">Nama Klien</th><td>${p['Username Klien']||p['Username Pembeli']}</td></tr>
+                        <tr><th class="bg-gray" style="width: 35%;">Nama Klien</th><td>${p['Username Klien'] || p['Username Pembeli']}</td></tr>
                         <tr><th class="bg-gray">Tanggal Transaksi</th><td>${p.Tanggal.split(',')[0]}</td></tr>
                         <tr><th class="bg-gray">Metode Pembayaran</th><td>${p['Metode Bayar'] || '-'} (${p['Tipe Pembayaran']})</td></tr>
                         <tr><th class="bg-gray">Status Pembayaran</th><td style="color: ${tagihanColor}; font-weight: bold;">${statBayarStr}</td></tr>
@@ -3124,9 +3264,9 @@
                         </thead>
                         <tbody>
                             <tr>
-                                <td class="font-bold" style="font-size: 14px;">${p['Nama Paket']||p['Nama Baju']}</td>
+                                <td class="font-bold" style="font-size: 14px;">${p['Nama Paket'] || p['Nama Baju']}</td>
                                 <td style="color: #555;">${varDetailStr}</td>
-                                <td class="text-center font-bold">${p['Jumlah Pax/Item']||p.Jumlah}</td>
+                                <td class="text-center font-bold">${p['Jumlah Pax/Item'] || p.Jumlah}</td>
                                 <td class="text-right font-bold" style="color: #D4AF37; font-size: 14px;">${formatRp(totalHarga - upgradeTotal)}</td>
                             </tr>
                             ${upgradeRows}
@@ -3279,18 +3419,18 @@
                 imageSmoothingQuality: 'high'
             });
 
-            if (!canvas) { 
-                alert("Gagal memotong gambar."); 
-                return; 
+            if (!canvas) {
+                alert("Gagal memotong gambar.");
+                return;
             }
-            
+
             let imageFormat = 'image/jpeg';
             // Jika variabel target mengandung kata 'Logo', simpan sebagai PNG agar transparan
             if (targetVarBase64.includes('Logo')) {
                 imageFormat = 'image/png';
             }
-            
-            const b64 = canvas.toDataURL(imageFormat, 0.85); 
+
+            const b64 = canvas.toDataURL(imageFormat, 0.85);
             window[targetVarBase64] = b64;
 
             const previewEl = document.getElementById(targetPreview);
@@ -3446,20 +3586,27 @@
         }
 
         function bukaEditBerkasAdmin(idTrx) {
-            if(event) event.stopPropagation();
-            const trx = globalPenjualan.find(p => (p['ID Booking']||p['ID Transaksi']) === idTrx); if (!trx) return;
+            if (event) event.stopPropagation();
+            const trx = globalPenjualan.find(p => (p['ID Booking'] || p['ID Transaksi']) === idTrx); if (!trx) return;
             const berkas = globalBerkas.find(b => b['ID Booking'] === idTrx);
 
             document.getElementById('ab-id-booking').value = idTrx;
             document.getElementById('ab-id-title').textContent = "ID Booking: " + idTrx;
             document.getElementById('ab-username').value = trx['Username Klien'] || trx['Username Pembeli'] || "Klien";
-            
+
             document.getElementById('ab-pesanan').value = berkas ? berkas['Pesanan Paket'] : (trx['Nama Paket'] || trx['Nama Baju']);
             document.getElementById('ab-cpp').value = berkas ? berkas['Nama CPP'] : ''; document.getElementById('ab-cpw').value = berkas ? berkas['Nama CPW'] : '';
-            let tglAkad = berkas ? berkas['Tgl Akad'] : ''; if(tglAkad && tglAkad.includes('T')) tglAkad = tglAkad.split('T')[0]; document.getElementById('ab-tgl-akad').value = tglAkad;
+            let tglAkad = berkas ? berkas['Tgl Akad'] : ''; if (tglAkad && tglAkad.includes('T')) tglAkad = tglAkad.split('T')[0]; document.getElementById('ab-tgl-akad').value = tglAkad;
             document.getElementById('ab-wkt-akad').value = berkas ? berkas['Waktu Akad'] : '';
-            let tglResepsi = berkas ? berkas['Tgl Resepsi'] : ''; if(tglResepsi && tglResepsi.includes('T')) tglResepsi = tglResepsi.split('T')[0]; document.getElementById('ab-tgl-resepsi').value = tglResepsi;
-            document.getElementById('ab-wkt-resepsi').value = berkas ? berkas['Waktu Resepsi'] : ''; document.getElementById('ab-undangan').value = berkas ? berkas['Jumlah Undangan'] : ''; document.getElementById('ab-konsep').value = berkas ? berkas['Konsep Pernikahan'] : ''; document.getElementById('ab-makeup').value = berkas ? berkas['Konsep Make Up'] : ''; document.getElementById('ab-busana').value = berkas ? berkas['Busana Pengantin'] : ''; document.getElementById('ab-prewed').value = berkas ? berkas['Tgl & Lokasi Prewedding'] : ''; document.getElementById('ab-tm').value = berkas ? berkas['Tgl & Lokasi TM'] : ''; document.getElementById('v-ab-dekorasi').value = berkas ? berkas['Vendor Dekorasi'] : ''; document.getElementById('v-ab-mua').value = berkas ? berkas['Vendor MUA'] : ''; document.getElementById('v-ab-keluarga').value = berkas ? berkas['Vendor Perias Keluarga'] : ''; document.getElementById('v-ab-mc').value = berkas ? berkas['Vendor MC'] : ''; document.getElementById('v-ab-ent').value = berkas ? berkas['Vendor Entertainment'] : ''; document.getElementById('v-ab-catering').value = berkas ? berkas['Vendor Catering'] : ''; document.getElementById('v-ab-dok').value = berkas ? berkas['Vendor Dokumentasi'] : ''; document.getElementById('v-ab-sound').value = berkas ? berkas['Vendor Sound System'] : ''; document.getElementById('v-ab-attire').value = berkas ? berkas['Vendor Attire'] : ''; document.getElementById('v-ab-venue').value = berkas ? berkas['Vendor Venue'] : ''; document.getElementById('ab-catatan').value = berkas ? berkas['Catatan Tambahan'] : '';
+            let tglResepsi = berkas ? berkas['Tgl Resepsi'] : ''; if (tglResepsi && tglResepsi.includes('T')) tglResepsi = tglResepsi.split('T')[0]; document.getElementById('ab-tgl-resepsi').value = tglResepsi;
+            document.getElementById('ab-wkt-resepsi').value = berkas ? berkas['Waktu Resepsi'] : ''; document.getElementById('ab-undangan').value = berkas ? berkas['Jumlah Undangan'] : ''; document.getElementById('ab-konsep').value = berkas ? berkas['Konsep Pernikahan'] : ''; document.getElementById('ab-makeup').value = berkas ? berkas['Konsep Make Up'] : ''; document.getElementById('ab-busana').value = berkas ? berkas['Busana Pengantin'] : ''; document.getElementById('ab-prewed').value = berkas ? berkas['Tgl & Lokasi Prewedding'] : '';
+            // Sinkronisasi data TM dari Jadwal Event
+            const jdwlBerkas = globalJadwal[idTrx] || {};
+            let infoTmBerkas = berkas ? berkas['Tgl & Lokasi TM'] : '';
+            if (jdwlBerkas.tglTm || jdwlBerkas.waktuTm || jdwlBerkas.lokasiTm) {
+                infoTmBerkas = `Tanggal: ${formatDateIndo(jdwlBerkas.tglTm || '-')}\nWaktu: ${jdwlBerkas.waktuTm || '-'}\nLokasi: ${jdwlBerkas.lokasiTm || '-'}`;
+            }
+            document.getElementById('ab-tm').value = infoTmBerkas;
 
             let dataUpgrade = berkas ? berkas['Data Upgrade'] : '';
             const listUpg = document.getElementById('list-ab-upgrade-paket'); listUpg.innerHTML = '';
@@ -3504,12 +3651,12 @@
             btn.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin"></i> Menyimpan...'; btn.disabled = true;
 
             let upgradeArr = [];
-            if(document.getElementById('ab-is-upgrade').checked) {
+            if (document.getElementById('ab-is-upgrade').checked) {
                 document.querySelectorAll('.upg-ab-row').forEach(row => {
                     const nm = row.querySelector('.upg-ab-nama').value;
                     const qt = row.querySelector('.upg-ab-qty').value;
                     const hrg = row.querySelector('.upg-ab-hrg').value;
-                    if(nm) upgradeArr.push({nama: nm, jumlah: qt, harga: hrg});
+                    if (nm) upgradeArr.push({ nama: nm, jumlah: qt, harga: hrg });
                 });
             }
 
@@ -3518,8 +3665,8 @@
             try {
                 const res = await fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify(payload), headers: { 'Content-Type': 'text/plain' } });
                 const data = await res.json();
-                if(data.status === 'success') { alert("Data Berkas Klien & Tagihan berhasil diperbarui!"); fetchBerkas(true, true); fetchPenjualan(true, true); toggleModalEditBerkas(); } else { alert("Gagal: " + data.message); }
-            } catch(e) { alert("Kesalahan jaringan saat menyimpan berkas."); } finally { btn.innerHTML = '<i class="fa-solid fa-floppy-disk"></i> Simpan Perubahan'; btn.disabled = false; }
+                if (data.status === 'success') { alert("Data Berkas Klien & Tagihan berhasil diperbarui!"); fetchBerkas(true, true); fetchPenjualan(true, true); toggleModalEditBerkas(); } else { alert("Gagal: " + data.message); }
+            } catch (e) { alert("Kesalahan jaringan saat menyimpan berkas."); } finally { btn.innerHTML = '<i class="fa-solid fa-floppy-disk"></i> Simpan Perubahan'; btn.disabled = false; }
         }
 
         // --- LOGIKA VENDOR ---
@@ -3533,17 +3680,17 @@
             try {
                 const res = await fetch(`${SCRIPT_URL}?action=getVendor`);
                 const data = await res.json();
-                if(data.status === 'success') {
+                if (data.status === 'success') {
                     globalVendor = data.data;
                     renderTableVendor();
                 }
-            } catch(e) {}
+            } catch (e) { }
             showLoading(false);
         }
 
         function renderTableVendor() {
             const tbody = document.getElementById('table-vendor');
-            if(globalVendor.length > 0) {
+            if (globalVendor.length > 0) {
                 tbody.innerHTML = globalVendor.map(v => {
                     const gbr = (v['URL Gambar'] || '').split(',')[0] || 'https://via.placeholder.com/100';
                     return `
@@ -3566,7 +3713,7 @@
 
         function toggleFormVendor() {
             const container = document.getElementById('form-vendor-container');
-            if (container.classList.contains('hidden')) { container.classList.remove('hidden'); container.scrollIntoView({behavior: "smooth"}); } 
+            if (container.classList.contains('hidden')) { container.classList.remove('hidden'); container.scrollIntoView({ behavior: "smooth" }); }
             else { batalEditVendor(); container.classList.add('hidden'); }
         }
 
@@ -3577,9 +3724,9 @@
             base64GambarVendorArray = []; container.innerHTML = '';
             Array.from(files).forEach((file) => {
                 const reader = new FileReader();
-                reader.onload = function(e) {
+                reader.onload = function (e) {
                     const img = new Image();
-                    img.onload = function() {
+                    img.onload = function () {
                         const canvas = document.createElement('canvas'); const MAX = 800;
                         let w = img.width; let h = img.height;
                         if (w > h && w > MAX) { h *= MAX / w; w = MAX; } else if (h > MAX) { w *= MAX / h; h = MAX; }
@@ -3601,21 +3748,21 @@
             document.getElementById('title-form-vendor').innerHTML = `<i class="fa-solid fa-pen text-xs"></i> Edit Vendor: ${id}`;
             document.getElementById('btn-batal-edit-vendor').classList.remove('hidden');
             document.getElementById('form-vendor-container').classList.remove('hidden');
-            
+
             document.getElementById('v-id').value = id;
             document.getElementById('v-nama').value = v['Nama Vendor'];
             document.getElementById('v-kategori').value = v.Kategori;
             document.getElementById('v-deskripsi').value = v.Deskripsi;
-            
+
             let gbrRaw = v['URL Gambar'] || ''; base64GambarVendorArray = gbrRaw ? gbrRaw.split(',') : [];
             const container = document.getElementById('v-gambar-preview-container');
-            if (base64GambarVendorArray.length > 0 && base64GambarVendorArray[0] !== "") { 
+            if (base64GambarVendorArray.length > 0 && base64GambarVendorArray[0] !== "") {
                 document.getElementById('upload-placeholder-vendor').classList.add('hidden'); container.classList.remove('hidden');
                 container.innerHTML = base64GambarVendorArray.map(url => `<img src="${url}" class="w-14 h-14 object-cover rounded-lg border border-gold-500/30">`).join('');
-            } else { 
-                container.classList.add('hidden'); container.innerHTML = ''; document.getElementById('upload-placeholder-vendor').classList.remove('hidden'); 
+            } else {
+                container.classList.add('hidden'); container.innerHTML = ''; document.getElementById('upload-placeholder-vendor').classList.remove('hidden');
             }
-            document.getElementById('form-vendor-container').scrollIntoView({behavior: "smooth"});
+            document.getElementById('form-vendor-container').scrollIntoView({ behavior: "smooth" });
         }
 
         function batalEditVendor() {
@@ -3624,30 +3771,30 @@
             document.getElementById('btn-batal-edit-vendor').classList.add('hidden');
             document.getElementById('form-vendor').reset();
             document.getElementById('v-id').value = "";
-            base64GambarVendorArray = []; 
-            document.getElementById('v-gambar-preview-container').classList.add('hidden'); document.getElementById('v-gambar-preview-container').innerHTML = ''; 
+            base64GambarVendorArray = [];
+            document.getElementById('v-gambar-preview-container').classList.add('hidden'); document.getElementById('v-gambar-preview-container').innerHTML = '';
             document.getElementById('upload-placeholder-vendor').classList.remove('hidden');
         }
 
         async function handleSaveVendor(e) {
             e.preventDefault();
             const btn = document.getElementById('btn-submit-vendor'); btn.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin"></i> Proses...'; btn.disabled = true;
-            
+
             let vId = document.getElementById('v-id').value;
-            if(!isEditingVendor) vId = "VND-" + new Date().getTime(); // Generate ID otomatis
+            if (!isEditingVendor) vId = "VND-" + new Date().getTime(); // Generate ID otomatis
 
             const payload = {
-                action: isEditingVendor ? "editVendor" : "addVendor", 
+                action: isEditingVendor ? "editVendor" : "addVendor",
                 id: vId, nama: document.getElementById('v-nama').value,
-                kategori: document.getElementById('v-kategori').value, 
-                deskripsi: document.getElementById('v-deskripsi').value, 
+                kategori: document.getElementById('v-kategori').value,
+                deskripsi: document.getElementById('v-deskripsi').value,
                 gambar: base64GambarVendorArray.join('|')
             };
-            
+
             try {
                 const res = await fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify(payload) });
                 const data = await res.json();
-                if (data.status === 'success') { alert(data.message); batalEditVendor(); fetchVendor(true); document.getElementById('form-vendor-container').classList.add('hidden'); } 
+                if (data.status === 'success') { alert(data.message); batalEditVendor(); fetchVendor(true); document.getElementById('form-vendor-container').classList.add('hidden'); }
                 else { alert('Gagal: ' + data.message); }
             } catch (err) { alert('Kesalahan jaringan!'); }
             btn.innerHTML = '<i class="fa-solid fa-save"></i> Simpan Vendor'; btn.disabled = false;
@@ -3655,13 +3802,13 @@
 
         async function hapusVendor(id) {
             if (!confirm(`Hapus vendor ID: ${id}?`)) return; showLoading(true);
-            try { 
-                const res = await fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify({action: "deleteVendor", id: id}) }); 
-                const data = await res.json(); if(data.status === 'success') fetchVendor(true); 
-            } catch (e) {} showLoading(false);
+            try {
+                const res = await fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify({ action: "deleteVendor", id: id }) });
+                const data = await res.json(); if (data.status === 'success') fetchVendor(true);
+            } catch (e) { } showLoading(false);
         }
 
-       // Update Navigasi & Tab Array
+        // Update Navigasi & Tab Array
         function updateNavTitles(tab) {
             const titles = {
                 'dashboard': 'Dashboard',
@@ -3674,38 +3821,38 @@
                 'pengaturan': 'Konfigurasi'
             };
             const titleEl = document.getElementById('page-title');
-            if(titleEl) titleEl.textContent = titles[tab] || 'Admin';
+            if (titleEl) titleEl.textContent = titles[tab] || 'Admin';
         }
 
         function switchTab(tab) {
             const sections = ['dashboard', 'produk', 'penjualan', 'transkrip', 'pelanggan', 'pengaturan', 'vendor', 'jadwal', 'hnp'];
             sections.forEach(n => {
                 const el = document.getElementById(`sec-${n}`);
-                if(el) el.classList.add('hidden');
+                if (el) el.classList.add('hidden');
                 const navD = document.getElementById(`nav-${n}`);
-                if(navD) navD.className = "w-full flex items-center gap-3 px-4 py-3.5 rounded-2xl text-zinc-400 hover:bg-zinc-800 hover:text-gold-400 font-semibold transition-all active:scale-95 whitespace-nowrap";
-                const mobEl = document.getElementById(`nav-mob-${n}`); 
+                if (navD) navD.className = "w-full flex items-center gap-3 px-4 py-3.5 rounded-2xl text-zinc-400 hover:bg-zinc-800 hover:text-gold-400 font-semibold transition-all active:scale-95 whitespace-nowrap";
+                const mobEl = document.getElementById(`nav-mob-${n}`);
                 if (mobEl) mobEl.className = "flex flex-col items-center justify-center gap-1.5 p-2 text-zinc-500 hover:text-gold-400 min-w-[72px] shrink-0 active:scale-90 transition-transform";
             });
-            
+
             const targetSec = document.getElementById(`sec-${tab}`);
-            if(targetSec) targetSec.classList.remove('hidden');
-            
+            if (targetSec) targetSec.classList.remove('hidden');
+
             const navActiveD = document.getElementById(`nav-${tab}`);
-            if(navActiveD) navActiveD.className = "w-full flex items-center gap-3 px-4 py-3.5 rounded-2xl bg-gold-500 text-black font-bold transition-all shadow-md shadow-gold-900/20 active:scale-95 whitespace-nowrap";
-            
+            if (navActiveD) navActiveD.className = "w-full flex items-center gap-3 px-4 py-3.5 rounded-2xl bg-gold-500 text-black font-bold transition-all shadow-md shadow-gold-900/20 active:scale-95 whitespace-nowrap";
+
             const mobActive = document.getElementById(`nav-mob-${tab}`);
             if (mobActive) mobActive.className = "flex flex-col items-center justify-center gap-1.5 p-2 text-gold-500 min-w-[72px] shrink-0 active:scale-90 transition-transform drop-shadow-sm";
-            
+
             updateNavTitles(tab);
-            
-            if (tab === 'dashboard') fetchDashboard(); 
+
+            if (tab === 'dashboard') fetchDashboard();
             if (tab === 'produk') fetchProduk();
-            if (tab === 'penjualan') fetchPenjualan(); 
+            if (tab === 'penjualan') fetchPenjualan();
             if (tab === 'transkrip') renderGridTranskrip();
-            if (tab === 'pelanggan') fetchPelanggan(); 
+            if (tab === 'pelanggan') fetchPelanggan();
             if (tab === 'pengaturan') fetchPengaturanAdmin();
-            if (tab === 'vendor') fetchVendor(); 
+            if (tab === 'vendor') fetchVendor();
             if (tab === 'jadwal') renderJadwalEvent(); // Trigger fitur baru
         }
 
@@ -3758,7 +3905,7 @@
             const monthNames = ["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"];
             document.getElementById('kalender-title').textContent = `${monthNames[month]} ${year}`;
 
-            const firstDay = new Date(year, month, 1).getDay(); 
+            const firstDay = new Date(year, month, 1).getDay();
             const daysInMonth = new Date(year, month + 1, 0).getDate();
             const grid = document.getElementById('kalender-grid');
             grid.innerHTML = '';
@@ -3766,11 +3913,11 @@
             const mapBooking = {};
             globalPenjualan.forEach(p => {
                 if (p['Status Acara'] === 'Dibatalkan' || p.Status === 'Dibatalkan') return;
-                const berkas = globalBerkas.find(b => b['ID Booking'] === (p['ID Booking']||p['ID Transaksi']));
-                
+                const berkas = globalBerkas.find(b => b['ID Booking'] === (p['ID Booking'] || p['ID Transaksi']));
+
                 // Gunakan parser sakti
                 let d = getValidEventDate(p, berkas);
-                
+
                 if (d && d.getFullYear() === year && d.getMonth() === month) {
                     let tglKey = d.getDate();
                     if (!mapBooking[tglKey]) mapBooking[tglKey] = [];
@@ -3816,12 +3963,12 @@
 
             let acaraHariIni = globalPenjualan.filter(p => {
                 if (p['Status Acara'] === 'Dibatalkan' || p.Status === 'Dibatalkan') return false;
-                const berkas = globalBerkas.find(b => b['ID Booking'] === (p['ID Booking']||p['ID Transaksi']));
-                
+                const berkas = globalBerkas.find(b => b['ID Booking'] === (p['ID Booking'] || p['ID Transaksi']));
+
                 // Gunakan parser sakti
                 let d = getValidEventDate(p, berkas);
                 if (!d) return false;
-                
+
                 return d.getDate() === d_target && d.getMonth() === m_target && d.getFullYear() === y_target;
             });
 
@@ -3859,7 +4006,7 @@
 
         function cetakBerkasAdmin() {
             const idBooking = document.getElementById('ab-id-booking').value;
-            if(!idBooking) return alert("Pilih pesanan terlebih dahulu!");
+            if (!idBooking) return alert("Pilih pesanan terlebih dahulu!");
 
             const data = {
                 id: idBooking, klien: document.getElementById('ab-username').value || '-', cpp: document.getElementById('ab-cpp').value || '-', cpw: document.getElementById('ab-cpw').value || '-', tglAkad: document.getElementById('ab-tgl-akad').value || '-', wktAkad: document.getElementById('ab-wkt-akad').value || '-', tglResepsi: document.getElementById('ab-tgl-resepsi').value || '-', wktResepsi: document.getElementById('ab-wkt-resepsi').value || '-', undangan: document.getElementById('ab-undangan').value || '-', pesanan: document.getElementById('ab-pesanan').value || '-', konsep: document.getElementById('ab-konsep').value || '-', makeup: document.getElementById('ab-makeup').value || '-', busana: document.getElementById('ab-busana').value || '-', prewed: document.getElementById('ab-prewed').value || '-', tm: document.getElementById('ab-tm').value || '-', vDekor: document.getElementById('v-ab-dekorasi').value || '-', vMua: document.getElementById('v-ab-mua').value || '-', vKel: document.getElementById('v-ab-keluarga').value || '-', vMc: document.getElementById('v-ab-mc').value || '-', vEnt: document.getElementById('v-ab-ent').value || '-', vCat: document.getElementById('v-ab-catering').value || '-', vDok: document.getElementById('v-ab-dok').value || '-', vSnd: document.getElementById('v-ab-sound').value || '-', vAtr: document.getElementById('v-ab-attire').value || '-', vVen: document.getElementById('v-ab-venue').value || '-', catatan: document.getElementById('ab-catatan').value || '-'
@@ -3867,11 +4014,11 @@
 
             // Ekstrak Data Upgrade Admin
             let upgradeArr = [];
-            if(document.getElementById('ab-is-upgrade') && document.getElementById('ab-is-upgrade').checked) {
+            if (document.getElementById('ab-is-upgrade') && document.getElementById('ab-is-upgrade').checked) {
                 document.querySelectorAll('.upg-ab-row').forEach(row => {
                     const nm = row.querySelector('.upg-ab-nama').value;
                     const qt = row.querySelector('.upg-ab-qty').value;
-                    if(nm) upgradeArr.push(`<li>${nm} (x${qt})</li>`);
+                    if (nm) upgradeArr.push(`<li>${nm} (x${qt})</li>`);
                 });
             }
             let upgradeHtml = upgradeArr.length > 0 ? `<tr><th>Upgrade / Tambahan</th><td><ul style="margin:0; padding-left:15px;">${upgradeArr.join('')}</ul></td></tr>` : '';
@@ -3919,12 +4066,12 @@
             `);
             printWindow.document.close();
         }
- // ==========================================
+        // ==========================================
         // LOGIKA JADWAL EVENT & KRU (MENGGUNAKAN GOOGLE SCRIPT API)
         // ==========================================
-        
+
         let globalJadwal = {};
-        let globalMasterKru = { mc:[], vocal:[], keyboard:[], sexo:[], wo:[] };
+        let globalMasterKru = { mc: [], vocal: [], keyboard: [], sexo: [], wo: [] };
         let currentDateJadwal = new Date();
         let activeJadwalTahun = 'Semua';
         let activeJadwalBulan = 'Semua';
@@ -3966,7 +4113,7 @@
                 ]);
                 const dataJ = await resJadwal.json();
                 const dataK = await resKru.json();
-                
+
                 if (dataJ.status === 'success') {
                     globalJadwal = {};
                     dataJ.data.forEach(j => {
@@ -3979,14 +4126,14 @@
                     });
                 }
                 if (dataK.status === 'success') {
-                    globalMasterKru = { mc:[], vocal:[], keyboard:[], sexo:[], wo:[] };
+                    globalMasterKru = { mc: [], vocal: [], keyboard: [], sexo: [], wo: [] };
                     dataK.data.forEach(k => {
-                        if(globalMasterKru[k.Kategori]) globalMasterKru[k.Kategori].push(k.Nama);
+                        if (globalMasterKru[k.Kategori]) globalMasterKru[k.Kategori].push(k.Nama);
                     });
                 }
                 dataLoaded.jadwal = true;
                 populateFilterTahun(); // Set dropdown tahun
-            } catch(e) {}
+            } catch (e) { }
         }
 
         // --- LOGIKA FILTER TAHUN & BULAN DINAMIS ---
@@ -3995,17 +4142,17 @@
             let tahunSet = new Set();
             globalPenjualan.forEach(p => {
                 if (p['Status Acara'] !== 'Dibatalkan' && p.Status !== 'Dibatalkan') {
-                    const berkas = globalBerkas.find(b => b['ID Booking'] === (p['ID Booking']||p['ID Transaksi'])) || {};
+                    const berkas = globalBerkas.find(b => b['ID Booking'] === (p['ID Booking'] || p['ID Transaksi'])) || {};
                     let d = getValidEventDate(p, berkas);
-                    if(d) tahunSet.add(d.getFullYear());
+                    if (d) tahunSet.add(d.getFullYear());
                 }
             });
             let options = '<option value="Semua">Semua Tahun</option>';
             [...tahunSet].sort().reverse().forEach(t => options += `<option value="${t}">${t}</option>`);
-            if(selTahun) selTahun.innerHTML = options;
-            
+            if (selTahun) selTahun.innerHTML = options;
+
             // Panggil render tombol bulan setelah tahun diatur
-            renderFilterBulanJadwal(); 
+            renderFilterBulanJadwal();
         }
 
         function ubahFilterJadwal() {
@@ -4023,7 +4170,7 @@
 
         function renderFilterBulanJadwal() {
             const container = document.getElementById('filter-jadwal-bulan-container');
-            if(!container) return;
+            if (!container) return;
 
             const months = ["Jan", "Feb", "Mar", "Apr", "Mei", "Jun", "Jul", "Ags", "Sep", "Okt", "Nov", "Des"];
             let validEvents = globalPenjualan.filter(p => p['Status Acara'] !== 'Dibatalkan' && p.Status !== 'Dibatalkan');
@@ -4033,7 +4180,7 @@
             for (let m = 0; m < 12; m++) {
                 let count = 0;
                 validEvents.forEach(p => {
-                    const berkas = globalBerkas.find(b => b['ID Booking'] === (p['ID Booking']||p['ID Transaksi']));
+                    const berkas = globalBerkas.find(b => b['ID Booking'] === (p['ID Booking'] || p['ID Transaksi']));
                     const d = getValidEventDate(p, berkas);
                     if (d) {
                         let matchTahun = activeJadwalTahun === 'Semua' ? true : d.getFullYear().toString() === activeJadwalTahun;
@@ -4064,10 +4211,10 @@
             // Lakukan Filtering
             if (activeJadwalTahun !== 'Semua' || activeJadwalBulan !== 'Semua') {
                 validEvents = validEvents.filter(p => {
-                    const berkas = globalBerkas.find(b => b['ID Booking'] === (p['ID Booking']||p['ID Transaksi'])) || {};
+                    const berkas = globalBerkas.find(b => b['ID Booking'] === (p['ID Booking'] || p['ID Transaksi'])) || {};
                     let tgl = berkas['Tgl Akad'] || p.Tanggal;
-                   let d = getValidEventDate(p, berkas);
-                    if(!d && tgl.includes('-')) d = new Date(tgl);
+                    let d = getValidEventDate(p, berkas);
+                    if (!d && tgl.includes('-')) d = new Date(tgl);
                     if (!d) return false;
 
                     let matchTahun = activeJadwalTahun === 'Semua' ? true : d.getFullYear().toString() === activeJadwalTahun;
@@ -4079,7 +4226,7 @@
             // Update Counter Event
             document.getElementById('info-jumlah-event').textContent = validEvents.length;
 
-            if(validEvents.length === 0) {
+            if (validEvents.length === 0) {
                 tbody.innerHTML = `<tr><td colspan="10" class="text-center py-10 text-zinc-500 text-sm">Tidak ada jadwal event.</td></tr>`;
                 renderKalenderJadwal(validEvents);
                 return;
@@ -4089,22 +4236,22 @@
                 const idTrx = p['ID Booking'] || p['ID Transaksi'];
                 const clientNm = p['Username Klien'] || p['Username Pembeli'];
                 const berkas = globalBerkas.find(b => b['ID Booking'] === idTrx) || {};
-                const jdwl = globalJadwal[idTrx] || {}; 
+                const jdwl = globalJadwal[idTrx] || {};
 
                 const judulEvent = (berkas['Nama CPP'] && berkas['Nama CPW']) ? `${berkas['Nama CPP']} & ${berkas['Nama CPW']}` : 'Belum isi berkas';
-                
+
                 // Format DD-MM-YYYY
                 const tglAkad = formatDateIndo(berkas['Tgl Akad'] ? String(berkas['Tgl Akad']).split('T')[0] : '-');
                 const jamAkad = berkas['Waktu Akad'] || '-';
                 const locAkad = berkas['Vendor Venue'] || '-';
-                
+
                 const tglResepsi = formatDateIndo(berkas['Tgl Resepsi'] ? String(berkas['Tgl Resepsi']).split('T')[0] : '-');
                 const jamResepsi = berkas['Waktu Resepsi'] || '-';
-                
-                let statusTmUI = `<span class="bg-blue-900/40 text-blue-400 border border-blue-500/30 px-2 py-0.5 rounded text-[10px] font-bold">Belum</span>`;
-                if(jdwl.statusTm === 'Sudah') statusTmUI = `<span class="bg-emerald-900/40 text-emerald-400 border border-emerald-500/30 px-2 py-0.5 rounded text-[10px] font-bold">Sudah</span>`;
 
-                let woList = (jdwl.wo && jdwl.wo.length > 0) ? jdwl.wo.map((w,i) => `<span class="bg-orange-900/40 text-orange-300 border border-orange-500/30 px-1.5 py-0.5 rounded text-[10px] mr-1 block mb-1 w-max font-medium">WO${i+1}: ${w}</span>`).join('') : '-';
+                let statusTmUI = `<span class="bg-blue-900/40 text-blue-400 border border-blue-500/30 px-2 py-0.5 rounded text-[10px] font-bold">Belum</span>`;
+                if (jdwl.statusTm === 'Sudah') statusTmUI = `<span class="bg-emerald-900/40 text-emerald-400 border border-emerald-500/30 px-2 py-0.5 rounded text-[10px] font-bold">Sudah</span>`;
+
+                let woList = (jdwl.wo && jdwl.wo.length > 0) ? jdwl.wo.map((w, i) => `<span class="bg-orange-900/40 text-orange-300 border border-orange-500/30 px-1.5 py-0.5 rounded text-[10px] mr-1 block mb-1 w-max font-medium">WO${i + 1}: ${w}</span>`).join('') : '-';
 
                 // Tgl TM & Waktu
                 const tglTmFormatted = formatDateIndo(jdwl.tglTm || '-');
@@ -4151,7 +4298,7 @@
             const vList = document.getElementById('view-jadwal-list');
             const vCal = document.getElementById('view-jadwal-kalender');
 
-            if(view === 'list') {
+            if (view === 'list') {
                 btnList.className = "bg-gold-500 text-black px-4 py-1.5 rounded-lg text-[10px] md:text-xs font-bold shadow-sm transition-colors flex items-center gap-1.5";
                 btnCal.className = "text-zinc-400 hover:text-gold-400 hover:bg-zinc-900 px-4 py-1.5 rounded-lg text-[10px] md:text-xs font-bold transition-colors flex items-center gap-1.5";
                 vList.classList.remove('hidden'); vCal.classList.add('hidden');
@@ -4166,17 +4313,17 @@
         function ubahBulanJadwal(offset) {
             currentDateJadwal.setMonth(currentDateJadwal.getMonth() + offset);
             document.getElementById('jadwal-kalender-detail-container').classList.add('hidden');
-            renderJadwalEvent(); 
+            renderJadwalEvent();
         }
 
         function renderKalenderJadwal(validEvents) {
             const year = currentDateJadwal.getFullYear();
             const month = currentDateJadwal.getMonth();
             const monthNames = ["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"];
-            
+
             document.getElementById('jadwal-kalender-title').textContent = `${monthNames[month]} ${year}`;
 
-            const firstDay = new Date(year, month, 1).getDay(); 
+            const firstDay = new Date(year, month, 1).getDay();
             const daysInMonth = new Date(year, month + 1, 0).getDate();
             const grid = document.getElementById('jadwal-kalender-grid');
             grid.innerHTML = '';
@@ -4185,12 +4332,12 @@
             validEvents.forEach(p => {
                 const idTrx = p['ID Booking'] || p['ID Transaksi'];
                 const berkas = globalBerkas.find(b => b['ID Booking'] === idTrx);
-                let tglPakai = p.Tanggal; 
-                if(berkas && berkas['Tgl Akad']) tglPakai = berkas['Tgl Akad']; 
-                
+                let tglPakai = p.Tanggal;
+                if (berkas && berkas['Tgl Akad']) tglPakai = berkas['Tgl Akad'];
+
                 let d = getValidEventDate(p, berkas);
-                if (!d && tglPakai.includes('-')) d = new Date(tglPakai); 
-                
+                if (!d && tglPakai.includes('-')) d = new Date(tglPakai);
+
                 if (d && d.getFullYear() === year && d.getMonth() === month) {
                     let tglKey = d.getDate();
                     if (!mapJadwal[tglKey]) mapJadwal[tglKey] = [];
@@ -4231,11 +4378,11 @@
 
             const validEvents = globalPenjualan.filter(p => p['Status Acara'] !== 'Dibatalkan' && p.Status !== 'Dibatalkan');
             let acaraHariIni = validEvents.filter(p => {
-                const berkas = globalBerkas.find(b => b['ID Booking'] === (p['ID Booking']||p['ID Transaksi']));
-                let tglPakai = p.Tanggal; if(berkas && berkas['Tgl Akad']) tglPakai = berkas['Tgl Akad'];
+                const berkas = globalBerkas.find(b => b['ID Booking'] === (p['ID Booking'] || p['ID Transaksi']));
+                let tglPakai = p.Tanggal; if (berkas && berkas['Tgl Akad']) tglPakai = berkas['Tgl Akad'];
                 let d = getValidEventDate(p, berkas);
                 if (!d && tglPakai.includes('-')) d = new Date(tglPakai);
-                if(!d) return false;
+                if (!d) return false;
                 return d.toISOString().split('T')[0] === dateStr;
             });
 
@@ -4250,7 +4397,7 @@
                         <div>
                             <span class="text-[9px] md:text-[10px] font-mono font-bold text-gold-500 block">${idTrx} &bull; @${clientNm}</span>
                             <h5 class="font-bold text-white text-sm mt-1">${nmPkt}</h5>
-                            <p class="text-[10px] text-zinc-400 mt-1"><b>PJ:</b> ${jdwl.pj||'-'} | <b>MC:</b> ${jdwl.mc||'-'}</p>
+                            <p class="text-[10px] text-zinc-400 mt-1"><b>PJ:</b> ${jdwl.pj || '-'} | <b>MC:</b> ${jdwl.mc || '-'}</p>
                         </div>
                         <button onclick="bukaEditJadwal('${idTrx}')" class="bg-gold-500 hover:bg-gold-400 text-black px-4 py-2 rounded-lg text-[10px] font-bold shadow-md w-full md:w-auto transition"><i class="fa-solid fa-pen mr-1"></i> Atur Jadwal & Kru</button>
                     </div>`;
@@ -4264,27 +4411,27 @@
         // 4. LOGIKA EDIT PENUGASAN (MODAL)
         function toggleModalEditJadwal() {
             const modal = document.getElementById('modal-edit-jadwal');
-            if (modal.classList.contains('opacity-0')) { modal.classList.remove('opacity-0', 'pointer-events-none'); setTimeout(() => modal.classList.add('show'), 10); } 
+            if (modal.classList.contains('opacity-0')) { modal.classList.remove('opacity-0', 'pointer-events-none'); setTimeout(() => modal.classList.add('show'), 10); }
             else { modal.classList.remove('show'); setTimeout(() => { modal.classList.add('opacity-0', 'pointer-events-none'); }, 300); }
         }
 
         function populateSelectOptions(selId, masterType, selectedVal) {
             const sel = document.getElementById(selId);
             sel.innerHTML = `<option value="">-- Pilih --</option>` + globalMasterKru[masterType].map(v => `<option value="${v}">${v}</option>`).join('');
-            if(selectedVal && globalMasterKru[masterType].includes(selectedVal)) sel.value = selectedVal;
+            if (selectedVal && globalMasterKru[masterType].includes(selectedVal)) sel.value = selectedVal;
         }
 
-   function bukaEditJadwal(idTrx) {
-            const p = globalPenjualan.find(x => (x['ID Booking']||x['ID Transaksi']) === idTrx);
+        function bukaEditJadwal(idTrx) {
+            const p = globalPenjualan.find(x => (x['ID Booking'] || x['ID Transaksi']) === idTrx);
             const berkas = globalBerkas.find(b => b['ID Booking'] === idTrx) || {};
             const jdwl = globalJadwal[idTrx] || {};
 
             document.getElementById('ej-id-booking').value = idTrx;
-            document.getElementById('ej-info-klien').textContent = `@${p['Username Klien']||p['Username Pembeli']}`;
+            document.getElementById('ej-info-klien').textContent = `@${p['Username Klien'] || p['Username Pembeli']}`;
             document.getElementById('ej-info-judul').textContent = (berkas['Nama CPP'] && berkas['Nama CPW']) ? `${berkas['Nama CPP']} & ${berkas['Nama CPW']}` : 'Belum diisi';
-            document.getElementById('ej-info-paket').textContent = p['Nama Paket']||p['Nama Baju'];
+            document.getElementById('ej-info-paket').textContent = p['Nama Paket'] || p['Nama Baju'];
             document.getElementById('ej-info-tgl').textContent = formatDateIndo(berkas['Tgl Akad'] ? String(berkas['Tgl Akad']).split('T')[0] : '-');
-            
+
             document.getElementById('ej-pj').value = jdwl.pj || '';
             document.getElementById('ej-tgl-tm').value = jdwl.tglTm || '';
             // Set input Waktu TM & Lokasi TM (Prioritas dari Jadwal, jika kosong fallback dari Berkas)
@@ -4300,23 +4447,23 @@
 
             const contWo = document.getElementById('ej-container-wo');
             contWo.innerHTML = '';
-            if(jdwl.wo && jdwl.wo.length > 0) {
+            if (jdwl.wo && jdwl.wo.length > 0) {
                 jdwl.wo.forEach(val => tambahBarisWO(val));
             } else {
-                tambahBarisWO(); 
+                tambahBarisWO();
             }
 
             toggleModalEditJadwal();
         }
-        
+
         function tambahBarisWO(val = '') {
             const cont = document.getElementById('ej-container-wo');
             const num = cont.children.length + 1;
             const div = document.createElement('div');
             div.className = "flex gap-2 items-center wo-row";
-            
-            let options = `<option value="">-- Pilih Kru WO --</option>` + globalMasterKru.wo.map(v => `<option value="${v}" ${v===val?'selected':''}>${v}</option>`).join('');
-            
+
+            let options = `<option value="">-- Pilih Kru WO --</option>` + globalMasterKru.wo.map(v => `<option value="${v}" ${v === val ? 'selected' : ''}>${v}</option>`).join('');
+
             div.innerHTML = `
                 <span class="text-[10px] text-zinc-500 font-bold w-8">WO${num}</span>
                 <select class="wo-sel flex-1 bg-black border border-zinc-700 rounded px-2 py-1 text-[10px] text-white outline-none focus:border-orange-500">${options}</select>
@@ -4333,7 +4480,7 @@
             btn.disabled = true;
 
             let woArr = [];
-            document.querySelectorAll('.wo-sel').forEach(el => { if(el.value) woArr.push(el.value); });
+            document.querySelectorAll('.wo-sel').forEach(el => { if (el.value) woArr.push(el.value); });
 
             const payload = {
                 action: "saveJadwal",
@@ -4354,20 +4501,20 @@
             try {
                 const res = await fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify(payload), headers: { 'Content-Type': 'text/plain' } });
                 const data = await res.json();
-                if(data.status === 'success') {
+                if (data.status === 'success') {
                     await fetchJadwalKru(true);
                     renderJadwalEvent();
                     toggleModalEditJadwal();
                     alert("Penugasan & Jadwal Tersimpan!");
                 } else alert("Gagal menyimpan: " + data.message);
-            } catch(e) { alert("Kesalahan koneksi!"); }
+            } catch (e) { alert("Kesalahan koneksi!"); }
             finally { btn.innerHTML = oriText; btn.disabled = false; }
         }
 
         // 5. LOGIKA MASTER DATA KRU
         function bukaModalMasterKru() {
             const modal = document.getElementById('modal-master-kru');
-            if (modal.classList.contains('opacity-0')) { 
+            if (modal.classList.contains('opacity-0')) {
                 modal.classList.remove('opacity-0', 'pointer-events-none'); setTimeout(() => modal.classList.add('show'), 10);
                 renderMasterKruList();
             } else { modal.classList.remove('show'); setTimeout(() => { modal.classList.add('opacity-0', 'pointer-events-none'); }, 300); }
@@ -4377,8 +4524,8 @@
             const kat = document.getElementById('mk-kategori').value;
             const ul = document.getElementById('mk-list');
             const data = globalMasterKru[kat] || [];
-            
-            if(data.length === 0) {
+
+            if (data.length === 0) {
                 ul.innerHTML = `<li class="text-center text-[10px] text-zinc-500 py-4">Belum ada data.</li>`;
                 return;
             }
@@ -4391,26 +4538,26 @@
             `).join('');
         }
 
-       async function tambahMasterKru() {
+        async function tambahMasterKru() {
             const kat = document.getElementById('mk-kategori').value;
             const ipt = document.getElementById('mk-nama-baru');
             const btn = document.getElementById('btn-add-kru');
-            
+
             const val = ipt.value.trim();
-            if(!val) return;
-            
+            if (!val) return;
+
             // Pisahkan berdasarkan koma atau baris baru (enter)
             let namaArray = val.split(/,|\n/).map(n => n.trim()).filter(n => n !== "");
-            if(namaArray.length === 0) return;
-            
-            if(!globalMasterKru[kat]) globalMasterKru[kat] = [];
-            
+            if (namaArray.length === 0) return;
+
+            if (!globalMasterKru[kat]) globalMasterKru[kat] = [];
+
             // Filter hanya nama yang belum ada di list
             let namaBaruValid = namaArray.filter(n => !globalMasterKru[kat].includes(n));
 
-            if(namaBaruValid.length === 0) { 
-                alert("Semua nama yang Anda ketikkan sudah terdaftar di kategori ini!"); 
-                return; 
+            if (namaBaruValid.length === 0) {
+                alert("Semua nama yang Anda ketikkan sudah terdaftar di kategori ini!");
+                return;
             }
 
             // Tampilkan animasi Loading
@@ -4424,7 +4571,7 @@
             try {
                 const res = await fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify(payload), headers: { 'Content-Type': 'text/plain' } });
                 const data = await res.json();
-                if(data.status === 'success') {
+                if (data.status === 'success') {
                     // Tambahkan ke memori lokal & segarkan tampilan
                     globalMasterKru[kat].push(...namaBaruValid);
                     ipt.value = "";
@@ -4432,29 +4579,29 @@
                 } else {
                     alert("Gagal: " + data.message);
                 }
-            } catch(e) { 
-                alert("Gagal koneksi ke server saat menyimpan kru."); 
-            } finally { 
+            } catch (e) {
+                alert("Gagal koneksi ke server saat menyimpan kru.");
+            } finally {
                 // Kembalikan tombol ke keadaan semula
-                ipt.disabled = false; 
+                ipt.disabled = false;
                 btn.disabled = false;
                 btn.innerHTML = oriBtnHtml;
             }
         }
 
         async function hapusMasterKru(kat, idx) {
-            if(!confirm("Hapus data kru ini?")) return;
+            if (!confirm("Hapus data kru ini?")) return;
             const nama = globalMasterKru[kat][idx];
-            
+
             const payload = { action: "deleteMasterKru", kategori: kat, nama: nama };
             try {
                 const res = await fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify(payload), headers: { 'Content-Type': 'text/plain' } });
                 const data = await res.json();
-                if(data.status === 'success') {
+                if (data.status === 'success') {
                     globalMasterKru[kat].splice(idx, 1);
                     renderMasterKruList();
                 } else alert(data.message);
-            } catch(e) { alert("Gagal koneksi"); }
+            } catch (e) { alert("Gagal koneksi"); }
         }
 
 
@@ -4470,7 +4617,7 @@
                 if (data.status === 'success') {
                     globalCatatanHNP = data.data;
                 }
-            } catch (e) {}
+            } catch (e) { }
         }
 
         function ubahBulanHNP(offset) {
@@ -4482,10 +4629,10 @@
             const year = currentDateHNP.getFullYear();
             const month = currentDateHNP.getMonth();
             const monthNames = ["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"];
-            
+
             document.getElementById('hnp-kalender-title').textContent = `${monthNames[month]} ${year}`;
 
-            const firstDay = new Date(year, month, 1).getDay(); 
+            const firstDay = new Date(year, month, 1).getDay();
             const daysInMonth = new Date(year, month + 1, 0).getDate();
             const grid = document.getElementById('hnp-kalender-grid');
             grid.innerHTML = '';
@@ -4498,7 +4645,7 @@
             for (let i = 1; i <= daysInMonth; i++) {
                 let isToday = (i === today.getDate() && month === today.getMonth() && year === today.getFullYear());
                 let paramDate = `${year}-${String(month + 1).padStart(2, '0')}-${String(i).padStart(2, '0')}`;
-                
+
                 // Cari Catatan HNP Admin
                 let noteObj = globalCatatanHNP.find(c => c.Tanggal === paramDate);
                 let catatanHtml = noteObj ? `<div class="mt-1 text-[9px] md:text-[10px] text-zinc-300 font-medium whitespace-pre-wrap leading-tight text-left w-full border-t border-zinc-800/50 pt-1">${noteObj.Catatan}</div>` : '';
@@ -4515,7 +4662,7 @@
                         const lok = jdwl.lokasiTm || '-';
                         const stat = jdwl.statusTm || 'Belum';
                         const color = stat === 'Sudah' ? 'bg-emerald-600/80 border-emerald-500' : 'bg-blue-600/80 border-blue-500';
-                        
+
                         tmHtml += `
                         <div onclick="event.stopPropagation(); bukaEditTmHNP('${idTrx}')" class="mt-1 p-1.5 rounded-lg text-[9px] text-white border ${color} cursor-pointer hover:opacity-80 transition leading-tight w-full text-left shadow-sm">
                             <span class="font-bold">TM @${user}</span><br>
@@ -4536,7 +4683,7 @@
         // Modal Catatan Admin
         function toggleModalCatatanHNP() {
             const modal = document.getElementById('modal-catatan-hnp');
-            if (modal.classList.contains('opacity-0')) { modal.classList.remove('opacity-0', 'pointer-events-none'); setTimeout(() => modal.classList.add('show'), 10); } 
+            if (modal.classList.contains('opacity-0')) { modal.classList.remove('opacity-0', 'pointer-events-none'); setTimeout(() => modal.classList.add('show'), 10); }
             else { modal.classList.remove('show'); setTimeout(() => { modal.classList.add('opacity-0', 'pointer-events-none'); }, 300); }
         }
 
@@ -4557,37 +4704,37 @@
             try {
                 const res = await fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify({ action: "saveCatatanHNP", tanggal: tgl, catatan: cat }) });
                 const data = await res.json();
-                if(data.status === 'success') {
+                if (data.status === 'success') {
                     // Update Memory lokal
                     let idx = globalCatatanHNP.findIndex(c => c.Tanggal === tgl);
-                    if(cat === "") { if(idx !== -1) globalCatatanHNP.splice(idx, 1); } 
-                    else { if(idx !== -1) globalCatatanHNP[idx].Catatan = cat; else globalCatatanHNP.push({Tanggal: tgl, Catatan: cat}); }
-                    
+                    if (cat === "") { if (idx !== -1) globalCatatanHNP.splice(idx, 1); }
+                    else { if (idx !== -1) globalCatatanHNP[idx].Catatan = cat; else globalCatatanHNP.push({ Tanggal: tgl, Catatan: cat }); }
+
                     renderKalenderHNP();
                     toggleModalCatatanHNP();
                 }
-            } catch(e) { alert("Gagal koneksi"); }
+            } catch (e) { alert("Gagal koneksi"); }
             btn.innerHTML = 'Simpan Catatan'; btn.disabled = false;
         }
 
         // Modal Edit TM Khusus dari HNP
         function toggleModalTmHNP() {
             const modal = document.getElementById('modal-edit-tm-hnp');
-            if (modal.classList.contains('opacity-0')) { modal.classList.remove('opacity-0', 'pointer-events-none'); setTimeout(() => modal.classList.add('show'), 10); } 
+            if (modal.classList.contains('opacity-0')) { modal.classList.remove('opacity-0', 'pointer-events-none'); setTimeout(() => modal.classList.add('show'), 10); }
             else { modal.classList.remove('show'); setTimeout(() => { modal.classList.add('opacity-0', 'pointer-events-none'); }, 300); }
         }
 
         function bukaEditTmHNP(idTrx) {
-            const p = globalPenjualan.find(x => (x['ID Booking']||x['ID Transaksi']) === idTrx);
+            const p = globalPenjualan.find(x => (x['ID Booking'] || x['ID Transaksi']) === idTrx);
             const jdwl = globalJadwal[idTrx] || {};
-            
+
             document.getElementById('hnp-tm-id').value = idTrx;
-            document.getElementById('hnp-tm-klien').textContent = `Klien: @${p['Username Klien']||p['Username Pembeli']}`;
+            document.getElementById('hnp-tm-klien').textContent = `Klien: @${p['Username Klien'] || p['Username Pembeli']}`;
             document.getElementById('hnp-tm-tgl').value = jdwl.tglTm || '';
             document.getElementById('hnp-tm-wkt').value = jdwl.waktuTm || '';
             document.getElementById('hnp-tm-lok').value = jdwl.lokasiTm || '';
             document.getElementById('hnp-tm-stat').value = jdwl.statusTm || 'Belum';
-            
+
             toggleModalTmHNP();
         }
 
@@ -4598,7 +4745,7 @@
 
             // Kita harus mengirim ulang data jadwal yang sudah ada (jangan sampai kerest)
             const jdwlLama = globalJadwal[idTrx] || {};
-            
+
             const payload = {
                 action: "saveJadwal",
                 id_booking: idTrx,
@@ -4619,19 +4766,19 @@
             try {
                 const res = await fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify(payload) });
                 const data = await res.json();
-                if(data.status === 'success') {
+                if (data.status === 'success') {
                     // Update memory lokal
-                    if(!globalJadwal[idTrx]) globalJadwal[idTrx] = {};
+                    if (!globalJadwal[idTrx]) globalJadwal[idTrx] = {};
                     globalJadwal[idTrx].tglTm = payload.tgl_tm;
                     globalJadwal[idTrx].waktuTm = payload.waktu_tm;
                     globalJadwal[idTrx].lokasiTm = payload.lokasi_tm;
                     globalJadwal[idTrx].statusTm = payload.status_tm;
 
                     renderKalenderHNP(); // Update UI Kalender
-                    if(!document.getElementById('sec-jadwal').classList.contains('hidden')) renderJadwalEvent(); // Update UI tabel jadwal jika diperlukan
+                    if (!document.getElementById('sec-jadwal').classList.contains('hidden')) renderJadwalEvent(); // Update UI tabel jadwal jika diperlukan
                     toggleModalTmHNP();
                 } else alert("Gagal: " + data.message);
-            } catch(e) { alert("Gagal koneksi"); }
+            } catch (e) { alert("Gagal koneksi"); }
             btn.innerHTML = 'Simpan Info TM'; btn.disabled = false;
         }
 
