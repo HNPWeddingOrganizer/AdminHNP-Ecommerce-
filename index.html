@@ -2714,9 +2714,29 @@
                     let hargaTampil = formatRp(p['Total Harga']);
                     if (isCustomUnpriced) hargaTampil = `<button onclick="bukaModalHarga('${idTrx}')" class="bg-gold-600 text-black px-2 py-1 rounded text-[9px] font-bold hover:bg-gold-500 transition-colors shadow-md">Input Penawaran</button>`;
 
+                    // --- TAMBAHAN LOGIKA WA KLIEN ---
+                    let btnWaHtml = "";
+                    const dataKlien = globalPelanggan.find(k => k.Username === clientNm);
+                    if (dataKlien && dataKlien['No HP']) {
+                        let rawHp = String(dataKlien['No HP']).replace(/\D/g, '');
+                        if (rawHp.startsWith('0')) rawHp = '62' + rawHp.substring(1);
+                        else if (rawHp.startsWith('8')) rawHp = '62' + rawHp;
+                        
+                        let pesanWa = encodeURIComponent(`Halo Kak ${dataKlien['Nama Lengkap']},\nKami dari *Elegance WO* ingin mengkonfirmasi detail pesanan dengan ID Booking: *${idTrx}*.\n\nMohon waktunya sebentar ya Kak untuk diskusi. Terima kasih 🙏`);
+                        btnWaHtml = `<a href="https://wa.me/${rawHp}?text=${pesanWa}" target="_blank" onclick="event.stopPropagation()" class="ml-1.5 inline-flex items-center justify-center w-5 h-5 bg-[#25D366] text-white rounded-full hover:scale-110 transition shadow-[0_0_8px_rgba(37,211,102,0.4)]" title="Hubungi Klien via WA"><i class="fa-brands fa-whatsapp text-[11px]"></i></a>`;
+                    }
+                    // ---------------------------------
+
                     return `
                     <tr class="hover:bg-zinc-900 border-b border-zinc-800/50">
-                        <td class="px-3 md:px-5 py-2.5 md:py-3 cursor-pointer" onclick="bukaDetailPesananModal('${idTrx}')"><span class="font-mono font-bold text-gold-500 block text-[10px] md:text-[11px]">${idTrx}</span><span class="text-[9px] md:text-[10px] text-zinc-300 block mt-0.5 md:mt-1 truncate max-w-[100px] md:max-w-[150px]"><i class="fa-regular fa-user text-zinc-500"></i> ${clientNm || '-'}</span><span class="text-[8px] md:text-[9px] text-zinc-600 block mt-0.5">${p.Tanggal.split(' ')[0]}</span></td>
+                        <td class="px-3 md:px-5 py-2.5 md:py-3 cursor-pointer" onclick="bukaDetailPesananModal('${idTrx}')">
+                            <span class="font-mono font-bold text-gold-500 block text-[10px] md:text-[11px]">${idTrx}</span>
+                            <div class="flex items-center mt-0.5 md:mt-1">
+                                <span class="text-[9px] md:text-[10px] text-zinc-300 truncate max-w-[100px] md:max-w-[130px]"><i class="fa-regular fa-user text-zinc-500 mr-1"></i>${clientNm || '-'}</span>
+                                ${btnWaHtml}
+                            </div>
+                            <span class="text-[8px] md:text-[9px] text-zinc-600 block mt-0.5">${p.Tanggal.split(' ')[0]}</span>
+                        </td>
                         <td class="px-3 md:px-5 py-2.5 md:py-3 cursor-pointer" onclick="bukaDetailPesananModal('${idTrx}')"><p class="font-bold text-white text-[10px] md:text-[11px] w-28 md:w-40 truncate" title="${nmPkt}">${nmPkt} ${upgradeBadge}</p>${varDetailHtml}</td>
                         <td class="px-3 md:px-5 py-2.5 md:py-3 cursor-pointer" onclick="bukaDetailPesananModal('${idTrx}')"><p class="text-gold-400 font-extrabold text-[10px] md:text-[11px] mt-0.5 md:mt-1">${hargaTampil}</p><p class="text-[8px] md:text-[9px] text-zinc-500 font-normal mt-0.5">${qtyP} Pax/Item</p></td>
                         <td class="px-3 md:px-5 py-2.5 md:py-3 text-center"><span class="px-1.5 md:px-2 py-0.5 md:py-1 rounded text-[8px] md:text-[9px] font-bold uppercase bg-zinc-800 text-zinc-300 block mb-0.5 md:mb-1 border border-zinc-700">${metodeDisplay1List}</span><span class="px-1.5 md:px-2 py-0.5 md:py-1 rounded text-[8px] md:text-[9px] font-bold uppercase ${bayarBadge} block mb-1" title="${p['Detail DP'] || ''}">${p['Tipe Pembayaran']}</span>${fileDesign}</td>
