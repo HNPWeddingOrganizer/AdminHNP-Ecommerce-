@@ -4799,13 +4799,23 @@
                 const jdwl = globalJadwal[idTrx] || {};
                 const berkas = globalBerkas.find(b => b['ID Booking'] === idTrx) || {};
 
-                // 1. Cek Apakah Ada Wedding Hari Ini
+               // 1. Cek Apakah Ada Wedding Hari Ini
                 let d = getValidEventDate(p, berkas);
                 let tglPakai = p.Tanggal; 
                 if (berkas['Tgl Akad']) tglPakai = berkas['Tgl Akad']; 
                 if (!d && tglPakai.includes('-')) d = new Date(tglPakai); 
 
-                if (d && d.toISOString().split('T')[0] === dateStr) {
+                // Mencegah bug zona waktu (UTC) dengan menggunakan fungsi waktu lokal
+                let isWeddingToday = false;
+                if (d) {
+                    let dYear = d.getFullYear();
+                    let dMonth = String(d.getMonth() + 1).padStart(2, '0');
+                    let dDay = String(d.getDate()).padStart(2, '0');
+                    let localDateStr = `${dYear}-${dMonth}-${dDay}`;
+                    if (localDateStr === dateStr) isWeddingToday = true;
+                }
+
+                if (isWeddingToday) {
                     let waktuAkad = berkas['Waktu Akad'] || '-';
                     let venue = berkas['Vendor Venue'] || '-';
                     htmlWedding += `
