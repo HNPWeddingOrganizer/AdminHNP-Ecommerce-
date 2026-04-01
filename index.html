@@ -752,28 +752,40 @@
                 </div>
             </section>
 
-            <!-- Modal Catatan HNP -->
-            <div id="modal-catatan-hnp"
-                class="modal opacity-0 pointer-events-none fixed inset-0 flex items-center justify-center z-[100] transition-opacity duration-300">
-                <div class="absolute inset-0 bg-black/80 backdrop-blur-sm" onclick="toggleModalCatatanHNP()"></div>
-                <div
-                    class="modal-sheet bg-[#111] w-full sm:max-w-md mx-auto rounded-[32px] shadow-[0_0_40px_rgba(212,175,55,0.15)] z-[105] flex flex-col relative p-5 border border-gold-500/30">
-                    <div class="flex justify-between items-center border-b border-zinc-800 pb-3 mb-4">
-                        <h3 class="font-bold text-lg text-gold-500"><i
-                                class="fa-solid fa-pen-to-square mr-2"></i>Catatan HNP</h3>
-                        <button onclick="toggleModalCatatanHNP()"
-                            class="bg-zinc-800 w-8 h-8 rounded-full text-zinc-300 hover:text-white"><i
-                                class="fa-solid fa-times"></i></button>
-                    </div>
+           <!-- Modal Detail Hari HNP -->
+    <div id="modal-detail-hnp" class="modal opacity-0 pointer-events-none fixed inset-0 flex items-center justify-center z-[100] transition-opacity duration-300">
+        <div class="absolute inset-0 bg-black/80 backdrop-blur-sm" onclick="toggleModalDetailHNP()"></div>
+        <div class="modal-sheet bg-[#111] w-full sm:max-w-lg mx-auto rounded-[32px] shadow-[0_0_40px_rgba(212,175,55,0.15)] z-[105] flex flex-col relative p-5 sm:p-6 border border-gold-500/30 max-h-[90vh]">
+            <div class="flex justify-between items-center border-b border-zinc-800 pb-3 mb-4 shrink-0">
+                <h3 class="font-bold text-lg text-gold-500"><i class="fa-solid fa-calendar-day mr-2"></i>Agenda Hari Ini</h3>
+                <button onclick="toggleModalDetailHNP()" class="bg-zinc-800 w-8 h-8 rounded-full text-zinc-300 hover:text-white"><i class="fa-solid fa-times"></i></button>
+            </div>
+            
+            <div class="overflow-y-auto hide-scrollbar flex-1 space-y-5">
+                <p id="hnp-detail-tgl" class="text-sm text-gold-400 font-bold border-b border-zinc-800 pb-2">Tanggal: -</p>
+                
+                <!-- Section Event Wedding -->
+                <div>
+                    <h4 class="text-[11px] font-bold text-zinc-400 mb-2 uppercase tracking-wider"><i class="fa-solid fa-ring text-gold-500 mr-1"></i> Event Wedding (Hari H)</h4>
+                    <div id="hnp-detail-wedding" class="space-y-2"></div>
+                </div>
+
+                <!-- Section Technical Meeting (TM) -->
+                <div>
+                    <h4 class="text-[11px] font-bold text-zinc-400 mb-2 uppercase tracking-wider"><i class="fa-solid fa-handshake text-blue-500 mr-1"></i> Technical Meeting (TM)</h4>
+                    <div id="hnp-detail-tm" class="space-y-2"></div>
+                </div>
+
+                <!-- Section Catatan Admin -->
+                <div class="pt-3 border-t border-zinc-800">
+                    <h4 class="text-[11px] font-bold text-zinc-400 mb-2 uppercase tracking-wider"><i class="fa-solid fa-pen-to-square text-zinc-300 mr-1"></i> Memo / Catatan Admin</h4>
                     <input type="hidden" id="hnp-tgl-input">
-                    <p id="hnp-tgl-label" class="text-xs text-zinc-400 font-bold mb-3">Tanggal: -</p>
-                    <textarea id="hnp-catatan-input" rows="6" placeholder="Ketik catatan aktivitas atau memo di sini..."
-                        class="w-full bg-black border border-zinc-700 rounded-xl px-4 py-3 text-white text-sm outline-none focus:border-gold-500 resize-none"></textarea>
-                    <button onclick="simpanCatatanHNP()" id="btn-simpan-hnp"
-                        class="mt-4 bg-gold-500 hover:bg-gold-400 text-black font-bold py-3 rounded-xl transition shadow-lg w-full">Simpan
-                        Catatan</button>
+                    <textarea id="hnp-catatan-input" rows="3" placeholder="Ketik memo atau catatan tambahan di sini..." class="w-full bg-black border border-zinc-700 rounded-xl px-4 py-3 text-white text-sm outline-none focus:border-gold-500 resize-none"></textarea>
+                    <button onclick="simpanCatatanHNP()" id="btn-simpan-hnp" class="mt-3 bg-gold-500 hover:bg-gold-400 text-black font-bold py-3 rounded-xl transition shadow-lg w-full text-sm">Simpan Catatan</button>
                 </div>
             </div>
+        </div>
+    </div>
 
             <!-- Modal Edit TM Cepat (Dari HNP) -->
             <div id="modal-edit-tm-hnp"
@@ -4746,13 +4758,94 @@
                     }
                 });
 
-                grid.innerHTML += `
-                <div onclick="bukaModalCatatanHNP('${paramDate}', \`${noteObj ? noteObj.Catatan.replace(/`/g, '\\`') : ''}\`)" 
-                     class="relative p-2 md:p-3 rounded-xl border flex flex-col items-start justify-start min-h-[80px] md:min-h-[100px] transition-colors cursor-pointer group bg-black border-zinc-800 hover:border-gold-500/50">
+               grid.innerHTML += `
+                <div onclick="bukaDetailHNP('${paramDate}')" 
+                     class="relative p-2 md:p-3 rounded-xl border flex flex-col items-start justify-start min-h-[80px] md:min-h-[100px] transition-colors cursor-pointer group bg-black border-zinc-800 hover:border-gold-500/50 hover:bg-zinc-900/50">
                     <span class="text-xs md:text-sm font-bold ${isToday ? 'text-gold-500 bg-gold-500/20 px-2 py-0.5 rounded' : 'text-zinc-400 group-hover:text-gold-400'}">${i}</span>
-                    <div class="flex flex-col w-full gap-1 mt-1">${eventHtml}${tmHtml}${catatanHtml}</div>
+                    <div class="flex flex-col w-full gap-1 mt-1 pointer-events-none">${eventHtml}${tmHtml}${catatanHtml}</div>
                 </div>`;
             }
+        }
+
+        function toggleModalDetailHNP() {
+            const modal = document.getElementById('modal-detail-hnp');
+            if (modal.classList.contains('opacity-0')) { 
+                modal.classList.remove('opacity-0', 'pointer-events-none'); 
+                setTimeout(() => modal.classList.add('show'), 10); 
+            } else { 
+                modal.classList.remove('show'); 
+                setTimeout(() => { modal.classList.add('opacity-0', 'pointer-events-none'); }, 300); 
+            }
+        }
+
+        function bukaDetailHNP(dateStr) {
+            const targetDate = new Date(dateStr);
+            const options = { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' };
+            document.getElementById('hnp-detail-tgl').textContent = targetDate.toLocaleDateString('id-ID', options);
+            document.getElementById('hnp-tgl-input').value = dateStr;
+
+            // Load Catatan Admin
+            let noteObj = globalCatatanHNP.find(c => c.Tanggal === dateStr);
+            document.getElementById('hnp-catatan-input').value = noteObj ? noteObj.Catatan : '';
+
+            // Load Event & TM
+            const validEvents = globalPenjualan.filter(p => p['Status Acara'] !== 'Dibatalkan' && p.Status !== 'Dibatalkan');
+            let htmlWedding = '';
+            let htmlTM = '';
+
+            validEvents.forEach(p => {
+                const idTrx = p['ID Booking'] || p['ID Transaksi'];
+                const user = p['Username Klien'] || p['Username Pembeli'];
+                const jdwl = globalJadwal[idTrx] || {};
+                const berkas = globalBerkas.find(b => b['ID Booking'] === idTrx) || {};
+
+                // 1. Cek Apakah Ada Wedding Hari Ini
+                let d = getValidEventDate(p, berkas);
+                let tglPakai = p.Tanggal; 
+                if (berkas['Tgl Akad']) tglPakai = berkas['Tgl Akad']; 
+                if (!d && tglPakai.includes('-')) d = new Date(tglPakai); 
+
+                if (d && d.toISOString().split('T')[0] === dateStr) {
+                    let waktuAkad = berkas['Waktu Akad'] || '-';
+                    let venue = berkas['Vendor Venue'] || '-';
+                    htmlWedding += `
+                    <div onclick="toggleModalDetailHNP(); setTimeout(()=>bukaEditBerkasAdmin('${idTrx}'), 300)" class="bg-gold-500/10 border border-gold-500/40 p-3 rounded-xl cursor-pointer hover:bg-gold-500/20 transition-colors shadow-sm relative overflow-hidden group">
+                        <div class="absolute right-3 top-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 transition-opacity text-gold-500"><i class="fa-solid fa-chevron-right"></i></div>
+                        <p class="font-bold text-gold-400 text-sm mb-1"><i class="fa-solid fa-ring mr-1 text-gold-500"></i> Wedding @${user}</p>
+                        <p class="text-[10px] text-zinc-400 mb-1 font-mono">ID: ${idTrx}</p>
+                        <p class="text-xs text-white"><i class="fa-regular fa-clock mr-1 text-zinc-500"></i> ${waktuAkad} | <i class="fa-solid fa-location-dot mx-1 text-zinc-500"></i> ${venue}</p>
+                    </div>`;
+                }
+
+                // 2. Cek Apakah Ada TM Hari Ini
+                if (jdwl.tglTm === dateStr) {
+                    const wkt = jdwl.waktuTm || '-';
+                    const lok = jdwl.lokasiTm || '-';
+                    const stat = jdwl.statusTm || 'Belum';
+                    const isSudah = stat === 'Sudah';
+                    const colorUI = isSudah ? 'text-emerald-400 bg-emerald-900/20 border-emerald-500/40' : 'text-blue-400 bg-blue-900/20 border-blue-500/40';
+                    const statBadge = isSudah ? 'bg-emerald-600 text-black' : 'bg-blue-600 text-white';
+
+                    htmlTM += `
+                    <div onclick="toggleModalDetailHNP(); setTimeout(()=>bukaEditTmHNP('${idTrx}'), 300)" class="${colorUI} border p-3 rounded-xl cursor-pointer hover:brightness-125 transition-colors shadow-sm relative overflow-hidden group">
+                        <div class="absolute right-3 top-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 transition-opacity"><i class="fa-solid fa-chevron-right"></i></div>
+                        <div class="flex justify-between items-start mb-1 pr-6">
+                            <p class="font-bold text-sm"><i class="fa-solid fa-handshake mr-1"></i> TM @${user}</p>
+                            <span class="text-[9px] px-2 py-0.5 rounded ${statBadge} font-bold uppercase">${stat}</span>
+                        </div>
+                        <p class="text-[10px] text-zinc-400 mb-1 font-mono">ID: ${idTrx}</p>
+                        <p class="text-xs text-white"><i class="fa-regular fa-clock mr-1 text-zinc-500"></i> ${wkt} | <i class="fa-solid fa-location-dot mx-1 text-zinc-500"></i> ${lok}</p>
+                    </div>`;
+                }
+            });
+
+            if(htmlWedding === '') htmlWedding = '<p class="text-xs text-zinc-600 italic bg-black p-3 rounded-lg border border-zinc-800">Tidak ada event wedding dijadwalkan.</p>';
+            if(htmlTM === '') htmlTM = '<p class="text-xs text-zinc-600 italic bg-black p-3 rounded-lg border border-zinc-800">Tidak ada agenda TM dijadwalkan.</p>';
+
+            document.getElementById('hnp-detail-wedding').innerHTML = htmlWedding;
+            document.getElementById('hnp-detail-tm').innerHTML = htmlTM;
+
+            toggleModalDetailHNP();
         }
 
         // Modal Catatan Admin
@@ -4785,8 +4878,8 @@
                     if (cat === "") { if (idx !== -1) globalCatatanHNP.splice(idx, 1); }
                     else { if (idx !== -1) globalCatatanHNP[idx].Catatan = cat; else globalCatatanHNP.push({ Tanggal: tgl, Catatan: cat }); }
 
-                    renderKalenderHNP();
-                    toggleModalCatatanHNP();
+                   renderKalenderHNP();
+                    toggleModalDetailHNP();
                 }
             } catch (e) { alert("Gagal koneksi"); }
             btn.innerHTML = 'Simpan Catatan'; btn.disabled = false;
