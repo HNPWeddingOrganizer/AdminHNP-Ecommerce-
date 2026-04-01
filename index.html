@@ -4677,14 +4677,14 @@
             renderKalenderHNP();
         }
 
-        function renderKalenderHNP() {
+      function renderKalenderHNP() {
             const year = currentDateHNP.getFullYear();
             const month = currentDateHNP.getMonth();
             const monthNames = ["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"];
-
+            
             document.getElementById('hnp-kalender-title').textContent = `${monthNames[month]} ${year}`;
 
-            const firstDay = new Date(year, month, 1).getDay();
+            const firstDay = new Date(year, month, 1).getDay(); 
             const daysInMonth = new Date(year, month + 1, 0).getDate();
             const grid = document.getElementById('hnp-kalender-grid');
             grid.innerHTML = '';
@@ -4697,28 +4697,51 @@
             for (let i = 1; i <= daysInMonth; i++) {
                 let isToday = (i === today.getDate() && month === today.getMonth() && year === today.getFullYear());
                 let paramDate = `${year}-${String(month + 1).padStart(2, '0')}-${String(i).padStart(2, '0')}`;
-
+                
                 // Cari Catatan HNP Admin
                 let noteObj = globalCatatanHNP.find(c => c.Tanggal === paramDate);
                 let catatanHtml = noteObj ? `<div class="mt-1 text-[9px] md:text-[10px] text-zinc-300 font-medium whitespace-pre-wrap leading-tight text-left w-full border-t border-zinc-800/50 pt-1">${noteObj.Catatan}</div>` : '';
 
-                // Cari Info TM dari Jadwal
+                // Cari Info TM dan Event Wedding Utama
                 let tmHtml = '';
+                let eventHtml = '';
+
                 validEvents.forEach(p => {
                     const idTrx = p['ID Booking'] || p['ID Transaksi'];
-                    const jdwl = globalJadwal[idTrx];
-                    // Cek jika tgl TM cocok dengan tanggal grid ini
-                    if (jdwl && jdwl.tglTm === paramDate) {
-                        const user = p['Username Klien'] || p['Username Pembeli'];
+                    const user = p['Username Klien'] || p['Username Pembeli'];
+                    const jdwl = globalJadwal[idTrx] || {};
+                    const berkas = globalBerkas.find(b => b['ID Booking'] === idTrx) || {};
+                    
+                    // --- 1. CEK TM ---
+                    if (jdwl.tglTm === paramDate) {
                         const wkt = jdwl.waktuTm || '-';
                         const lok = jdwl.lokasiTm || '-';
                         const stat = jdwl.statusTm || 'Belum';
                         const color = stat === 'Sudah' ? 'bg-emerald-600/80 border-emerald-500' : 'bg-blue-600/80 border-blue-500';
-
+                        
                         tmHtml += `
                         <div onclick="event.stopPropagation(); bukaEditTmHNP('${idTrx}')" class="mt-1 p-1.5 rounded-lg text-[9px] text-white border ${color} cursor-pointer hover:opacity-80 transition leading-tight w-full text-left shadow-sm">
                             <span class="font-bold">TM @${user}</span><br>
                             <span class="text-[8px] text-zinc-200">${wkt} | ${lok}</span>
+                        </div>`;
+                    }
+
+                    // --- 2. CEK EVENT WEDDING ---
+                    let d = getValidEventDate(p, berkas);
+                    let tglPakai = p.Tanggal; 
+                    if(berkas['Tgl Akad']) tglPakai = berkas['Tgl Akad']; 
+                    if (!d && tglPakai.includes('-')) d = new Date(tglPakai); 
+
+                    if (d && d.getFullYear() === year && d.getMonth() === month && d.getDate() === i) {
+                        let waktuAkad = berkas['Waktu Akad'] || '-';
+                        let venue = berkas['Vendor Venue'] || '-';
+                        let tglIndo = formatDateIndo(paramDate);
+
+                        eventHtml += `
+                        <div class="mt-1 p-1.5 rounded-lg text-[9px] text-black border border-gold-600 bg-gold-500 leading-tight w-full text-left shadow-sm">
+                            <span class="font-bold uppercase"><i class="fa-solid fa-ring"></i> WEDDING @${user}</span><br>
+                            <span class="text-[8px] font-bold mt-0.5 block opacity-80">${tglIndo} | ${waktuAkad}</span>
+                            <span class="text-[8px] font-bold truncate block mt-0.5"><i class="fa-solid fa-location-dot"></i> ${venue}</span>
                         </div>`;
                     }
                 });
@@ -4727,7 +4750,7 @@
                 <div onclick="bukaModalCatatanHNP('${paramDate}', \`${noteObj ? noteObj.Catatan.replace(/`/g, '\\`') : ''}\`)" 
                      class="relative p-2 md:p-3 rounded-xl border flex flex-col items-start justify-start min-h-[80px] md:min-h-[100px] transition-colors cursor-pointer group bg-black border-zinc-800 hover:border-gold-500/50">
                     <span class="text-xs md:text-sm font-bold ${isToday ? 'text-gold-500 bg-gold-500/20 px-2 py-0.5 rounded' : 'text-zinc-400 group-hover:text-gold-400'}">${i}</span>
-                    <div class="flex flex-col w-full gap-1 mt-1">${tmHtml}${catatanHtml}</div>
+                    <div class="flex flex-col w-full gap-1 mt-1">${eventHtml}${tmHtml}${catatanHtml}</div>
                 </div>`;
             }
         }
