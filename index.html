@@ -155,7 +155,7 @@
 
     <script>
         // GANTI DENGAN URL WEB APP DEPLOY ANDA
-        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwC7AZPMfFvSqNbgbyJNXVjEjr35Qs9jOxzylxCMI1aHS6Hpk9lCQeBZrpqb8d5jCyanA/exec'; 
+        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbw1X1hKYr35eHiUptW7pjFCO-FEWbS4Dkn_O9aFEoAmhGnn44jec4FuVi6HPrgZMWj_/exec'; 
     </script>
 
     <!-- Sidebar Desktop -->
@@ -180,6 +180,9 @@
             <button onclick="switchTab('penjualan')" id="nav-penjualan"
                 class="w-full flex items-center gap-3 px-4 py-3.5 rounded-2xl text-zinc-400 hover:bg-zinc-800 hover:text-gold-400 font-semibold transition-all active:scale-95 whitespace-nowrap"><i
                     class="fa-solid fa-calendar-check w-5 text-lg"></i> Data Booking</button>
+                    <button onclick="switchTab('hnp')" id="nav-hnp"
+                class="w-full flex items-center gap-3 px-4 py-3.5 rounded-2xl text-zinc-400 hover:bg-zinc-800 hover:text-gold-400 font-semibold transition-all active:scale-95 whitespace-nowrap"><i
+                    class="fa-solid fa-calendar-check w-5 text-lg"></i> Jadwal HNP</button>
                     <button onclick="switchTab('jadwal')" id="nav-jadwal" class="w-full flex items-center gap-3 px-4 py-3.5 rounded-2xl text-zinc-400 hover:bg-zinc-800 hover:text-gold-400 font-semibold transition-all active:scale-95 whitespace-nowrap"><i class="fa-solid fa-calendar-day w-5 text-lg"></i> Jadwal Event</button>
             <button onclick="switchTab('transkrip')" id="nav-transkrip"
                 class="w-full flex items-center gap-3 px-4 py-3.5 rounded-2xl text-zinc-400 hover:bg-zinc-800 hover:text-gold-400 font-semibold transition-all active:scale-95 whitespace-nowrap"><i
@@ -222,6 +225,9 @@
                 class="flex flex-col items-center justify-center gap-1.5 p-2 text-zinc-500 hover:text-gold-400 min-w-[72px] shrink-0 active:scale-90 transition-transform"><i
                     class="fa-solid fa-calendar-check text-[22px]"></i><span
                     class="text-[10px] font-bold">Booking</span></button>
+                    <button onclick="switchTab('hnp')" id="nav-mob-hnp"
+                class="flex flex-col items-center justify-center gap-1.5 p-2 text-zinc-500 hover:text-gold-400 min-w-[72px] shrink-0 active:scale-90 transition-transform"><i
+                    class="fa-solid fa-calendar-check text-[22px]"></i><span class="text-[10px] font-bold">HNP</span></button>
                     <button onclick="switchTab('jadwal')" id="nav-mob-jadwal" class="flex flex-col items-center justify-center gap-1.5 p-2 text-zinc-500 hover:text-gold-400 min-w-[72px] shrink-0 active:scale-90 transition-transform"><i class="fa-solid fa-calendar-day text-[22px]"></i><span class="text-[10px] font-bold">Jadwal</span></button>
             <button onclick="switchTab('transkrip')" id="nav-mob-transkrip"
                 class="flex flex-col items-center justify-center gap-1.5 p-2 text-zinc-500 hover:text-gold-400 min-w-[72px] shrink-0 active:scale-90 transition-transform"><i
@@ -682,6 +688,73 @@
                     </div>
                 </div>
             </section>
+
+            <!-- JADWAL HNP SECTION -->
+            <section id="sec-hnp" class="hidden space-y-4 md:space-y-6 transition-all duration-300">
+                <div class="bg-[#111] p-4 md:p-6 rounded-[32px] md:rounded-[40px] shadow-2xl border border-zinc-800">
+                    <div class="flex justify-between items-center mb-4 md:mb-6 border-b border-zinc-800 pb-4">
+                        <button onclick="ubahBulanHNP(-1)"
+                            class="w-10 h-10 rounded-full bg-black border border-zinc-700 text-gold-500 hover:bg-gold-500 hover:text-black flex items-center justify-center transition shadow-sm"><i
+                                class="fa-solid fa-chevron-left"></i></button>
+                        <div class="text-center">
+                            <h3 id="hnp-kalender-title" class="font-black text-lg md:text-2xl text-white tracking-widest uppercase">Bulan Tahun</h3>
+                            <p class="text-[10px] text-zinc-400 mt-1">Klik tanggal untuk menambah catatan khusus.</p>
+                        </div>
+                        <button onclick="ubahBulanHNP(1)"
+                            class="w-10 h-10 rounded-full bg-black border border-zinc-700 text-gold-500 hover:bg-gold-500 hover:text-black flex items-center justify-center transition shadow-sm"><i
+                                class="fa-solid fa-chevron-right"></i></button>
+                    </div>
+                    <!-- Header Hari -->
+                    <div class="grid grid-cols-7 gap-1 md:gap-2 text-center mb-2">
+                        <div class="text-[10px] md:text-xs font-black text-red-500 py-1">Min</div>
+                        <div class="text-[10px] md:text-xs font-bold text-zinc-500 py-1">Sen</div>
+                        <div class="text-[10px] md:text-xs font-bold text-zinc-500 py-1">Sel</div>
+                        <div class="text-[10px] md:text-xs font-bold text-zinc-500 py-1">Rab</div>
+                        <div class="text-[10px] md:text-xs font-bold text-zinc-500 py-1">Kam</div>
+                        <div class="text-[10px] md:text-xs font-bold text-zinc-500 py-1">Jum</div>
+                        <div class="text-[10px] md:text-xs font-bold text-zinc-500 py-1">Sab</div>
+                    </div>
+                    <!-- Grid Tanggal -->
+                    <div id="hnp-kalender-grid" class="grid grid-cols-7 gap-1 md:gap-2"></div>
+                </div>
+            </section>
+
+    <!-- Modal Catatan HNP -->
+    <div id="modal-catatan-hnp" class="modal opacity-0 pointer-events-none fixed inset-0 flex items-center justify-center z-[100] transition-opacity duration-300">
+        <div class="absolute inset-0 bg-black/80 backdrop-blur-sm" onclick="toggleModalCatatanHNP()"></div>
+        <div class="modal-sheet bg-[#111] w-full sm:max-w-md mx-auto rounded-[32px] shadow-[0_0_40px_rgba(212,175,55,0.15)] z-[105] flex flex-col relative p-5 border border-gold-500/30">
+            <div class="flex justify-between items-center border-b border-zinc-800 pb-3 mb-4">
+                <h3 class="font-bold text-lg text-gold-500"><i class="fa-solid fa-pen-to-square mr-2"></i>Catatan HNP</h3>
+                <button onclick="toggleModalCatatanHNP()" class="bg-zinc-800 w-8 h-8 rounded-full text-zinc-300 hover:text-white"><i class="fa-solid fa-times"></i></button>
+            </div>
+            <input type="hidden" id="hnp-tgl-input">
+            <p id="hnp-tgl-label" class="text-xs text-zinc-400 font-bold mb-3">Tanggal: -</p>
+            <textarea id="hnp-catatan-input" rows="6" placeholder="Ketik catatan aktivitas atau memo di sini..." class="w-full bg-black border border-zinc-700 rounded-xl px-4 py-3 text-white text-sm outline-none focus:border-gold-500 resize-none"></textarea>
+            <button onclick="simpanCatatanHNP()" id="btn-simpan-hnp" class="mt-4 bg-gold-500 hover:bg-gold-400 text-black font-bold py-3 rounded-xl transition shadow-lg w-full">Simpan Catatan</button>
+        </div>
+    </div>
+
+    <!-- Modal Edit TM Cepat (Dari HNP) -->
+    <div id="modal-edit-tm-hnp" class="modal opacity-0 pointer-events-none fixed inset-0 flex items-center justify-center z-[110] transition-opacity duration-300">
+        <div class="absolute inset-0 bg-black/80 backdrop-blur-sm" onclick="toggleModalTmHNP()"></div>
+        <div class="modal-sheet bg-[#111] w-full sm:max-w-md mx-auto rounded-[32px] shadow-[0_0_40px_rgba(59,130,246,0.15)] z-[115] flex flex-col relative p-5 border border-blue-500/30">
+            <div class="flex justify-between items-center border-b border-zinc-800 pb-3 mb-4">
+                <h3 class="font-bold text-lg text-blue-400"><i class="fa-solid fa-handshake mr-2"></i>Update Info TM</h3>
+                <button onclick="toggleModalTmHNP()" class="bg-zinc-800 w-8 h-8 rounded-full text-zinc-300 hover:text-white"><i class="fa-solid fa-times"></i></button>
+            </div>
+            <input type="hidden" id="hnp-tm-id">
+            <p id="hnp-tm-klien" class="text-xs text-zinc-300 font-bold mb-3 pb-2 border-b border-zinc-800">Klien: -</p>
+            <div class="space-y-3">
+                <div class="grid grid-cols-2 gap-2">
+                    <div><label class="block text-xs font-bold text-zinc-400 mb-1">Tgl TM</label><input type="date" id="hnp-tm-tgl" class="w-full bg-black border border-zinc-700 rounded-lg px-3 py-2 text-white text-xs outline-none focus:border-blue-500"></div>
+                    <div><label class="block text-xs font-bold text-zinc-400 mb-1">Waktu</label><input type="time" id="hnp-tm-wkt" class="w-full bg-black border border-zinc-700 rounded-lg px-3 py-2 text-white text-xs outline-none focus:border-blue-500"></div>
+                </div>
+                <div><label class="block text-xs font-bold text-zinc-400 mb-1">Lokasi</label><input type="text" id="hnp-tm-lok" class="w-full bg-black border border-zinc-700 rounded-lg px-3 py-2 text-white text-xs outline-none focus:border-blue-500"></div>
+                <div><label class="block text-xs font-bold text-zinc-400 mb-1">Status TM</label><select id="hnp-tm-stat" class="w-full bg-black border border-zinc-700 rounded-lg px-3 py-2 text-white text-xs outline-none focus:border-blue-500"><option value="Belum">Belum (Biru)</option><option value="Sudah">Sudah (Hijau)</option></select></div>
+            </div>
+            <button onclick="simpanTmHNP()" id="btn-simpan-tm-hnp" class="mt-5 bg-blue-600 hover:bg-blue-500 text-white font-bold py-3 rounded-xl transition shadow-lg w-full">Simpan Info TM</button>
+        </div>
+    </div>
 
             <!-- JADWAL EVENT SECTION -->
             <section id="sec-jadwal" class="hidden space-y-4 md:space-y-6">
@@ -1619,6 +1692,8 @@
         // --- TAMBAHAN GLOBAL BERKAS ---
         let dataLoaded = { dashboard: false, produk: false, penjualan: false, pelanggan: false, pengaturan: false, berkas: false };
         let globalBerkas = [];
+        let globalCatatanHNP = [];
+        let currentDateHNP = new Date();
 
         let dashData = { totalProduk: 0, totalTerjual: 0, totalPendapatan: 0 };
         let globalPenjualan = [];
@@ -1723,6 +1798,10 @@
 
                 updateProgress(50, 'Menarik Database Layanan...');
                 await fetchProduk(true, true);
+                
+                // Di bawah fetchProduk atau dimana saja yang sesuai
+                updateProgress(55, 'Memuat Data HNP...');
+                await fetchCatatanHNP(true, true);
 
                 updateProgress(65, 'Menarik Database Berkas Klien...');
                 await fetchBerkas(true, true);
@@ -1778,6 +1857,7 @@
             const titles = {
                 'dashboard': 'Dashboard',
                 'produk': 'Katalog Paket',
+                'hnp': 'Jadwal HNP',
                 'penjualan': 'Jadwal Booking',
                 'transkrip': 'Laporan Terselenggara',
                 'pelanggan': 'Klien',
@@ -1787,7 +1867,7 @@
         }
 
         function switchTab(tab) {
-            const sections = ['dashboard', 'produk', 'penjualan', 'transkrip', 'pelanggan', 'pengaturan'];
+           const sections = ['dashboard', 'produk', 'penjualan', 'transkrip', 'pelanggan', 'pengaturan', 'vendor', 'jadwal', 'hnp'];
 
             sections.forEach(n => {
                 document.getElementById(`sec-${n}`).classList.add('hidden');
@@ -1814,6 +1894,7 @@
             if (tab === 'transkrip') renderGridTranskrip();
             if (tab === 'pelanggan') fetchPelanggan();
             if (tab === 'pengaturan') fetchPengaturanAdmin();
+            if (tab === 'hnp') renderKalenderHNP();
         }
 
         function toggleAutoSync() {
@@ -4372,6 +4453,184 @@
                     renderMasterKruList();
                 } else alert(data.message);
             } catch(e) { alert("Gagal koneksi"); }
+        }
+
+
+        // ==========================================
+        // LOGIKA JADWAL HNP (KALENDER & TM)
+        // ==========================================
+
+        async function fetchCatatanHNP(force = false, silent = false) {
+            if (!force && globalCatatanHNP.length > 0) return;
+            try {
+                const res = await fetch(`${SCRIPT_URL}?action=getCatatanHNP`);
+                const data = await res.json();
+                if (data.status === 'success') {
+                    globalCatatanHNP = data.data;
+                }
+            } catch (e) {}
+        }
+
+        function ubahBulanHNP(offset) {
+            currentDateHNP.setMonth(currentDateHNP.getMonth() + offset);
+            renderKalenderHNP();
+        }
+
+        function renderKalenderHNP() {
+            const year = currentDateHNP.getFullYear();
+            const month = currentDateHNP.getMonth();
+            const monthNames = ["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"];
+            
+            document.getElementById('hnp-kalender-title').textContent = `${monthNames[month]} ${year}`;
+
+            const firstDay = new Date(year, month, 1).getDay(); 
+            const daysInMonth = new Date(year, month + 1, 0).getDate();
+            const grid = document.getElementById('hnp-kalender-grid');
+            grid.innerHTML = '';
+
+            for (let i = 0; i < firstDay; i++) grid.innerHTML += `<div class="p-2 md:p-3 rounded-xl bg-black/20 border border-transparent"></div>`;
+
+            let today = new Date();
+            const validEvents = globalPenjualan.filter(p => p['Status Acara'] !== 'Dibatalkan' && p.Status !== 'Dibatalkan');
+
+            for (let i = 1; i <= daysInMonth; i++) {
+                let isToday = (i === today.getDate() && month === today.getMonth() && year === today.getFullYear());
+                let paramDate = `${year}-${String(month + 1).padStart(2, '0')}-${String(i).padStart(2, '0')}`;
+                
+                // Cari Catatan HNP Admin
+                let noteObj = globalCatatanHNP.find(c => c.Tanggal === paramDate);
+                let catatanHtml = noteObj ? `<div class="mt-1 text-[9px] md:text-[10px] text-zinc-300 font-medium whitespace-pre-wrap leading-tight text-left w-full border-t border-zinc-800/50 pt-1">${noteObj.Catatan}</div>` : '';
+
+                // Cari Info TM dari Jadwal
+                let tmHtml = '';
+                validEvents.forEach(p => {
+                    const idTrx = p['ID Booking'] || p['ID Transaksi'];
+                    const jdwl = globalJadwal[idTrx];
+                    // Cek jika tgl TM cocok dengan tanggal grid ini
+                    if (jdwl && jdwl.tglTm === paramDate) {
+                        const user = p['Username Klien'] || p['Username Pembeli'];
+                        const wkt = jdwl.waktuTm || '-';
+                        const lok = jdwl.lokasiTm || '-';
+                        const stat = jdwl.statusTm || 'Belum';
+                        const color = stat === 'Sudah' ? 'bg-emerald-600/80 border-emerald-500' : 'bg-blue-600/80 border-blue-500';
+                        
+                        tmHtml += `
+                        <div onclick="event.stopPropagation(); bukaEditTmHNP('${idTrx}')" class="mt-1 p-1.5 rounded-lg text-[9px] text-white border ${color} cursor-pointer hover:opacity-80 transition leading-tight w-full text-left shadow-sm">
+                            <span class="font-bold">TM @${user}</span><br>
+                            <span class="text-[8px] text-zinc-200">${wkt} | ${lok}</span>
+                        </div>`;
+                    }
+                });
+
+                grid.innerHTML += `
+                <div onclick="bukaModalCatatanHNP('${paramDate}', \`${noteObj ? noteObj.Catatan.replace(/`/g, '\\`') : ''}\`)" 
+                     class="relative p-2 md:p-3 rounded-xl border flex flex-col items-start justify-start min-h-[80px] md:min-h-[100px] transition-colors cursor-pointer group bg-black border-zinc-800 hover:border-gold-500/50">
+                    <span class="text-xs md:text-sm font-bold ${isToday ? 'text-gold-500 bg-gold-500/20 px-2 py-0.5 rounded' : 'text-zinc-400 group-hover:text-gold-400'}">${i}</span>
+                    <div class="flex flex-col w-full gap-1 mt-1">${tmHtml}${catatanHtml}</div>
+                </div>`;
+            }
+        }
+
+        // Modal Catatan Admin
+        function toggleModalCatatanHNP() {
+            const modal = document.getElementById('modal-catatan-hnp');
+            if (modal.classList.contains('opacity-0')) { modal.classList.remove('opacity-0', 'pointer-events-none'); setTimeout(() => modal.classList.add('show'), 10); } 
+            else { modal.classList.remove('show'); setTimeout(() => { modal.classList.add('opacity-0', 'pointer-events-none'); }, 300); }
+        }
+
+        function bukaModalCatatanHNP(tgl, catLama) {
+            document.getElementById('hnp-tgl-input').value = tgl;
+            document.getElementById('hnp-tgl-label').textContent = "Tanggal: " + tgl;
+            document.getElementById('hnp-catatan-input').value = catLama;
+            toggleModalCatatanHNP();
+        }
+
+        async function simpanCatatanHNP() {
+            const btn = document.getElementById('btn-simpan-hnp');
+            btn.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin"></i> Menyimpan...'; btn.disabled = true;
+
+            const tgl = document.getElementById('hnp-tgl-input').value;
+            const cat = document.getElementById('hnp-catatan-input').value;
+
+            try {
+                const res = await fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify({ action: "saveCatatanHNP", tanggal: tgl, catatan: cat }) });
+                const data = await res.json();
+                if(data.status === 'success') {
+                    // Update Memory lokal
+                    let idx = globalCatatanHNP.findIndex(c => c.Tanggal === tgl);
+                    if(cat === "") { if(idx !== -1) globalCatatanHNP.splice(idx, 1); } 
+                    else { if(idx !== -1) globalCatatanHNP[idx].Catatan = cat; else globalCatatanHNP.push({Tanggal: tgl, Catatan: cat}); }
+                    
+                    renderKalenderHNP();
+                    toggleModalCatatanHNP();
+                }
+            } catch(e) { alert("Gagal koneksi"); }
+            btn.innerHTML = 'Simpan Catatan'; btn.disabled = false;
+        }
+
+        // Modal Edit TM Khusus dari HNP
+        function toggleModalTmHNP() {
+            const modal = document.getElementById('modal-edit-tm-hnp');
+            if (modal.classList.contains('opacity-0')) { modal.classList.remove('opacity-0', 'pointer-events-none'); setTimeout(() => modal.classList.add('show'), 10); } 
+            else { modal.classList.remove('show'); setTimeout(() => { modal.classList.add('opacity-0', 'pointer-events-none'); }, 300); }
+        }
+
+        function bukaEditTmHNP(idTrx) {
+            const p = globalPenjualan.find(x => (x['ID Booking']||x['ID Transaksi']) === idTrx);
+            const jdwl = globalJadwal[idTrx] || {};
+            
+            document.getElementById('hnp-tm-id').value = idTrx;
+            document.getElementById('hnp-tm-klien').textContent = `Klien: @${p['Username Klien']||p['Username Pembeli']}`;
+            document.getElementById('hnp-tm-tgl').value = jdwl.tglTm || '';
+            document.getElementById('hnp-tm-wkt').value = jdwl.waktuTm || '';
+            document.getElementById('hnp-tm-lok').value = jdwl.lokasiTm || '';
+            document.getElementById('hnp-tm-stat').value = jdwl.statusTm || 'Belum';
+            
+            toggleModalTmHNP();
+        }
+
+        async function simpanTmHNP() {
+            const idTrx = document.getElementById('hnp-tm-id').value;
+            const btn = document.getElementById('btn-simpan-tm-hnp');
+            btn.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin"></i> Menyimpan...'; btn.disabled = true;
+
+            // Kita harus mengirim ulang data jadwal yang sudah ada (jangan sampai kerest)
+            const jdwlLama = globalJadwal[idTrx] || {};
+            
+            const payload = {
+                action: "saveJadwal",
+                id_booking: idTrx,
+                pj: jdwlLama.pj || '',
+                mc: jdwlLama.mc || '',
+                vocal: jdwlLama.vocal || '',
+                keyboard: jdwlLama.keyboard || '',
+                sexo: jdwlLama.sexo || '',
+                keterangan: jdwlLama.keterangan || '',
+                wo: JSON.stringify(jdwlLama.wo || []),
+                // Update Data TM
+                tgl_tm: document.getElementById('hnp-tm-tgl').value,
+                waktu_tm: document.getElementById('hnp-tm-wkt').value,
+                lokasi_tm: document.getElementById('hnp-tm-lok').value,
+                status_tm: document.getElementById('hnp-tm-stat').value
+            };
+
+            try {
+                const res = await fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify(payload) });
+                const data = await res.json();
+                if(data.status === 'success') {
+                    // Update memory lokal
+                    if(!globalJadwal[idTrx]) globalJadwal[idTrx] = {};
+                    globalJadwal[idTrx].tglTm = payload.tgl_tm;
+                    globalJadwal[idTrx].waktuTm = payload.waktu_tm;
+                    globalJadwal[idTrx].lokasiTm = payload.lokasi_tm;
+                    globalJadwal[idTrx].statusTm = payload.status_tm;
+
+                    renderKalenderHNP(); // Update UI Kalender
+                    if(!document.getElementById('sec-jadwal').classList.contains('hidden')) renderJadwalEvent(); // Update UI tabel jadwal jika diperlukan
+                    toggleModalTmHNP();
+                } else alert("Gagal: " + data.message);
+            } catch(e) { alert("Gagal koneksi"); }
+            btn.innerHTML = 'Simpan Info TM'; btn.disabled = false;
         }
 
         window.onload = initApp;
