@@ -4289,6 +4289,20 @@
             renderJadwalEvent();
         }
 
+        // Fungsi helper untuk memunculkan icon WA di sebelah nama
+        function getKruWaLink(nama) {
+            if (!nama || nama === '-') return nama;
+            let wa = '';
+            for (const kat in globalMasterKru) {
+                const kru = globalMasterKru[kat].find(k => k.nama === nama);
+                if (kru && kru.wa) { wa = kru.wa; break; }
+            }
+            if (wa) {
+                return `${nama} <a href="https://wa.me/${wa}" target="_blank" onclick="event.stopPropagation()" class="text-[#25D366] hover:text-white hover:scale-125 transition-all inline-block ml-1" title="Chat WA"><i class="fa-brands fa-whatsapp text-[14px] drop-shadow-md"></i></a>`;
+            }
+            return nama;
+        }
+
         // 1. TAMPILAN TABEL JADWAL (DENGAN WARNA, UKURAN FONT, DAN FORMAT TANGGAL)
         function renderJadwalEvent() {
             const tbody = document.getElementById('table-jadwal-event');
@@ -4337,13 +4351,14 @@
                 let statusTmUI = `<span class="bg-blue-900/40 text-blue-400 border border-blue-500/30 px-2 py-0.5 rounded text-[10px] font-bold">Belum</span>`;
                 if (jdwl.statusTm === 'Sudah') statusTmUI = `<span class="bg-emerald-900/40 text-emerald-400 border border-emerald-500/30 px-2 py-0.5 rounded text-[10px] font-bold">Sudah</span>`;
 
-                let woList = (jdwl.wo && jdwl.wo.length > 0) ? jdwl.wo.map((w, i) => `<span class="bg-orange-900/40 text-orange-300 border border-orange-500/30 px-1.5 py-0.5 rounded text-[10px] mr-1 block mb-1 w-max font-medium">WO${i + 1}: ${w}</span>`).join('') : '-';
+                // --- GANTI woList MENJADI INI ---
+                let woList = (jdwl.wo && jdwl.wo.length > 0) ? jdwl.wo.map((w, i) => `<span class="bg-orange-900/40 text-orange-300 border border-orange-500/30 px-1.5 py-0.5 rounded text-[10px] mr-1 block mb-1 w-max font-medium">WO${i + 1}: ${getKruWaLink(w)}</span>`).join('') : '-';
 
                 // Tgl TM & Waktu
                 const tglTmFormatted = formatDateIndo(jdwl.tglTm || '-');
                 const jamTmFormatted = jdwl.waktuTm ? `(${jdwl.waktuTm})` : '';
 
-                // Warna Kolom (Background) & Ukuran Text Lebih Besar (text-xs md:text-sm)
+                // --- GANTI BLOK return MENJADI INI (Perhatikan td untuk PJ, Kru Inti, dan WO) ---
                 return `
                 <tr class="border-b border-zinc-800/50 hover:brightness-125 transition-all">
                     <td class="px-4 py-3 bg-zinc-900/30"><button onclick="bukaEditJadwal('${idTrx}')" class="bg-gold-500 hover:bg-gold-400 text-black px-3 py-1.5 rounded-lg text-xs font-bold shadow-md"><i class="fa-solid fa-pen mr-1"></i> Edit Jadwal</button></td>
@@ -4355,7 +4370,7 @@
                         <p class="text-zinc-400 truncate max-w-[180px] text-xs"><i class="fa-solid fa-location-dot"></i> ${locAkad}</p>
                     </td>
                     <td class="px-4 py-3 text-xs md:text-sm text-gold-300 whitespace-normal max-w-[180px] bg-yellow-900/10 leading-tight font-medium">${p['Nama Paket'] || p['Nama Baju']}</td>
-                    <td class="px-4 py-3 text-xs md:text-sm font-bold text-blue-400 bg-blue-900/10 text-center">${jdwl.pj || '-'}</td>
+                    <td class="px-4 py-3 text-xs md:text-sm font-bold text-blue-400 bg-blue-900/10 text-left">${getKruWaLink(jdwl.pj || '-')}</td>
                     <td class="px-4 py-3 text-xs md:text-sm text-zinc-200 bg-emerald-900/10">
                         <div class="flex justify-between items-center mb-1">
                             <span><b>Tgl:</b> ${tglTmFormatted} ${jamTmFormatted}</span>
@@ -4363,13 +4378,13 @@
                         </div>
                         <span class="block truncate max-w-[180px] text-xs text-zinc-400 mt-1" title="${jdwl.lokasiTm || berkas['Tgl & Lokasi TM'] || '-'}"><i class="fa-solid fa-location-dot text-emerald-500"></i> ${jdwl.lokasiTm || berkas['Tgl & Lokasi TM'] || '-'}</span>
                     </td>
-                    <td class="px-4 py-3 text-xs md:text-sm text-purple-200 bg-purple-900/10 leading-relaxed font-medium">
-                        <span class="text-zinc-400">MC:</span> ${jdwl.mc || '-'}<br>
-                        <span class="text-zinc-400">Voc:</span> ${jdwl.vocal || '-'}<br>
-                        <span class="text-zinc-400">Key:</span> ${jdwl.keyboard || '-'}<br>
-                        <span class="text-zinc-400">Sax:</span> ${jdwl.sexo || '-'}
+                    <td class="px-4 py-3 text-xs md:text-sm text-purple-200 bg-purple-900/10 leading-relaxed font-medium min-w-[160px]">
+                        <span class="text-zinc-400">MC:</span> ${getKruWaLink(jdwl.mc || '-')}<br>
+                        <span class="text-zinc-400">Voc:</span> ${getKruWaLink(jdwl.vocal || '-')}<br>
+                        <span class="text-zinc-400">Key:</span> ${getKruWaLink(jdwl.keyboard || '-')}<br>
+                        <span class="text-zinc-400">Sax:</span> ${getKruWaLink(jdwl.sexo || '-')}
                     </td>
-                    <td class="px-4 py-3 text-xs md:text-sm whitespace-normal max-w-[150px] bg-orange-900/10">${woList}</td>
+                    <td class="px-4 py-3 text-xs md:text-sm whitespace-normal max-w-[180px] bg-orange-900/10">${woList}</td>
                     <td class="px-4 py-3 text-xs md:text-sm text-zinc-400 whitespace-normal max-w-[150px] italic bg-zinc-900/30">${jdwl.keterangan || '-'}</td>
                 </tr>`;
             }).join('');
