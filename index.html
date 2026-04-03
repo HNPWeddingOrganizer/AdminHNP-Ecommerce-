@@ -155,7 +155,7 @@
 
     <script>
         // GANTI DENGAN URL WEB APP DEPLOY ANDA
-        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyPQyYQnke5TX9Iu5jyuk9bsccu37Xu9Yhck20INFz4L2Zkna9QzIfnLcYOw3M_6zjRgw/exec'; 
+        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycby1hc69ofYkM2t8-IjGR-Ko2ucIGowPAJVST1Qn9Z3fLmfjBnZLNpFka_l9otLquXw4Kw/exec'; 
     </script>
 
     <!-- Sidebar Desktop -->
@@ -1598,13 +1598,10 @@
                 </select>
             </div>
 
-            <div class="flex gap-2 mb-4">
-                <textarea id="mk-nama-baru" rows="2"
-                    placeholder="Cth: Andi, Budi, Citra (Pisahkan dengan koma jika lebih dari 1)"
-                    class="flex-1 bg-black border border-zinc-700 rounded-lg px-3 py-2 text-white text-sm outline-none focus:border-indigo-500 resize-none"></textarea>
-                <button id="btn-add-kru" onclick="tambahMasterKru()"
-                    class="bg-indigo-600 hover:bg-indigo-500 text-white px-4 py-2 rounded-lg font-bold text-sm shadow-md transition flex items-center justify-center h-auto min-w-[50px]"><i
-                        class="fa-solid fa-plus"></i></button>
+            <div class="flex flex-col sm:flex-row gap-2 mb-4">
+                <input type="text" id="mk-nama-baru" placeholder="Nama Kru" class="flex-1 bg-black border border-zinc-700 rounded-lg px-3 py-2 text-white text-sm outline-none focus:border-indigo-500">
+                <input type="number" id="mk-wa-baru" placeholder="No WA (Cth: 0812...)" class="flex-1 bg-black border border-zinc-700 rounded-lg px-3 py-2 text-white text-sm outline-none focus:border-indigo-500">
+                <button id="btn-add-kru" onclick="tambahMasterKru()" class="bg-indigo-600 hover:bg-indigo-500 text-white px-4 py-2 rounded-lg font-bold text-sm shadow-md transition flex items-center justify-center min-w-[50px]"><i class="fa-solid fa-plus"></i></button>
             </div>
 
             <div
@@ -1967,6 +1964,9 @@
                 updateProgress(90, 'Memeriksa Identitas Klien...');
                 await fetchPelanggan(true, true);
 
+                updateProgress(85, 'Memuat Master Kru & Penugasan...');
+                await fetchJadwalKru(true, true);
+
                 updateProgress(100, 'Memulai...');
                 switchTab('dashboard');
 
@@ -2071,7 +2071,8 @@
                 fetchBerkas(true, true),
                 fetchPenjualan(true, true),
                 fetchPelanggan(true, true),
-                fetchCatatanHNP(true, true) // <--- TAMBAHKAN BARIS INI
+                fetchCatatanHNP(true, true),
+                fetchJadwalKru(true, true)// <--- TAMBAHKAN BARIS INI
 
             ]);
 
@@ -4176,7 +4177,6 @@
                 if (dataJ.status === 'success') {
                     globalJadwal = {};
                     dataJ.data.forEach(j => {
-                        // Tambahkan properti Waktu TM dan Lokasi TM
                         globalJadwal[j['ID Booking']] = {
                             pj: j['PJ'], tglTm: j['Tgl TM'], waktuTm: j['Waktu TM'], lokasiTm: j['Lokasi TM'], statusTm: j['Status TM'],
                             mc: j['MC'], vocal: j['Vocal'], keyboard: j['Keyboard'], sexo: j['Saxophone'],
@@ -4187,11 +4187,13 @@
                 if (dataK.status === 'success') {
                     globalMasterKru = { mc: [], vocal: [], keyboard: [], sexo: [], wo: [] };
                     dataK.data.forEach(k => {
-                        if (globalMasterKru[k.Kategori]) globalMasterKru[k.Kategori].push(k.Nama);
+                        if (globalMasterKru[k.Kategori]) {
+                            globalMasterKru[k.Kategori].push({ nama: k.Nama, wa: k['No WA'] || '' });
+                        }
                     });
                 }
                 dataLoaded.jadwal = true;
-                populateFilterTahun(); // Set dropdown tahun
+                populateFilterTahun(); 
             } catch (e) { }
         }
 
@@ -4503,10 +4505,10 @@
             else { modal.classList.remove('show'); setTimeout(() => { modal.classList.add('opacity-0', 'pointer-events-none'); }, 300); }
         }
 
-        function populateSelectOptions(selId, masterType, selectedVal) {
+       function populateSelectOptions(selId, masterType, selectedVal) {
             const sel = document.getElementById(selId);
-            sel.innerHTML = `<option value="">-- Pilih --</option>` + globalMasterKru[masterType].map(v => `<option value="${v}">${v}</option>`).join('');
-            if (selectedVal && globalMasterKru[masterType].includes(selectedVal)) sel.value = selectedVal;
+            sel.innerHTML = `<option value="">-- Pilih --</option>` + globalMasterKru[masterType].map(v => `<option value="${v.nama}">${v.nama}</option>`).join('');
+            if (selectedVal && globalMasterKru[masterType].some(v => v.nama === selectedVal)) sel.value = selectedVal;
         }
 
         function bukaEditJadwal(idTrx) {
@@ -4544,13 +4546,13 @@
             toggleModalEditJadwal();
         }
 
-        function tambahBarisWO(val = '') {
+       function tambahBarisWO(val = '') {
             const cont = document.getElementById('ej-container-wo');
             const num = cont.children.length + 1;
             const div = document.createElement('div');
             div.className = "flex gap-2 items-center wo-row";
 
-            let options = `<option value="">-- Pilih Kru WO --</option>` + globalMasterKru.wo.map(v => `<option value="${v}" ${v === val ? 'selected' : ''}>${v}</option>`).join('');
+            let options = `<option value="">-- Pilih Kru WO --</option>` + globalMasterKru.wo.map(v => `<option value="${v.nama}" ${v.nama === val ? 'selected' : ''}>${v.nama}</option>`).join('');
 
             div.innerHTML = `
                 <span class="text-[10px] text-zinc-500 font-bold w-8">WO${num}</span>
@@ -4608,7 +4610,7 @@
             } else { modal.classList.remove('show'); setTimeout(() => { modal.classList.add('opacity-0', 'pointer-events-none'); }, 300); }
         }
 
-        function renderMasterKruList() {
+       function renderMasterKruList() {
             const kat = document.getElementById('mk-kategori').value;
             const ul = document.getElementById('mk-list');
             const data = globalMasterKru[kat] || [];
@@ -4618,70 +4620,60 @@
                 return;
             }
 
-            ul.innerHTML = data.map((nm, idx) => `
+            ul.innerHTML = data.map((kru, idx) => `
                 <li class="flex justify-between items-center bg-[#111] border border-zinc-800 p-2 rounded-lg">
-                    <span class="text-xs font-bold text-zinc-300">${nm}</span>
-                    <button onclick="hapusMasterKru('${kat}', ${idx})" class="text-zinc-500 hover:text-red-500 w-6 h-6 flex items-center justify-center rounded transition"><i class="fa-solid fa-trash text-[10px]"></i></button>
+                    <div class="flex flex-col">
+                        <span class="text-xs font-bold text-zinc-300">${kru.nama}</span>
+                        <span class="text-[10px] text-zinc-500 font-mono"><i class="fa-brands fa-whatsapp text-[#25D366]"></i> ${kru.wa || '-'}</span>
+                    </div>
+                    <button onclick="hapusMasterKru('${kat}', ${idx})" class="text-zinc-500 hover:text-red-500 w-8 h-8 flex items-center justify-center rounded transition"><i class="fa-solid fa-trash text-[10px]"></i></button>
                 </li>
             `).join('');
         }
 
-        async function tambahMasterKru() {
+       async function tambahMasterKru() {
             const kat = document.getElementById('mk-kategori').value;
-            const ipt = document.getElementById('mk-nama-baru');
+            const iptNama = document.getElementById('mk-nama-baru');
+            const iptWa = document.getElementById('mk-wa-baru');
             const btn = document.getElementById('btn-add-kru');
 
-            const val = ipt.value.trim();
-            if (!val) return;
+            const valNama = iptNama.value.trim();
+            let valWa = iptWa.value.trim();
+            if (!valNama) return;
 
-            // Pisahkan berdasarkan koma atau baris baru (enter)
-            let namaArray = val.split(/,|\n/).map(n => n.trim()).filter(n => n !== "");
-            if (namaArray.length === 0) return;
+            // Bersihkan format WA
+            if (valWa.startsWith('0')) valWa = '62' + valWa.substring(1);
+            else if (valWa.startsWith('+62')) valWa = '62' + valWa.substring(3);
 
-            if (!globalMasterKru[kat]) globalMasterKru[kat] = [];
+            const cekAda = globalMasterKru[kat]?.find(k => k.nama.toLowerCase() === valNama.toLowerCase());
+            if (cekAda) { alert("Nama kru tersebut sudah ada di kategori ini!"); return; }
 
-            // Filter hanya nama yang belum ada di list
-            let namaBaruValid = namaArray.filter(n => !globalMasterKru[kat].includes(n));
-
-            if (namaBaruValid.length === 0) {
-                alert("Semua nama yang Anda ketikkan sudah terdaftar di kategori ini!");
-                return;
-            }
-
-            // Tampilkan animasi Loading
-            ipt.disabled = true;
-            btn.disabled = true;
+            iptNama.disabled = true; iptWa.disabled = true; btn.disabled = true;
             const oriBtnHtml = btn.innerHTML;
             btn.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin"></i>';
 
-            // Kirim payload dengan nama-nama yang dipisahkan oleh koma
-            const payload = { action: "addMasterKru", kategori: kat, nama: namaBaruValid.join(',') };
+            const payload = { action: "addMasterKru", kategori: kat, nama: valNama, no_wa: valWa };
             try {
                 const res = await fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify(payload), headers: { 'Content-Type': 'text/plain' } });
                 const data = await res.json();
                 if (data.status === 'success') {
-                    // Tambahkan ke memori lokal & segarkan tampilan
-                    globalMasterKru[kat].push(...namaBaruValid);
-                    ipt.value = "";
+                    if (!globalMasterKru[kat]) globalMasterKru[kat] = [];
+                    globalMasterKru[kat].push({ nama: valNama, wa: valWa });
+                    iptNama.value = ""; iptWa.value = "";
                     renderMasterKruList();
-                } else {
-                    alert("Gagal: " + data.message);
-                }
+                } else alert("Gagal: " + data.message);
             } catch (e) {
                 alert("Gagal koneksi ke server saat menyimpan kru.");
             } finally {
-                // Kembalikan tombol ke keadaan semula
-                ipt.disabled = false;
-                btn.disabled = false;
-                btn.innerHTML = oriBtnHtml;
+                iptNama.disabled = false; iptWa.disabled = false; btn.disabled = false; btn.innerHTML = oriBtnHtml;
             }
         }
 
-        async function hapusMasterKru(kat, idx) {
+       async function hapusMasterKru(kat, idx) {
             if (!confirm("Hapus data kru ini?")) return;
-            const nama = globalMasterKru[kat][idx];
+            const kru = globalMasterKru[kat][idx];
 
-            const payload = { action: "deleteMasterKru", kategori: kat, nama: nama };
+            const payload = { action: "deleteMasterKru", kategori: kat, nama: kru.nama };
             try {
                 const res = await fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify(payload), headers: { 'Content-Type': 'text/plain' } });
                 const data = await res.json();
@@ -4772,16 +4764,20 @@
                         if (tglResepsiStr === paramDate && tglResepsiStr !== tglAkadStr) labelAcara.push("RESEPSI");
                         else if (tglResepsiStr === paramDate && tglResepsiStr === tglAkadStr) labelAcara = ["AKAD & RESEPSI"];
 
-                        // Ambil waktu yang sesuai (Akad atau Resepsi)
                         let waktuAcara = (tglAkadStr === paramDate) ? (berkas['Waktu Akad'] || '-') : (berkas['Waktu Resepsi'] || '-');
                         let venue = berkas['Vendor Venue'] || '-';
                         let tglIndo = formatDateIndo(paramDate);
+                        let kruHtml = generateKruWaLinks(idTrx);
 
                         eventHtml += `
-                        <div class="mt-1 p-1.5 rounded-lg text-[9px] text-black border border-gold-600 bg-gold-500 leading-tight w-full text-left shadow-sm">
-                            <span class="font-bold uppercase"><i class="fa-solid fa-ring"></i> ${labelAcara.join(' & ')} @${user}</span><br>
-                            <span class="text-[8px] font-bold mt-0.5 block opacity-80">${tglIndo} | ${waktuAcara}</span>
-                            <span class="text-[8px] font-bold truncate block mt-0.5"><i class="fa-solid fa-location-dot"></i> ${venue}</span>
+                        <div class="mt-2 p-3 rounded-xl border border-gold-500/40 bg-[#111] leading-tight w-full text-left shadow-lg">
+                            <div class="flex justify-between items-start mb-2">
+                                <span class="font-bold uppercase text-gold-400 text-[10px]"><i class="fa-solid fa-ring mr-1"></i> ${labelAcara.join(' & ')} @${user}</span>
+                                <span class="text-[8px] bg-gold-500 text-black px-1.5 py-0.5 rounded font-bold">${tglIndo}</span>
+                            </div>
+                            <span class="text-[10px] text-zinc-300 mt-1 block"><i class="fa-regular fa-clock w-4 text-zinc-500 text-center"></i> Pukul: ${waktuAcara}</span>
+                            <span class="text-[10px] text-zinc-300 block mt-1"><i class="fa-solid fa-location-dot w-4 text-zinc-500 text-center"></i> Venue: ${venue}</span>
+                            ${kruHtml}
                         </div>`;
                     }
                 });
@@ -4804,6 +4800,38 @@
                 modal.classList.remove('show'); 
                 setTimeout(() => { modal.classList.add('opacity-0', 'pointer-events-none'); }, 300); 
             }
+        }
+
+        function generateKruWaLinks(idTrx) {
+            const jdwl = globalJadwal[idTrx] || {};
+            let links = [];
+            
+            const addLink = (role, nama) => {
+                if(!nama || nama === '-') return;
+                let wa = '';
+                for(const kat in globalMasterKru) {
+                    const kru = globalMasterKru[kat].find(k => k.nama === nama);
+                    if(kru && kru.wa) { wa = kru.wa; break; }
+                }
+                if(wa) {
+                    links.push(`<a href="https://wa.me/${wa}" target="_blank" onclick="event.stopPropagation()" class="inline-flex items-center gap-1.5 bg-[#25D366]/10 text-[#25D366] border border-[#25D366]/30 px-2 py-1 rounded-md text-[9px] font-bold hover:bg-[#25D366] hover:text-white transition shadow-sm"><i class="fa-brands fa-whatsapp text-[11px]"></i> ${role}: ${nama}</a>`);
+                } else {
+                    links.push(`<span class="inline-flex items-center gap-1.5 bg-zinc-800 text-zinc-400 border border-zinc-700 px-2 py-1 rounded-md text-[9px] font-bold"><i class="fa-solid fa-user text-[11px]"></i> ${role}: ${nama}</span>`);
+                }
+            };
+
+            addLink('PJ', jdwl.pj);
+            addLink('MC', jdwl.mc);
+            addLink('Voc', jdwl.vocal);
+            addLink('Key', jdwl.keyboard);
+            addLink('Sax', jdwl.sexo);
+            
+            if(jdwl.wo && jdwl.wo.length > 0) {
+                jdwl.wo.forEach((w, i) => addLink(`WO${i+1}`, w));
+            }
+            
+            if(links.length === 0) return '<p class="text-[9px] text-zinc-500 italic mt-2 border-t border-zinc-800 pt-2">Belum ada kru ditugaskan.</p>';
+            return `<div class="flex flex-wrap gap-1.5 mt-2.5 pt-2.5 border-t border-zinc-800/80">${links.join('')}</div>`;
         }
 
         function bukaDetailHNP(dateStr) {
