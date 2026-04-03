@@ -3574,6 +3574,21 @@
                             appSettings[item.Key] = item.Value;
                         }
                     });
+                    // --- TAMBAHAN UPDATE LOGO SIDEBAR ---
+                    const sidebarLogoImg = document.getElementById('sidebar-logo-img');
+                    const sidebarLogoIcon = document.getElementById('sidebar-logo-icon');
+                    // Prioritaskan logo dark mode, jika kosong pakai light mode
+                    const logoUrl = appSettings.logo_dark || appSettings.logo_light;
+                    
+                    if (logoUrl && logoUrl.trim() !== "") {
+                        sidebarLogoImg.src = logoUrl;
+                        sidebarLogoImg.classList.remove('hidden');
+                        sidebarLogoIcon.classList.add('hidden');
+                    } else {
+                        sidebarLogoImg.src = "";
+                        sidebarLogoImg.classList.add('hidden');
+                        sidebarLogoIcon.classList.remove('hidden');
+                    } 
                 }
             } catch (e) { }
 
