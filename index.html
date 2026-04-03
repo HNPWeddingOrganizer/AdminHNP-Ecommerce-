@@ -4635,15 +4635,28 @@
                 return;
             }
 
-            ul.innerHTML = data.map((kru, idx) => `
-                <li class="flex justify-between items-center bg-[#111] border border-zinc-800 p-2 rounded-lg">
-                    <div class="flex flex-col">
-                        <span class="text-xs font-bold text-zinc-300">${kru.nama}</span>
-                        <span class="text-[10px] text-zinc-500 font-mono"><i class="fa-brands fa-whatsapp text-[#25D366]"></i> ${kru.wa || '-'}</span>
+            ul.innerHTML = data.map((kru, idx) => {
+                // Buat kondisi jika ada nomor WA maka jadikan Link Clickable
+                let waHtml = `<span class="text-[10px] text-zinc-600 font-mono flex items-center gap-1"><i class="fa-brands fa-whatsapp text-zinc-700"></i> Tidak ada WA</span>`;
+                
+                if (kru.wa && kru.wa !== '-' && kru.wa !== '') {
+                    waHtml = `<a href="https://wa.me/${kru.wa}" target="_blank" onclick="event.stopPropagation()" class="text-[10px] text-zinc-400 font-mono hover:text-[#25D366] transition-colors flex items-center gap-1 w-max" title="Chat WA ${kru.nama}">
+                                <i class="fa-brands fa-whatsapp text-[#25D366]"></i> ${kru.wa}
+                              </a>`;
+                }
+
+                return `
+                <li class="flex justify-between items-center bg-[#111] border border-zinc-800 p-2.5 rounded-lg hover:border-zinc-600 transition-colors">
+                    <div class="flex flex-col gap-1">
+                        <span class="text-xs font-bold text-zinc-200">${kru.nama}</span>
+                        ${waHtml}
                     </div>
-                    <button onclick="hapusMasterKru('${kat}', ${idx})" class="text-zinc-500 hover:text-red-500 w-8 h-8 flex items-center justify-center rounded transition"><i class="fa-solid fa-trash text-[10px]"></i></button>
+                    <button onclick="hapusMasterKru('${kat}', ${idx})" class="text-zinc-500 bg-zinc-900 border border-zinc-800 hover:border-red-500/50 hover:bg-red-900/30 hover:text-red-500 w-8 h-8 flex items-center justify-center rounded-lg transition-all shadow-sm">
+                        <i class="fa-solid fa-trash text-[10px]"></i>
+                    </button>
                 </li>
-            `).join('');
+                `;
+            }).join('');
         }
 
        async function tambahMasterKru() {
