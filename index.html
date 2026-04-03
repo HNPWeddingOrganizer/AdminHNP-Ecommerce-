@@ -4051,7 +4051,24 @@
             renderKalender();
         }
 
-        function renderKalender() {
+        // Fungsi Helper khusus membaca Tanggal Pesanan Masuk (Transaction Date)
+        function getBookingDate(tglStr) {
+            if (!tglStr || tglStr === '-') return null;
+            
+            // Cek format DD/MM/YYYY, HH:mm:ss (Bawaan Script toLocaleString('id-ID'))
+            if (tglStr.includes('/')) {
+                const parts = tglStr.split(',')[0].split(' ')[0].split('/'); 
+                if (parts.length === 3) return new Date(parseInt(parts[2]), parseInt(parts[1]) - 1, parseInt(parts[0]));
+            }
+            // Cek format YYYY-MM-DD (Fallback jika formatnya Text)
+            if (tglStr.includes('-')) {
+                const parts = tglStr.split('T')[0].split(' ')[0].split('-');
+                if (parts[0].length === 4) return new Date(parseInt(parts[0]), parseInt(parts[1]) - 1, parseInt(parts[2]));
+            }
+            return new Date(tglStr); // Fallback bawaan javascript
+        }
+
+       function renderKalender() {
             const year = currentKalenderDate.getFullYear();
             const month = currentKalenderDate.getMonth();
             const monthNames = ["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"];
@@ -4065,10 +4082,9 @@
             const mapBooking = {};
             globalPenjualan.forEach(p => {
                 if (p['Status Acara'] === 'Dibatalkan' || p.Status === 'Dibatalkan') return;
-                const berkas = globalBerkas.find(b => b['ID Booking'] === (p['ID Booking'] || p['ID Transaksi']));
-
-                // Gunakan parser sakti
-                let d = getValidEventDate(p, berkas);
+                
+                // PERUBAHAN: Gunakan fungsi baru untuk menarik Tanggal Transaksi (Pesanan Masuk)
+                let d = getBookingDate(p.Tanggal);
 
                 if (d && d.getFullYear() === year && d.getMonth() === month) {
                     let tglKey = d.getDate();
@@ -4090,7 +4106,7 @@
 
                 if (hasBooking) {
                     extraClass = "bg-gold-500/20 border-gold-500/50 text-gold-400 hover:bg-gold-500/30 cursor-pointer shadow-[0_0_15px_rgba(212,175,55,0.1)] transition-transform hover:scale-105 active:scale-95 z-10";
-                    countText = `<p class="text-[8px] md:text-[9px] font-medium text-gold-200 truncate mt-0.5 md:mt-1 hidden sm:block">${bookings.length} Acara</p>`;
+                    countText = `<p class="text-[8px] md:text-[9px] font-medium text-gold-200 truncate mt-0.5 md:mt-1 hidden sm:block">${bookings.length} Pesanan</p>`;
                     badge = `<div class="absolute -top-1.5 -right-1.5 w-4 h-4 md:w-5 md:h-5 bg-red-600 text-white rounded-full flex items-center justify-center text-[9px] md:text-[10px] font-bold shadow-md border border-black">${bookings.length}</div>`;
                 } else if (isToday) {
                     extraClass = "bg-blue-900/20 border-blue-500/30 text-blue-400";
@@ -4115,10 +4131,9 @@
 
             let acaraHariIni = globalPenjualan.filter(p => {
                 if (p['Status Acara'] === 'Dibatalkan' || p.Status === 'Dibatalkan') return false;
-                const berkas = globalBerkas.find(b => b['ID Booking'] === (p['ID Booking'] || p['ID Transaksi']));
 
-                // Gunakan parser sakti
-                let d = getValidEventDate(p, berkas);
+                // PERUBAHAN: Gunakan fungsi baru untuk mencocokkan Tanggal Transaksi (Pesanan Masuk)
+                let d = getBookingDate(p.Tanggal);
                 if (!d) return false;
 
                 return d.getDate() === d_target && d.getMonth() === m_target && d.getFullYear() === y_target;
@@ -4132,7 +4147,6 @@
 
                 let statusColor = statAcara === 'Diproses' || statAcara === 'Diskusi Lanjutan' ? 'text-blue-400 border-blue-500/30 bg-blue-900/20' : (statAcara === 'Selesai' ? 'text-emerald-400 border-emerald-500/30 bg-emerald-900/20' : 'text-orange-400 border-orange-500/30 bg-orange-900/20');
 
-                // Jika di klik akan membuka BukaDetailPesananModal
                 html += `
                     <div onclick="bukaDetailPesananModal('${idTrx}')" class="bg-black p-3 md:p-4 rounded-xl md:rounded-[20px] border border-zinc-700 hover:border-gold-500 cursor-pointer transition flex justify-between items-center gap-3 group shadow-sm">
                         <div class="overflow-hidden flex-1">
@@ -4142,7 +4156,7 @@
                         </div>
                         <div class="text-right shrink-0 flex flex-col items-end justify-center">
                             <span class="px-2 py-1 rounded text-[8px] md:text-[9px] font-bold uppercase border ${statusColor} block mb-2 shadow-sm">${statAcara}</span>
-                            <span class="text-[9px] md:text-[10px] text-zinc-500 font-bold group-hover:text-gold-500 transition-colors bg-zinc-900 px-2 py-1 rounded-md border border-zinc-800">Detail Acara <i class="fa-solid fa-arrow-right ml-1"></i></span>
+                            <span class="text-[9px] md:text-[10px] text-zinc-500 font-bold group-hover:text-gold-500 transition-colors bg-zinc-900 px-2 py-1 rounded-md border border-zinc-800">Detail Pesanan <i class="fa-solid fa-arrow-right ml-1"></i></span>
                         </div>
                     </div>
                 `;
