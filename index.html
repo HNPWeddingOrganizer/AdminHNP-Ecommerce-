@@ -155,7 +155,7 @@
 
     <script>
         // GANTI DENGAN URL WEB APP DEPLOY ANDA
-        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyryRfsSqwKh61hNd3-PLWA5sAYfr2B3Pv5qnedAIL_LN6qBlUb6pb7U9DJXVBaBVHKIw/exec'; 
+        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzUDZSEL6DsZau6Xj5rmrSK5S_iU5_ejFzjperW0fLnkuEWWzr1QzS7_gR32qwOW_oDdg/exec'; 
     </script>
 
     <!-- Sidebar Desktop -->
@@ -4979,29 +4979,33 @@
                 const jdwl = globalJadwal[idTrx] || {};
                 const berkas = globalBerkas.find(b => b['ID Booking'] === idTrx) || {};
 
-               const mapJadwal = {};
-            validEvents.forEach(p => {
-                const idTrx = p['ID Booking'] || p['ID Transaksi'];
-                const berkas = globalBerkas.find(b => b['ID Booking'] === idTrx) || {};
-                
+                // --- 1. CEK EVENT WEDDING (Berdasarkan Tgl Akad & Resepsi) ---
                 let tglAkadStr = berkas['Tgl Akad'] ? String(berkas['Tgl Akad']).split('T')[0] : '';
                 let tglResepsiStr = berkas['Tgl Resepsi'] ? String(berkas['Tgl Resepsi']).split('T')[0] : '';
 
-                // Tangkap tanggal Akad dan Resepsi
-                let validDates = [];
-                if(tglAkadStr) validDates.push(new Date(tglAkadStr));
-                if(tglResepsiStr && tglResepsiStr !== tglAkadStr) validDates.push(new Date(tglResepsiStr));
+                if (tglAkadStr === dateStr || tglResepsiStr === dateStr) {
+                    let labelAcara = [];
+                    if (tglAkadStr === dateStr) labelAcara.push("AKAD");
+                    if (tglResepsiStr === dateStr && tglResepsiStr !== tglAkadStr) labelAcara.push("RESEPSI");
+                    else if (tglResepsiStr === dateStr && tglResepsiStr === tglAkadStr) labelAcara = ["AKAD & RESEPSI"];
 
-                validDates.forEach(d => {
-                    if (d.getFullYear() === year && d.getMonth() === month) {
-                        let tglKey = d.getDate();
-                        if (!mapJadwal[tglKey]) mapJadwal[tglKey] = [];
-                        mapJadwal[tglKey].push({ p: p, b: berkas });
-                    }
-                });
-            });
+                    let waktuAcara = (tglAkadStr === dateStr) ? (berkas['Waktu Akad'] || '-') : (berkas['Waktu Resepsi'] || '-');
+                    let venue = berkas['Vendor Venue'] || '-';
+                    let kruHtml = generateKruWaLinks(idTrx);
 
-                // 2. Cek Apakah Ada TM Hari Ini
+                    htmlWedding += `
+                    <div class="mt-2 p-3 rounded-xl border border-gold-500/40 bg-[#111] leading-tight w-full text-left shadow-lg">
+                        <div class="flex justify-between items-start mb-2">
+                            <span class="font-bold uppercase text-gold-400 text-[10px]"><i class="fa-solid fa-ring mr-1"></i> ${labelAcara.join(' & ')} @${user}</span>
+                            <span class="text-[8px] bg-gold-500 text-black px-1.5 py-0.5 rounded font-bold">${idTrx}</span>
+                        </div>
+                        <span class="text-[10px] text-zinc-300 mt-1 block"><i class="fa-regular fa-clock w-4 text-zinc-500 text-center"></i> Pukul: ${waktuAcara}</span>
+                        <span class="text-[10px] text-zinc-300 block mt-1"><i class="fa-solid fa-location-dot w-4 text-zinc-500 text-center"></i> Venue: ${venue}</span>
+                        ${kruHtml}
+                    </div>`;
+                }
+
+                // --- 2. CEK Apakah Ada TM Hari Ini ---
                 if (jdwl.tglTm === dateStr) {
                     const wkt = jdwl.waktuTm || '-';
                     const lok = jdwl.lokasiTm || '-';
@@ -5011,7 +5015,7 @@
                     const statBadge = isSudah ? 'bg-emerald-600 text-black' : 'bg-blue-600 text-white';
 
                     htmlTM += `
-                    <div onclick="toggleModalDetailHNP(); setTimeout(()=>bukaEditTmHNP('${idTrx}'), 300)" class="${colorUI} border p-3 rounded-xl cursor-pointer hover:brightness-125 transition-colors shadow-sm relative overflow-hidden group">
+                    <div onclick="toggleModalDetailHNP(); setTimeout(()=>bukaEditTmHNP('${idTrx}'), 300)" class="${colorUI} border p-3 rounded-xl cursor-pointer hover:brightness-125 transition-colors shadow-sm relative overflow-hidden group mt-2">
                         <div class="absolute right-3 top-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 transition-opacity"><i class="fa-solid fa-chevron-right"></i></div>
                         <div class="flex justify-between items-start mb-1 pr-6">
                             <p class="font-bold text-sm"><i class="fa-solid fa-handshake mr-1"></i> TM @${user}</p>
