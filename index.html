@@ -5470,6 +5470,36 @@
             btn.innerHTML = 'Simpan Info TM'; btn.disabled = false;
         }
 
+        // ==========================================
+        // FITUR TAMBAH BARIS TABEL BUKU PANDUAN
+        // ==========================================
+        document.addEventListener('dblclick', function(e) {
+            // Cek apakah area yang di-double-click ada di dalam tabel Buku Panduan
+            let areaPanduan = e.target.closest('#area-print-panduan');
+            let rowTabel = e.target.closest('tr');
+            
+            if (areaPanduan && rowTabel) {
+                // Mencegah header (th) ikut tergandakan
+                if (!rowTabel.querySelector('th')) {
+                    let konfirmasi = confirm("Apakah Anda ingin menambah baris baru di bawah tabel ini?");
+                    if(konfirmasi) {
+                        // Kloning baris yang di-klik
+                        let barisBaru = rowTabel.cloneNode(true);
+                        
+                        // Kosongkan teks di baris baru agar siap diisi
+                        barisBaru.querySelectorAll('td').forEach(td => {
+                            td.innerHTML = '';
+                        });
+                        
+                        // Sisipkan baris baru di bawah baris yang diklik
+                        rowTabel.parentNode.insertBefore(barisBaru, rowTabel.nextSibling);
+                    }
+                } else {
+                    alert("Tidak bisa menduplikat Header Tabel (Teks Tebal). Klik ganda pada baris data biasa.");
+                }
+            }
+        });
+
         window.onload = initApp;
     </script>
 </body>
