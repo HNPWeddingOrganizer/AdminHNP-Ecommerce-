@@ -5293,225 +5293,137 @@
             } catch (e) { alert("Gagal koneksi"); }
             btn.innerHTML = 'Simpan Info TM'; btn.disabled = false;
         }
-// --- LOGIKA BUKU PANDUAN ---
-        let base64LayoutPanduan = "";
 
-        function previewLayoutPanduan(event) {
-            const file = event.target.files[0];
-            if (!file) return;
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                base64LayoutPanduan = e.target.result;
-                const img = document.getElementById('bp-layout-preview');
-                img.src = base64LayoutPanduan;
-                img.classList.remove('hidden');
-            }
-            reader.readAsDataURL(file);
-        }
+        // Fungsi Cetak (Generate HTML A5)
+        function cetakBukuPanduanA5() {
+            const cpw = document.getElementById('bp-cpw').value || 'Nama CPW';
+            const cpp = document.getElementById('bp-cpp').value || 'Nama CPP';
+            const ortuCpw = document.getElementById('bp-ortu-cpw').value || '-';
+            const ortuCpp = document.getElementById('bp-ortu-cpp').value || '-';
+            const tglSurat = document.getElementById('bp-tgl-surat').value || '-';
+            const tglAcara = document.getElementById('bp-tgl-acara').value || '-';
+            const profilCpw = document.getElementById('bp-profil-cpw').value.replace(/\n/g, '<br>') || '-';
+            const profilCpp = document.getElementById('bp-profil-cpp').value.replace(/\n/g, '<br>') || '-';
 
-        function tambahBarisRundown() {
-            const tbody = document.getElementById('tbody-rundown');
-            const tr = document.createElement('tr');
-            tr.className = 'rundown-row';
-            tr.innerHTML = `
-                <td class="p-1 border border-zinc-700"><input type="text" class="w-full bg-transparent text-white outline-none"></td>
-                <td class="p-1 border border-zinc-700"><input type="text" class="w-full bg-transparent text-white outline-none"></td>
-                <td class="p-1 border border-zinc-700"><input type="text" class="w-full bg-transparent text-white outline-none"></td>
-                <td class="p-1 border border-zinc-700"><input type="text" class="w-full bg-transparent text-white outline-none"></td>
-                <td class="p-1 border border-zinc-700 text-center"><button type="button" onclick="this.closest('tr').remove()" class="text-red-500 hover:text-red-400"><i class="fa-solid fa-trash"></i></button></td>
-            `;
-            tbody.appendChild(tr);
-        }
+            // Ekstrak Rundown
+            let rundownHtml = '';
+            document.querySelectorAll('.rundown-row').forEach(row => {
+                const inputs = row.querySelectorAll('input');
+                rundownHtml += `<tr>
+                    <td class="text-center">${inputs[0].value}</td>
+                    <td>${inputs[1].value}</td>
+                    <td class="text-center">${inputs[2].value}</td>
+                    <td>${inputs[3].value}</td>
+                </tr>`;
+            });
 
-        function tambahBarisVendorBP() {
-            const tbody = document.getElementById('tbody-vendor-bp');
-            const tr = document.createElement('tr');
-            tr.className = 'vendor-bp-row';
-            tr.innerHTML = `
-                <td class="p-1 border border-zinc-700"><input type="text" class="w-full bg-transparent text-white outline-none"></td>
-                <td class="p-1 border border-zinc-700"><input type="text" class="w-full bg-transparent text-white outline-none"></td>
-                <td class="p-1 border border-zinc-700"><input type="text" class="w-full bg-transparent text-white outline-none"></td>
-                <td class="p-1 border border-zinc-700 text-center"><button type="button" onclick="this.closest('tr').remove()" class="text-red-500 hover:text-red-400"><i class="fa-solid fa-trash"></i></button></td>
-            `;
-            tbody.appendChild(tr);
-        }
+            // Ekstrak Vendor
+            let vendorHtml = '';
+            document.querySelectorAll('.vendor-bp-row').forEach(row => {
+                const inputs = row.querySelectorAll('input');
+                vendorHtml += `<tr>
+                    <td>${inputs[0].value}</td>
+                    <td>${inputs[1].value}</td>
+                    <td class="text-center">${inputs[2].value}</td>
+                </tr>`;
+            });
 
-        // Fungsi Utama Cetak ke A5
-        function cetakBukuPanduanA5() {
-            // Ambil Data Text
-            const cpw = document.getElementById('bp-cpw').value || "(CPW)";
-            const cpp = document.getElementById('bp-cpp').value || "(CPP)";
-            const ortuCpw = document.getElementById('bp-ortu-cpw').value || "(BAPAK & IBU CPW)";
-            const ortuCpp = document.getElementById('bp-ortu-cpp').value || "(BAPAK & IBU CPP)";
-            const tglSurat = document.getElementById('bp-tgl-surat').value || "(LOKASI, TANGGAL)";
-            const tglAcara = document.getElementById('bp-tgl-acara').value || "(TANGGAL ACARA)";
-            const pCpw = document.getElementById('bp-profil-cpw').value.replace(/\n/g, '<br>') || "-";
-            const pCpp = document.getElementById('bp-profil-cpp').value.replace(/\n/g, '<br>') || "-";
+            // Buka Jendela Cetak Baru
+            const printWindow = window.open('', '_blank');
+            printWindow.document.write(`
+                <!DOCTYPE html>
+                <html>
+                <head>
+                    <title>Buku Panduan - ${cpp} & ${cpw}</title>
+                    <style>
+                        @page { size: A5; margin: 1.5cm; }
+                        body { font-family: 'Georgia', serif; color: #333; line-height: 1.6; font-size: 11px; margin:0; padding:0; }
+                        .page-break { page-break-after: always; }
+                        .text-center { text-align: center; }
+                        .cover-page { height: 90vh; display: flex; flex-direction: column; justify-content: center; align-items: center; }
+                        .title-1 { font-size: 16px; letter-spacing: 2px; margin-bottom: 5px; font-family: 'Arial', sans-serif;}
+                        .title-2 { font-size: 28px; color: #D4AF37; margin: 20px 0; font-style: italic;}
+                        .section-title { background: #f4f4f5; padding: 8px; font-weight: bold; border-left: 4px solid #D4AF37; margin: 20px 0 10px 0; font-family: 'Arial', sans-serif; font-size: 12px; text-transform: uppercase;}
+                        table { width: 100%; border-collapse: collapse; margin-bottom: 15px; font-family: 'Arial', sans-serif; font-size: 10px; }
+                        table, th, td { border: 1px solid #ccc; }
+                        th, td { padding: 6px; }
+                        th { background-color: #f4f4f5; text-align: center; }
+                        .layout-img { max-width: 100%; max-height: 500px; display: block; margin: 0 auto; object-fit: contain; }
+                        .profile-box { border: 1px dashed #ccc; padding: 10px; margin-bottom: 10px; }
+                    </style>
+                </head>
+                <body>
+                    <!-- HALAMAN 1: COVER -->
+                    <div class="cover-page text-center">
+                        <div class="title-1">BUKU PANDUAN ACARA PERNIKAHAN</div>
+                        <div class="title-2">${cpp} &amp; ${cpw}</div>
+                        <div style="font-family: 'Arial', sans-serif; font-size: 12px; margin-top: 30px;">
+                            <b>Tanggal Acara:</b><br>${tglAcara}<br><br>
+                            <b>Lokasi:</b><br>${tglSurat.split(',')[0] || '-'}
+                        </div>
+                    </div>
+                    <div class="page-break"></div>
 
-            // Logo HNP
-            const logoHtml = appSettings.logo_dark || appSettings.logo_light 
-                ? `<div style="text-align:center; margin-bottom:20px;"><img src="${appSettings.logo_dark || appSettings.logo_light}" style="max-height:80px;"></div>`
-                : `<h2 style="text-align:center; color:#D4AF37;">ELEGANCE WO</h2>`;
+                    <!-- HALAMAN 2: PROFIL -->
+                    <div class="section-title">Profil Pengantin & Keluarga</div>
+                    <div class="profile-box">
+                        <b>Calon Pengantin Pria (CPP)</b><br>
+                        <span style="font-size:14px; font-weight:bold; color:#D4AF37;">${cpp}</span><br>
+                        Putra dari keluarga: ${ortuCpp}<br><br>
+                        <i>Detail Tambahan:</i><br>
+                        ${profilCpp}
+                    </div>
+                    <div class="profile-box">
+                        <b>Calon Pengantin Wanita (CPW)</b><br>
+                        <span style="font-size:14px; font-weight:bold; color:#D4AF37;">${cpw}</span><br>
+                        Putri dari keluarga: ${ortuCpw}<br><br>
+                        <i>Detail Tambahan:</i><br>
+                        ${profilCpw}
+                    </div>
+                    <div class="page-break"></div>
 
-            // Ambil Data Rundown
-            let rundownRows = "";
-            document.querySelectorAll('.rundown-row').forEach((row, i) => {
-                const inputs = row.querySelectorAll('input');
-                rundownRows += `
-                <tr>
-                    <td style="text-align:center;">${i+1}</td>
-                    <td>${inputs[0].value}</td>
-                    <td>${inputs[1].value}</td>
-                    <td>${inputs[2].value}</td>
-                    <td>${inputs[3].value}</td>
-                </tr>`;
-            });
+                    <!-- HALAMAN 3: RUNDOWN -->
+                    <div class="section-title">Rundown Acara</div>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th style="width: 15%;">Waktu</th>
+                                <th style="width: 45%;">Acara</th>
+                                <th style="width: 15%;">PIC</th>
+                                <th style="width: 25%;">Lokasi / Ket</th>
+                            </tr>
+                        </thead>
+                        <tbody>${rundownHtml}</tbody>
+                    </table>
+                    <div class="page-break"></div>
 
-            // Ambil Data Vendor
-            let vendorRows = "";
-            document.querySelectorAll('.vendor-bp-row').forEach((row, i) => {
-                const inputs = row.querySelectorAll('input');
-                vendorRows += `
-                <tr>
-                    <td style="text-align:center;">${i+1}</td>
-                    <td>${inputs[0].value}</td>
-                    <td>${inputs[1].value}</td>
-                    <td>${inputs[2].value}</td>
-                </tr>`;
-            });
+                    <!-- HALAMAN 4: VENDOR & LAYOUT -->
+                    <div class="section-title">Daftar Vendor Pendukung</div>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th style="width: 25%;">Kategori</th>
+                                <th style="width: 50%;">Nama Vendor</th>
+                                <th style="width: 25%;">Kontak</th>
+                            </tr>
+                        </thead>
+                        <tbody>${vendorHtml}</tbody>
+                    </table>
 
-            // Buka Jendela Print
-            const printWindow = window.open('', '_blank');
-            printWindow.document.write(`
-            <!DOCTYPE html>
-            <html>
-            <head>
-                <title>Buku Panduan - ${cpw} & ${cpp}</title>
-                <style>
-                    @page { size: 148mm 210mm; margin: 15mm; } /* KERTAS A5 */
-                    body { font-family: 'Times New Roman', Times, serif; font-size: 12px; color: #000; line-height: 1.5; margin: 0; padding: 0; }
-                    .page { page-break-after: always; min-height: 170mm; position: relative;}
-                    .page:last-child { page-break-after: auto; }
-                    .center { text-align: center; }
-                    h1, h2, h3 { color: #80671F; margin: 5px 0; }
-                    .title { font-size: 18px; font-weight: bold; text-decoration: underline; margin-bottom: 20px; }
-                    table { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 11px;}
-                    th, td { border: 1px solid #333; padding: 6px; vertical-align: top; }
-                    th { background-color: #f0f0f0; text-align: center; font-weight: bold; }
-                    .box { border: 1px solid #333; padding: 15px; margin-bottom: 15px; }
-                </style>
-            </head>
-            <body>
-                <!-- HALAMAN 1: COVER -->
-                <div class="page center" style="padding-top: 30mm;">
-                    ${logoHtml}
-                    <h2>Syukuran Pernikahan</h2>
-                    <h1 style="font-size: 24px; margin-bottom: 20px;">Walimatul Ursy</h1>
-                    <h2 style="font-size: 20px;">${cpw}</h2>
-                    <p>Putri dari ${ortuCpw}</p>
-                    <h3 style="margin: 20px 0;">Dengan</h3>
-                    <h2 style="font-size: 20px;">${cpp}</h2>
-                    <p>Putra dari ${ortuCpp}</p>
-                    <p style="margin-top: 40mm; font-weight: bold;">${tglSurat}</p>
-                </div>
+                    <div class="section-title">Layout / Denah Acara</div>
+                    ${base64LayoutPanduan ? `<img src="${base64LayoutPanduan}" class="layout-img">` : '<p class="text-center" style="color:#999; margin-top:30px;"><i>(Gambar layout denah tidak dilampirkan)</i></p>'}
 
-                <!-- HALAMAN 2: PENGANTAR -->
-                <div class="page">
-                    <h3 class="center title">PENGANTAR</h3>
-                    <p><b>Assalamualaikum wr.wb.</b></p>
-                    <p style="text-align: justify;">Puji syukur ke hadirat Allah SWT atas segala nikmat dan karunia-Nya. Dengan memohon ridha dari Allah SWT, dalam rangka mengikuti sunnah Nabi Muhammad SAW untuk membentuk keluarga yang sakinah, mawaddah, warahmah, kami merencanakan menikahkan putra putri kami :</p>
-                    <div class="center" style="margin: 15px 0;">
-                        <b>${cpw}</b><br>
-                        Putri dari ${ortuCpw}<br><br>
-                        <b>Dengan</b><br><br>
-                        <b>${cpp}</b><br>
-                        Putra dari ${ortuCpp}
-                    </div>
-                    <p style="text-align: justify;">Acara Akad Nikah yang dilanjutkan dengan Walimatul Ursy insya Allah akan dilaksanakan pada hari <b>${tglAcara}</b>.</p>
-                    <p style="text-align: justify;">Panduan acara ini di susun sebagai pedoman dalam melaksanakan seluruh rangkaian acara pernikahan agar dapat berjalan dengan lancar, tertib, dan khidmat. Perkenankan dalam kesempatan ini kami mengucapkan terimakasih yang sebesar besarnya atas segala bantuan dari keluarga, panitia, dan semua pihak. Semoga Allah SWT meridhoi dan melimpahkan balasan yang berlipat ganda bagi kita semuanya. Amiin ya Robbal a’lamin.</p>
-                    <p><b>Wassalamualaikum wr.wb.</b></p>
-                    <table style="border:none; width:100%; margin-top:30px;">
-                        <tr>
-                            <td style="border:none; width:50%; text-align:center;"></td>
-                            <td style="border:none; width:50%; text-align:center;">
-                                ${tglSurat}<br>Kami yang berbahagia,<br><br><br><br>
-                                Keluarga Bpk CPW & Keluarga Bpk CPP
-                            </td>
-                        </tr>
-                    </table>
-                </div>
-
-                <!-- HALAMAN 3: PROFIL -->
-                <div class="page">
-                    <h3 class="center title">PROFIL PENGANTIN</h3>
-                    <div class="box">
-                        <h4 style="margin-top:0; text-align:center;">PROFIL PENGANTIN PUTRI</h4>
-                        <p>${pCpw}</p>
-                    </div>
-                    <div class="box">
-                        <h4 style="margin-top:0; text-align:center;">PROFIL PENGANTIN PUTRA</h4>
-                        <p>${pCpp}</p>
-                    </div>
-                </div>
-
-                <!-- HALAMAN RUNDOWN -->
-                <div class="page">
-                    <h3 class="center title">RUNDOWN ACARA</h3>
-                    <table>
-                        <thead>
-                            <tr>
-                                <th style="width:5%">NO</th>
-                                <th style="width:15%">WAKTU</th>
-                                <th style="width:35%">ACARA</th>
-                                <th style="width:25%">PETUGAS</th>
-                                <th style="width:20%">KET / LOKASI</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            ${rundownRows}
-                        </tbody>
-                    </table>
-                </div>
-
-                <!-- HALAMAN LAYOUT & VENDOR -->
-                <div class="page">
-                    <h3 class="center title">LAYOUT & DAFTAR VENDOR</h3>
-                    ${base64LayoutPanduan ? `<div class="center" style="margin-bottom: 20px;"><img src="${base64LayoutPanduan}" style="max-width:100%; max-height: 90mm; border: 1px solid #ccc;"></div>` : `<p class="center" style="color:#999; border:1px dashed #ccc; padding: 40px;">(Gambar Layout Belum Diupload)</p>`}
-                    
-                    <h4 style="margin-top:20px;">DAFTAR VENDOR / KONTAK PENTING</h4>
-                    <table>
-                        <thead>
-                            <tr>
-                                <th style="width:5%">NO</th>
-                                <th style="width:25%">KATEGORI</th>
-                                <th style="width:40%">NAMA VENDOR</th>
-                                <th style="width:30%">KONTAK</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            ${vendorRows}
-                        </tbody>
-                    </table>
-                </div>
-
-                <script>
-                    window.onload = function() {
-                        setTimeout(function() {
-                            window.print();
-                        }, 500);
-                    }
-                <\/script>
-            </body>
-            </html>
-            `);
-            printWindow.document.close();
-        }
-
-        window.onload = initApp;
-    </script>
-</body>
-</html>
-        
+                    <script>
+                        // Auto Print saat halaman selesai dimuat
+                        window.onload = function() { 
+                            setTimeout(function() { window.print(); }, 500); 
+                        }
+                    <\\/script> <!-- PERHATIKAN PERUBAHAN DI BARIS INI -->
+                </body>
+                </html>
+            `);
+            printWindow.document.close();
+        }
 
         window.onload = initApp;
     </script>
