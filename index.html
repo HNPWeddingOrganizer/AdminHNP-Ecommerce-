@@ -1609,6 +1609,10 @@
                 </div>
             </section>
         </div>
+        <!-- Tombol Hapus Tabel Mengambang -->
+    <button id="btn-hapus-tabel-float" onclick="hapusTabelAktif()" class="fixed hidden bg-red-600 text-white w-8 h-8 rounded-full items-center justify-center z-[200] shadow-[0_0_15px_rgba(220,38,38,0.5)] hover:bg-red-500 no-print transition-transform hover:scale-110 active:scale-95">
+        <i class="fa-solid fa-trash text-[10px]"></i>
+    </button>
     </main>
 
     <!-- Modal Set Harga Custom -->
@@ -5548,6 +5552,53 @@
                 }
             }
         });
+
+        // ==========================================
+        // FITUR HAPUS TABEL DI BUKU PANDUAN
+        // ==========================================
+        let activeTableToEdit = null;
+        
+        document.addEventListener('click', function(e) {
+            const table = e.target.closest('.a5-page table');
+            const btnHapusTabel = document.getElementById('btn-hapus-tabel-float');
+            
+            if (table) {
+                activeTableToEdit = table;
+                // Ambil posisi tabel di layar
+                const rect = table.getBoundingClientRect();
+                
+                // Munculkan tombol pas di pojok kanan atas tabel
+                btnHapusTabel.classList.remove('hidden');
+                btnHapusTabel.classList.add('flex');
+                btnHapusTabel.style.top = (rect.top - 15) + 'px';
+                btnHapusTabel.style.left = (rect.right - 15) + 'px';
+            } else if (e.target.closest('#btn-hapus-tabel-float')) {
+                // Biarkan event onclick tombol yang bekerja
+            } else {
+                // Sembunyikan tombol jika klik di tempat lain
+                btnHapusTabel.classList.add('hidden');
+                btnHapusTabel.classList.remove('flex');
+                activeTableToEdit = null;
+            }
+        });
+
+        // Sembunyikan tombol saat di-scroll agar posisinya tidak berantakan
+        document.getElementById('main-content-area').addEventListener('scroll', function() {
+            const btnHapusTabel = document.getElementById('btn-hapus-tabel-float');
+            btnHapusTabel.classList.add('hidden');
+            btnHapusTabel.classList.remove('flex');
+        });
+
+        function hapusTabelAktif() {
+            if (activeTableToEdit) {
+                if (confirm("Apakah Anda yakin ingin menghapus tabel ini?")) {
+                    activeTableToEdit.remove();
+                    document.getElementById('btn-hapus-tabel-float').classList.add('hidden');
+                    document.getElementById('btn-hapus-tabel-float').classList.remove('flex');
+                    activeTableToEdit = null;
+                }
+            }
+        }
 
         window.onload = initApp;
     </script>
