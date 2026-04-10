@@ -184,7 +184,18 @@
             .no-print { 
                 display: none !important; 
             }
+
+            /* Hilangkan border dan background saat print jika wadah upload kosong */
+            .no-print-border {
+                border: none !important;
+                background: transparent !important;
+            }
+            #layout-placeholder-text {
+                display: none !important;
+            }
         }
+
+        
     </style>
 </head>
 
@@ -1558,13 +1569,19 @@
                         </table>
                     </div>
 
-                    <!-- HALAMAN 9 (GAMBAR LAYOUT) -->
-                    <div class="a5-page flex flex-col justify-center items-center" contenteditable="true">
-                        <h3>LAYOUT ACARA / DENAH</h3>
-                        <p style="font-size: 10pt; color: gray;" class="no-print"><i>(Admin: Anda dapat menyisipkan atau copy-paste gambar denah ke halaman ini)</i></p>
-                        <div style="width: 100%; height: 300px; border: 2px dashed #ccc; display: flex; align-items: center; justify-content: center; margin-top: 20px;">
-                            <span style="color:#aaa;">[ Tempat Gambar Layout ]</span>
+                   <!-- HALAMAN 9 (GAMBAR LAYOUT) -->
+                    <div class="a5-page flex flex-col items-center" contenteditable="true">
+                        <h3 style="text-align: center; width: 100%;">LAYOUT ACARA / DENAH</h3>
+                        <p style="font-size: 10pt; color: gray; text-align: center; width: 100%;" class="no-print"><i>(Admin: Klik area kotak di bawah untuk mengunggah gambar denah layout)</i></p>
+                        
+                        <!-- Area Upload Layout -->
+                        <div contenteditable="false" onclick="document.getElementById('upload-layout-panduan').click()" id="layout-image-container" style="width: 100%; min-height: 400px; border: 2px dashed #D4AF37; display: flex; flex-direction: column; align-items: center; justify-content: center; margin-top: 20px; cursor: pointer; background: #fffdf5; position: relative; overflow: hidden; border-radius: 8px;" class="transition hover:bg-[#fce68d]/30 no-print-border">
+                            <span id="layout-placeholder-text" style="color:#D4AF37; font-weight: bold; font-family: sans-serif;"><i class="fa-solid fa-cloud-arrow-up text-2xl block mb-2 text-center"></i> Klik Disini untuk Upload Foto Layout</span>
+                            <img id="layout-preview-img" src="" style="width: 100%; height: auto; object-fit: contain; display: none;">
                         </div>
+                        
+                        <!-- Input File Tersembunyi -->
+                        <input type="file" id="upload-layout-panduan" accept="image/*" style="display: none;" onchange="previewLayoutPanduan(event)">
                     </div>
 
                     <!-- HALAMAN 10 -->
@@ -1609,10 +1626,10 @@
                 </div>
             </section>
         </div>
-        <!-- Tombol Hapus Tabel Mengambang -->
-    <button id="btn-hapus-tabel-float" onclick="hapusTabelAktif()" class="fixed hidden bg-red-600 text-white w-8 h-8 rounded-full items-center justify-center z-[200] shadow-[0_0_15px_rgba(220,38,38,0.5)] hover:bg-red-500 no-print transition-transform hover:scale-110 active:scale-95">
-        <i class="fa-solid fa-trash text-[10px]"></i>
-    </button>
+       <!-- Tombol Hapus Baris Mengambang -->
+        <button id="btn-hapus-baris-float" onclick="hapusBarisAktif()" title="Hapus Baris Ini" class="fixed hidden bg-red-600 text-white w-7 h-7 rounded-full items-center justify-center z-[200] shadow-[0_0_15px_rgba(220,38,38,0.6)] hover:bg-red-500 no-print transition-transform hover:scale-110 active:scale-95">
+            <i class="fa-solid fa-trash text-[10px]"></i>
+        </button>
     </main>
 
     <!-- Modal Set Harga Custom -->
@@ -5554,53 +5571,94 @@
         });
 
         // ==========================================
-        // FITUR HAPUS TABEL DI BUKU PANDUAN
+        // FITUR HAPUS BARIS TABEL DI BUKU PANDUAN
         // ==========================================
-        let activeTableToEdit = null;
+        let activeRowToEdit = null;
         
         document.addEventListener('click', function(e) {
-            const table = e.target.closest('.a5-page table');
-            const btnHapusTabel = document.getElementById('btn-hapus-tabel-float');
+            // Cek apakah yang di-klik adalah cell data (td) di dalam tabel A5
+            const td = e.target.closest('.a5-page table td'); 
+            const btnHapusBaris = document.getElementById('btn-hapus-baris-float');
             
-            if (table) {
-                activeTableToEdit = table;
-                // Ambil posisi tabel di layar
-                const rect = table.getBoundingClientRect();
+            if (td) {
+                const tr = td.closest('tr');
+                activeRowToEdit = tr;
                 
-                // Munculkan tombol pas di pojok kanan atas tabel
-                btnHapusTabel.classList.remove('hidden');
-                btnHapusTabel.classList.add('flex');
-                btnHapusTabel.style.top = (rect.top - 15) + 'px';
-                btnHapusTabel.style.left = (rect.right - 15) + 'px';
-            } else if (e.target.closest('#btn-hapus-tabel-float')) {
+                // Ambil posisi baris di layar
+                const rectTr = tr.getBoundingClientRect();
+                
+                // Munculkan tombol pas di sebelah kanan baris yang di-klik
+                btnHapusBaris.classList.remove('hidden');
+                btnHapusBaris.classList.add('flex');
+                
+                // Mengatur posisi: sejajar secara vertikal dengan baris, di pojok kanan
+                btnHapusBaris.style.top = (rectTr.top + (rectTr.height / 2) - 14) + 'px'; 
+                btnHapusBaris.style.left = (rectTr.right - 14) + 'px'; 
+            } else if (e.target.closest('#btn-hapus-baris-float')) {
                 // Biarkan event onclick tombol yang bekerja
             } else {
-                // Sembunyikan tombol jika klik di tempat lain
-                btnHapusTabel.classList.add('hidden');
-                btnHapusTabel.classList.remove('flex');
-                activeTableToEdit = null;
+                // Sembunyikan tombol jika klik di luar tabel
+                if (btnHapusBaris) {
+                    btnHapusBaris.classList.add('hidden');
+                    btnHapusBaris.classList.remove('flex');
+                }
+                activeRowToEdit = null;
             }
         });
 
-        // Sembunyikan tombol saat di-scroll agar posisinya tidak berantakan
+        // Sembunyikan tombol saat di-scroll agar posisinya tidak tertinggal
         document.getElementById('main-content-area').addEventListener('scroll', function() {
-            const btnHapusTabel = document.getElementById('btn-hapus-tabel-float');
-            btnHapusTabel.classList.add('hidden');
-            btnHapusTabel.classList.remove('flex');
+            const btnHapusBaris = document.getElementById('btn-hapus-baris-float');
+            if (btnHapusBaris) {
+                btnHapusBaris.classList.add('hidden');
+                btnHapusBaris.classList.remove('flex');
+            }
         });
 
-        function hapusTabelAktif() {
-            if (activeTableToEdit) {
-                if (confirm("Apakah Anda yakin ingin menghapus tabel ini?")) {
-                    activeTableToEdit.remove();
-                    document.getElementById('btn-hapus-tabel-float').classList.add('hidden');
-                    document.getElementById('btn-hapus-tabel-float').classList.remove('flex');
-                    activeTableToEdit = null;
+        function hapusBarisAktif() {
+            if (activeRowToEdit) {
+                if (confirm("Hapus baris data ini?")) {
+                    activeRowToEdit.remove();
+                    document.getElementById('btn-hapus-baris-float').classList.add('hidden');
+                    document.getElementById('btn-hapus-baris-float').classList.remove('flex');
+                    activeRowToEdit = null;
                 }
             }
         }
 
+        // ==========================================
+        // FITUR UPLOAD GAMBAR LAYOUT PANDUAN
+        // ==========================================
+        function previewLayoutPanduan(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const imgPreview = document.getElementById('layout-preview-img');
+                const placeholderText = document.getElementById('layout-placeholder-text');
+                const container = document.getElementById('layout-image-container');
+                
+                // Masukkan gambar base64 ke dalam tag <img>
+                imgPreview.src = e.target.result;
+                imgPreview.style.display = 'block';
+                
+                // Sembunyikan teks placeholder
+                placeholderText.style.display = 'none';
+                
+                // Hilangkan border putus-putus dan background warna setelah gambar terisi
+                container.style.border = 'none'; 
+                container.style.background = 'transparent';
+            }
+            reader.readAsDataURL(file);
+            
+            // Reset input file agar bisa klik upload ulang gambar yang sama jika perlu
+            event.target.value = "";
+        }
+
         window.onload = initApp;
+
+        
     </script>
 </body>
 
