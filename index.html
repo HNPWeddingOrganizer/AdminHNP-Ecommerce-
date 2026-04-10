@@ -161,11 +161,12 @@
     <!-- Sidebar Desktop -->
     <aside id="desktop-sidebar"
         class="w-72 m-4 mr-0 bg-[#111]/80 backdrop-blur-xl rounded-[32px] shadow-2xl flex flex-col transition-all duration-300 overflow-hidden border border-gold-500/20 z-20 shrink-0 hidden md:flex relative">
-      <div class="p-8 pb-4 flex items-center gap-3">
+        <div class="p-8 pb-4 flex items-center gap-3">
             <div
                 class="w-10 h-10 rounded-full bg-gradient-to-r from-gold-600 to-gold-400 text-black flex items-center justify-center shadow-lg shadow-gold-900/50 shrink-0 relative overflow-hidden border border-gold-500/50">
                 <i id="sidebar-logo-icon" class="fa-solid fa-chess-rook text-xl"></i>
-                <img id="sidebar-logo-img" src="" class="absolute inset-0 w-full h-full object-contain hidden bg-zinc-900 p-1 rounded-full">
+                <img id="sidebar-logo-img" src=""
+                    class="absolute inset-0 w-full h-full object-contain hidden bg-zinc-900 p-1 rounded-full">
             </div>
             <h1 class="text-xl font-bold tracking-tight text-gold-500 whitespace-nowrap">HNP Admin</h1>
         </div>
@@ -200,6 +201,10 @@
                 <button onclick="switchTab('pengaturan')" id="nav-pengaturan"
                     class="w-full flex items-center gap-3 px-4 py-3.5 rounded-2xl text-zinc-400 hover:bg-zinc-800 hover:text-gold-400 font-semibold transition-all active:scale-95 whitespace-nowrap"><i
                         class="fa-solid fa-cog w-5 text-lg"></i> Pengaturan Web</button>
+                <button onclick="switchTab('panduan')" id="nav-panduan"
+                    class="w-full flex items-center gap-3 px-4 py-3.5 rounded-2xl text-zinc-400 hover:bg-zinc-800 hover:text-gold-400 font-semibold transition-all active:scale-95 whitespace-nowrap">
+                    <i class="fa-solid fa-book-open w-5 text-lg"></i> Template Panduan
+                </button>
             </div>
         </nav>
     </aside>
@@ -247,6 +252,10 @@
             <button onclick="switchTab('pengaturan')" id="nav-mob-pengaturan"
                 class="flex flex-col items-center justify-center gap-1.5 p-2 text-zinc-500 hover:text-gold-400 min-w-[72px] shrink-0 active:scale-90 transition-transform"><i
                     class="fa-solid fa-cog text-[22px]"></i><span class="text-[10px] font-bold">Setting</span></button>
+                    <button onclick="switchTab('panduan')" id="nav-mob-panduan"
+    class="flex flex-col items-center justify-center gap-1.5 p-2 text-zinc-500 hover:text-gold-400 min-w-[72px] shrink-0 active:scale-90 transition-transform">
+    <i class="fa-solid fa-book-open text-[22px]"></i><span class="text-[10px] font-bold">Panduan</span>
+</button>
         </div>
     </div>
 
@@ -349,20 +358,23 @@
                     </div>
 
                     <!-- History Aktivitas Admin -->
-                <div class="bg-[#111] p-4 md:p-6 rounded-[28px] border border-zinc-800 shadow-xl mt-4 md:mt-6">
-                    <div class="flex justify-between items-center mb-4 border-b border-zinc-800 pb-3">
-                        <h3 class="font-bold text-gold-500 text-sm md:text-base tracking-tight"><i class="fa-solid fa-clock-rotate-left mr-2"></i>Log Aktivitas Admin</h3>
-                        <button onclick="fetchHistory()" class="text-zinc-400 hover:text-gold-400 transition bg-zinc-900 w-7 h-7 rounded-full flex items-center justify-center border border-zinc-800"><i class="fa-solid fa-rotate-right text-[10px]"></i></button>
+                    <div class="bg-[#111] p-4 md:p-6 rounded-[28px] border border-zinc-800 shadow-xl mt-4 md:mt-6">
+                        <div class="flex justify-between items-center mb-4 border-b border-zinc-800 pb-3">
+                            <h3 class="font-bold text-gold-500 text-sm md:text-base tracking-tight"><i
+                                    class="fa-solid fa-clock-rotate-left mr-2"></i>Log Aktivitas Admin</h3>
+                            <button onclick="fetchHistory()"
+                                class="text-zinc-400 hover:text-gold-400 transition bg-zinc-900 w-7 h-7 rounded-full flex items-center justify-center border border-zinc-800"><i
+                                    class="fa-solid fa-rotate-right text-[10px]"></i></button>
+                        </div>
+                        <div id="list-history" class="space-y-3 max-h-[300px] overflow-y-auto hide-scrollbar pr-1">
+                            <p class="text-center text-zinc-600 text-xs py-4">Memuat aktivitas...</p>
+                        </div>
                     </div>
-                    <div id="list-history" class="space-y-3 max-h-[300px] overflow-y-auto hide-scrollbar pr-1">
-                        <p class="text-center text-zinc-600 text-xs py-4">Memuat aktivitas...</p>
-                    </div>
-                </div>
 
                 </div>
             </section>
 
-            
+
 
             <!-- PRODUK SECTION -->
             <section id="sec-produk" class="hidden space-y-4 md:space-y-8">
@@ -611,7 +623,8 @@
                 <!-- Header & Toggle View -->
                 <div class="bg-[#111] p-4 md:p-5 rounded-[24px] shadow-lg border border-zinc-800">
                     <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
-                        <h3 class="font-bold text-white text-base md:text-lg tracking-tight">Data Tanggal Pesanan Masuk</h3>
+                        <h3 class="font-bold text-white text-base md:text-lg tracking-tight">Data Tanggal Pesanan Masuk
+                        </h3>
 
                         <div class="flex items-center gap-2 w-full sm:w-auto justify-between sm:justify-end">
                             <!-- Toggle Button -->
@@ -767,40 +780,53 @@
                 </div>
             </section>
 
-           <!-- Modal Detail Hari HNP -->
-    <div id="modal-detail-hnp" class="modal opacity-0 pointer-events-none fixed inset-0 flex items-center justify-center z-[100] transition-opacity duration-300">
-        <div class="absolute inset-0 bg-black/80 backdrop-blur-sm" onclick="toggleModalDetailHNP()"></div>
-        <div class="modal-sheet bg-[#111] w-full sm:max-w-lg mx-auto rounded-[32px] shadow-[0_0_40px_rgba(212,175,55,0.15)] z-[105] flex flex-col relative p-5 sm:p-6 border border-gold-500/30 max-h-[90vh]">
-            <div class="flex justify-between items-center border-b border-zinc-800 pb-3 mb-4 shrink-0">
-                <h3 class="font-bold text-lg text-gold-500"><i class="fa-solid fa-calendar-day mr-2"></i>Agenda Hari Ini</h3>
-                <button onclick="toggleModalDetailHNP()" class="bg-zinc-800 w-8 h-8 rounded-full text-zinc-300 hover:text-white"><i class="fa-solid fa-times"></i></button>
-            </div>
-            
-            <div class="overflow-y-auto hide-scrollbar flex-1 space-y-5">
-                <p id="hnp-detail-tgl" class="text-sm text-gold-400 font-bold border-b border-zinc-800 pb-2">Tanggal: -</p>
-                
-                <!-- Section Event Wedding -->
-                <div>
-                    <h4 class="text-[11px] font-bold text-zinc-400 mb-2 uppercase tracking-wider"><i class="fa-solid fa-ring text-gold-500 mr-1"></i> Event Wedding (Hari H)</h4>
-                    <div id="hnp-detail-wedding" class="space-y-2"></div>
-                </div>
+            <!-- Modal Detail Hari HNP -->
+            <div id="modal-detail-hnp"
+                class="modal opacity-0 pointer-events-none fixed inset-0 flex items-center justify-center z-[100] transition-opacity duration-300">
+                <div class="absolute inset-0 bg-black/80 backdrop-blur-sm" onclick="toggleModalDetailHNP()"></div>
+                <div
+                    class="modal-sheet bg-[#111] w-full sm:max-w-lg mx-auto rounded-[32px] shadow-[0_0_40px_rgba(212,175,55,0.15)] z-[105] flex flex-col relative p-5 sm:p-6 border border-gold-500/30 max-h-[90vh]">
+                    <div class="flex justify-between items-center border-b border-zinc-800 pb-3 mb-4 shrink-0">
+                        <h3 class="font-bold text-lg text-gold-500"><i class="fa-solid fa-calendar-day mr-2"></i>Agenda
+                            Hari Ini</h3>
+                        <button onclick="toggleModalDetailHNP()"
+                            class="bg-zinc-800 w-8 h-8 rounded-full text-zinc-300 hover:text-white"><i
+                                class="fa-solid fa-times"></i></button>
+                    </div>
 
-                <!-- Section Technical Meeting (TM) -->
-                <div>
-                    <h4 class="text-[11px] font-bold text-zinc-400 mb-2 uppercase tracking-wider"><i class="fa-solid fa-handshake text-blue-500 mr-1"></i> Technical Meeting (TM)</h4>
-                    <div id="hnp-detail-tm" class="space-y-2"></div>
-                </div>
+                    <div class="overflow-y-auto hide-scrollbar flex-1 space-y-5">
+                        <p id="hnp-detail-tgl" class="text-sm text-gold-400 font-bold border-b border-zinc-800 pb-2">
+                            Tanggal: -</p>
 
-                <!-- Section Catatan Admin -->
-                <div class="pt-3 border-t border-zinc-800">
-                    <h4 class="text-[11px] font-bold text-zinc-400 mb-2 uppercase tracking-wider"><i class="fa-solid fa-pen-to-square text-zinc-300 mr-1"></i> Memo / Catatan Admin</h4>
-                    <input type="hidden" id="hnp-tgl-input">
-                    <textarea id="hnp-catatan-input" rows="3" placeholder="Ketik memo atau catatan tambahan di sini..." class="w-full bg-black border border-zinc-700 rounded-xl px-4 py-3 text-white text-sm outline-none focus:border-gold-500 resize-none"></textarea>
-                    <button onclick="simpanCatatanHNP()" id="btn-simpan-hnp" class="mt-3 bg-gold-500 hover:bg-gold-400 text-black font-bold py-3 rounded-xl transition shadow-lg w-full text-sm">Simpan Catatan</button>
+                        <!-- Section Event Wedding -->
+                        <div>
+                            <h4 class="text-[11px] font-bold text-zinc-400 mb-2 uppercase tracking-wider"><i
+                                    class="fa-solid fa-ring text-gold-500 mr-1"></i> Event Wedding (Hari H)</h4>
+                            <div id="hnp-detail-wedding" class="space-y-2"></div>
+                        </div>
+
+                        <!-- Section Technical Meeting (TM) -->
+                        <div>
+                            <h4 class="text-[11px] font-bold text-zinc-400 mb-2 uppercase tracking-wider"><i
+                                    class="fa-solid fa-handshake text-blue-500 mr-1"></i> Technical Meeting (TM)</h4>
+                            <div id="hnp-detail-tm" class="space-y-2"></div>
+                        </div>
+
+                        <!-- Section Catatan Admin -->
+                        <div class="pt-3 border-t border-zinc-800">
+                            <h4 class="text-[11px] font-bold text-zinc-400 mb-2 uppercase tracking-wider"><i
+                                    class="fa-solid fa-pen-to-square text-zinc-300 mr-1"></i> Memo / Catatan Admin</h4>
+                            <input type="hidden" id="hnp-tgl-input">
+                            <textarea id="hnp-catatan-input" rows="3"
+                                placeholder="Ketik memo atau catatan tambahan di sini..."
+                                class="w-full bg-black border border-zinc-700 rounded-xl px-4 py-3 text-white text-sm outline-none focus:border-gold-500 resize-none"></textarea>
+                            <button onclick="simpanCatatanHNP()" id="btn-simpan-hnp"
+                                class="mt-3 bg-gold-500 hover:bg-gold-400 text-black font-bold py-3 rounded-xl transition shadow-lg w-full text-sm">Simpan
+                                Catatan</button>
+                        </div>
+                    </div>
                 </div>
             </div>
-        </div>
-    </div>
 
             <!-- Modal Edit TM Cepat (Dari HNP) -->
             <div id="modal-edit-tm-hnp"
@@ -1266,6 +1292,111 @@
                     </form>
                 </div>
             </section>
+
+            <!-- BUKU PANDUAN SECTION -->
+<section id="sec-panduan" class="hidden space-y-4 md:space-y-6">
+    <div class="bg-[#111] p-4 md:p-8 rounded-[32px] md:rounded-[40px] shadow-2xl border border-zinc-800">
+        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-4 md:mb-6 gap-4 border-b border-zinc-800 pb-4">
+            <div>
+                <h3 class="text-base md:text-xl font-bold mb-1 text-gold-500 tracking-tight"><i class="fa-solid fa-book-open mr-2"></i>Generator Buku Panduan</h3>
+                <p class="text-[10px] md:text-xs text-zinc-400">Isi data di bawah ini untuk mencetak Buku Panduan (Otomatis A5).</p>
+            </div>
+            <button type="button" onclick="cetakBukuPanduanA5()" class="w-full sm:w-auto bg-gold-500 text-black px-6 py-2.5 md:py-3 rounded-xl md:rounded-full font-extrabold shadow-[0_0_15px_rgba(212,175,55,0.3)] active:scale-95 text-xs md:text-sm transition-all hover:bg-gold-400 shrink-0">
+                <i class="fa-solid fa-print mr-2"></i> Cetak A5
+            </button>
+        </div>
+
+        <form id="form-panduan" class="space-y-6">
+            <!-- Hal 1 & 2: Cover & Pengantar -->
+            <div class="bg-black border border-zinc-800 p-4 rounded-2xl space-y-3">
+                <h4 class="font-bold text-gold-400 border-b border-zinc-800 pb-2 mb-2">Data Cover & Pengantar</h4>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div><label class="block text-xs text-zinc-400 mb-1">Nama CPW</label><input type="text" id="bp-cpw" class="w-full bg-[#111] border border-zinc-700 rounded-lg px-3 py-2 text-white text-sm outline-none focus:border-gold-500" placeholder="Cth: Adianty Fatimah Sagala"></div>
+                    <div><label class="block text-xs text-zinc-400 mb-1">Nama CPP</label><input type="text" id="bp-cpp" class="w-full bg-[#111] border border-zinc-700 rounded-lg px-3 py-2 text-white text-sm outline-none focus:border-gold-500" placeholder="Cth: Zulfikar Gazali"></div>
+                    <div><label class="block text-xs text-zinc-400 mb-1">Bapak & Ibu CPW</label><input type="text" id="bp-ortu-cpw" class="w-full bg-[#111] border border-zinc-700 rounded-lg px-3 py-2 text-white text-sm outline-none focus:border-gold-500" placeholder="Cth: Bpk H. Mohammad & Hj. Tuty"></div>
+                    <div><label class="block text-xs text-zinc-400 mb-1">Bapak & Ibu CPP</label><input type="text" id="bp-ortu-cpp" class="w-full bg-[#111] border border-zinc-700 rounded-lg px-3 py-2 text-white text-sm outline-none focus:border-gold-500" placeholder="Cth: Bpk Gazali Kotto & Ibu Saodah"></div>
+                    <div><label class="block text-xs text-zinc-400 mb-1">Lokasi & Tgl Surat</label><input type="text" id="bp-tgl-surat" class="w-full bg-[#111] border border-zinc-700 rounded-lg px-3 py-2 text-white text-sm outline-none focus:border-gold-500" placeholder="Cth: Yogyakarta, 11 Januari 2025"></div>
+                    <div><label class="block text-xs text-zinc-400 mb-1">Tgl Acara</label><input type="text" id="bp-tgl-acara" class="w-full bg-[#111] border border-zinc-700 rounded-lg px-3 py-2 text-white text-sm outline-none focus:border-gold-500" placeholder="Cth: Sabtu, 11 Januari 2025"></div>
+                </div>
+            </div>
+
+            <!-- Hal 3: Profil -->
+            <div class="bg-black border border-zinc-800 p-4 rounded-2xl space-y-3">
+                <h4 class="font-bold text-gold-400 border-b border-zinc-800 pb-2 mb-2">Profil Pengantin</h4>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div><label class="block text-xs text-zinc-400 mb-1">Detail Profil CPW (Enter untuk baris baru)</label><textarea id="bp-profil-cpw" rows="4" class="w-full bg-[#111] border border-zinc-700 rounded-lg px-3 py-2 text-white text-sm outline-none focus:border-gold-500" placeholder="Nama: ...&#10;TTL: ...&#10;Pendidikan: ..."></textarea></div>
+                    <div><label class="block text-xs text-zinc-400 mb-1">Detail Profil CPP (Enter untuk baris baru)</label><textarea id="bp-profil-cpp" rows="4" class="w-full bg-[#111] border border-zinc-700 rounded-lg px-3 py-2 text-white text-sm outline-none focus:border-gold-500" placeholder="Nama: ...&#10;TTL: ...&#10;Pendidikan: ..."></textarea></div>
+                </div>
+            </div>
+
+            <!-- Hal 7 & 8: Rundown (Tabel Dinamis) -->
+            <div class="bg-black border border-zinc-800 p-4 rounded-2xl space-y-3">
+                <div class="flex justify-between items-center border-b border-zinc-800 pb-2 mb-2">
+                    <h4 class="font-bold text-gold-400">Tabel Rundown Acara</h4>
+                    <button type="button" onclick="tambahBarisRundown()" class="bg-blue-600 text-white px-3 py-1 rounded text-xs font-bold hover:bg-blue-500"><i class="fa-solid fa-plus"></i> Tambah Baris</button>
+                </div>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left text-xs min-w-[600px]">
+                        <thead class="text-zinc-400 bg-[#111]">
+                            <tr>
+                                <th class="p-2 border border-zinc-700">Waktu</th>
+                                <th class="p-2 border border-zinc-700 w-2/5">Acara</th>
+                                <th class="p-2 border border-zinc-700 w-1/5">Petugas / PIC</th>
+                                <th class="p-2 border border-zinc-700 w-1/5">Ket / Lokasi</th>
+                                <th class="p-2 border border-zinc-700 text-center w-10">Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tbody-rundown">
+                            <!-- Default Row -->
+                            <tr class="rundown-row">
+                                <td class="p-1 border border-zinc-700"><input type="text" class="w-full bg-transparent text-white outline-none" placeholder="08.00-09.00"></td>
+                                <td class="p-1 border border-zinc-700"><input type="text" class="w-full bg-transparent text-white outline-none" placeholder="Akad Nikah"></td>
+                                <td class="p-1 border border-zinc-700"><input type="text" class="w-full bg-transparent text-white outline-none" placeholder="Penghulu"></td>
+                                <td class="p-1 border border-zinc-700"><input type="text" class="w-full bg-transparent text-white outline-none" placeholder="Venue Utama"></td>
+                                <td class="p-1 border border-zinc-700 text-center"><button type="button" onclick="this.closest('tr').remove()" class="text-red-500 hover:text-red-400"><i class="fa-solid fa-trash"></i></button></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Hal 9: Layout Gambar -->
+            <div class="bg-black border border-zinc-800 p-4 rounded-2xl space-y-3">
+                <h4 class="font-bold text-gold-400 border-b border-zinc-800 pb-2 mb-2">Upload Layout (Gambar)</h4>
+                <input type="file" id="bp-layout-img" accept="image/*" class="text-xs text-white" onchange="previewLayoutPanduan(event)">
+                <img id="bp-layout-preview" src="" class="hidden w-full max-w-sm rounded border border-zinc-700 mt-2">
+            </div>
+
+             <!-- Hal 10: Vendor (Tabel Dinamis) -->
+             <div class="bg-black border border-zinc-800 p-4 rounded-2xl space-y-3">
+                <div class="flex justify-between items-center border-b border-zinc-800 pb-2 mb-2">
+                    <h4 class="font-bold text-gold-400">Daftar Vendor</h4>
+                    <button type="button" onclick="tambahBarisVendorBP()" class="bg-blue-600 text-white px-3 py-1 rounded text-xs font-bold hover:bg-blue-500"><i class="fa-solid fa-plus"></i> Tambah Vendor</button>
+                </div>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left text-xs min-w-[500px]">
+                        <thead class="text-zinc-400 bg-[#111]">
+                            <tr>
+                                <th class="p-2 border border-zinc-700">Kategori</th>
+                                <th class="p-2 border border-zinc-700 w-1/2">Nama Vendor</th>
+                                <th class="p-2 border border-zinc-700">Kontak / No HP</th>
+                                <th class="p-2 border border-zinc-700 text-center w-10">Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tbody-vendor-bp">
+                            <tr class="vendor-bp-row">
+                                <td class="p-1 border border-zinc-700"><input type="text" class="w-full bg-transparent text-white outline-none" placeholder="WO"></td>
+                                <td class="p-1 border border-zinc-700"><input type="text" class="w-full bg-transparent text-white outline-none" placeholder="HNP Wedding Organizer"></td>
+                                <td class="p-1 border border-zinc-700"><input type="text" class="w-full bg-transparent text-white outline-none" placeholder="0831-..."></td>
+                                <td class="p-1 border border-zinc-700 text-center"><button type="button" onclick="this.closest('tr').remove()" class="text-red-500 hover:text-red-400"><i class="fa-solid fa-trash"></i></button></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </form>
+    </div>
+</section>
         </div>
     </main>
 
@@ -1614,9 +1745,13 @@
             </div>
 
             <div class="flex flex-col sm:flex-row gap-2 mb-4">
-                <input type="text" id="mk-nama-baru" placeholder="Nama Kru" class="flex-1 bg-black border border-zinc-700 rounded-lg px-3 py-2 text-white text-sm outline-none focus:border-indigo-500">
-                <input type="number" id="mk-wa-baru" placeholder="No WA (Cth: 0812...)" class="flex-1 bg-black border border-zinc-700 rounded-lg px-3 py-2 text-white text-sm outline-none focus:border-indigo-500">
-                <button id="btn-add-kru" onclick="tambahMasterKru()" class="bg-indigo-600 hover:bg-indigo-500 text-white px-4 py-2 rounded-lg font-bold text-sm shadow-md transition flex items-center justify-center min-w-[50px]"><i class="fa-solid fa-plus"></i></button>
+                <input type="text" id="mk-nama-baru" placeholder="Nama Kru"
+                    class="flex-1 bg-black border border-zinc-700 rounded-lg px-3 py-2 text-white text-sm outline-none focus:border-indigo-500">
+                <input type="number" id="mk-wa-baru" placeholder="No WA (Cth: 0812...)"
+                    class="flex-1 bg-black border border-zinc-700 rounded-lg px-3 py-2 text-white text-sm outline-none focus:border-indigo-500">
+                <button id="btn-add-kru" onclick="tambahMasterKru()"
+                    class="bg-indigo-600 hover:bg-indigo-500 text-white px-4 py-2 rounded-lg font-bold text-sm shadow-md transition flex items-center justify-center min-w-[50px]"><i
+                        class="fa-solid fa-plus"></i></button>
             </div>
 
             <div
@@ -1701,9 +1836,11 @@
                     <div>
                         <label class="block font-bold text-zinc-400 mb-1 text-xs">Waktu Resepsi</label>
                         <div class="flex items-center gap-2">
-                            <input id="ab-wkt-resepsi-mulai" type="time" class="w-full bg-black border border-zinc-700 rounded-xl px-2 py-2.5 text-white text-sm focus:border-gold-500 outline-none">
+                            <input id="ab-wkt-resepsi-mulai" type="time"
+                                class="w-full bg-black border border-zinc-700 rounded-xl px-2 py-2.5 text-white text-sm focus:border-gold-500 outline-none">
                             <span class="text-zinc-500 font-bold">-</span>
-                            <input id="ab-wkt-resepsi-selesai" type="time" class="w-full bg-black border border-zinc-700 rounded-xl px-2 py-2.5 text-white text-sm focus:border-gold-500 outline-none">
+                            <input id="ab-wkt-resepsi-selesai" type="time"
+                                class="w-full bg-black border border-zinc-700 rounded-xl px-2 py-2.5 text-white text-sm focus:border-gold-500 outline-none">
                         </div>
                     </div>
                 </div>
@@ -2041,7 +2178,7 @@
         }
 
         function switchTab(tab) {
-            const sections = ['dashboard', 'produk', 'penjualan', 'transkrip', 'pelanggan', 'pengaturan', 'vendor', 'jadwal', 'hnp'];
+            const sections = ['dashboard', 'produk', 'penjualan', 'transkrip', 'pelanggan', 'pengaturan', 'vendor', 'jadwal', 'hnp', 'panduan'];
 
             sections.forEach(n => {
                 document.getElementById(`sec-${n}`).classList.add('hidden');
@@ -2062,8 +2199,8 @@
 
             updateNavTitles(tab);
 
-            if (tab === 'dashboard') { 
-                fetchDashboard(); 
+            if (tab === 'dashboard') {
+                fetchDashboard();
                 fetchHistory(); // <--- TAMBAHKAN BARIS INI
             }
             if (tab === 'produk') fetchProduk();
@@ -2072,7 +2209,7 @@
             if (tab === 'pelanggan') fetchPelanggan();
             if (tab === 'pengaturan') fetchPengaturanAdmin();
             if (tab === 'hnp') renderKalenderHNP();
-            
+
         }
 
         function toggleAutoSync() {
@@ -2659,7 +2796,7 @@
             if (!listBulan.includes(activeBulanFilter) && activeBulanFilter !== 'Semua Waktu') {
                 activeBulanFilter = 'Semua Waktu';
             }
-            
+
             // Hitung total semua booking untuk badge 'Semua'
             let totalSemua = globalPenjualan.length;
             let badgeSemua = totalSemua > 0 ? `<div class="absolute -top-1.5 -right-1 w-4 h-4 md:w-5 md:h-5 bg-red-600 text-white rounded-full flex items-center justify-center text-[8px] md:text-[9px] font-bold shadow-md border border-black">${totalSemua}</div>` : '';
@@ -2672,7 +2809,7 @@
                 let badge = count > 0 ? `<div class="absolute -top-1.5 -right-1 w-4 h-4 md:w-5 md:h-5 bg-red-600 text-white rounded-full flex items-center justify-center text-[8px] md:text-[9px] font-bold shadow-md border border-black">${count}</div>` : '';
 
                 const activeClass = (activeBulanFilter === bln) ? 'bg-gold-500 text-black border-gold-500 shadow-[0_0_10px_rgba(212,175,55,0.4)]' : 'bg-[#111] text-zinc-400 border-zinc-800 hover:border-gold-500/50';
-                
+
                 // Tambahkan elemen relative dan variabel badge ke dalam tombol
                 html += `<button onclick="setBulanFilter('${bln}')" class="shrink-0 relative px-3 md:px-4 py-1.5 md:py-2 rounded-full text-[10px] md:text-xs font-bold transition-all border ${activeClass}">${bln}${badge}</button>`;
             });
@@ -2745,7 +2882,7 @@
                         let rawHp = String(dataKlien['No HP']).replace(/\D/g, '');
                         if (rawHp.startsWith('0')) rawHp = '62' + rawHp.substring(1);
                         else if (rawHp.startsWith('8')) rawHp = '62' + rawHp;
-                        
+
                         let pesanWa = encodeURIComponent(`Halo Kak ${dataKlien['Nama Lengkap']},\nKami dari *Elegance WO* ingin mengkonfirmasi detail pesanan dengan ID Booking: *${idTrx}*.\n\nMohon waktunya sebentar ya Kak untuk diskusi. Terima kasih 🙏`);
                         btnWaHtml = `<a href="https://wa.me/${rawHp}?text=${pesanWa}" target="_blank" onclick="event.stopPropagation()" class="ml-1.5 inline-flex items-center justify-center w-5 h-5 bg-[#25D366] text-white rounded-full hover:scale-110 transition shadow-[0_0_8px_rgba(37,211,102,0.4)]" title="Hubungi Klien via WA"><i class="fa-brands fa-whatsapp text-[11px]"></i></a>`;
                     }
@@ -2841,7 +2978,7 @@
 
         // --- LOGIKA HISTORY AKTIVITAS ---
         let globalHistory = [];
-        
+
         async function fetchHistory() {
             try {
                 const res = await fetch(`${SCRIPT_URL}?action=getHistory&t=${new Date().getTime()}`);
@@ -2850,12 +2987,12 @@
                     globalHistory = data.data;
                     renderHistory();
                 }
-            } catch(e) {}
+            } catch (e) { }
         }
 
         function renderHistory() {
             const container = document.getElementById('list-history');
-            if(globalHistory.length === 0) {
+            if (globalHistory.length === 0) {
                 container.innerHTML = '<p class="text-center text-zinc-600 text-xs py-4">Belum ada aktivitas tercatat.</p>';
                 return;
             }
@@ -2874,13 +3011,13 @@
         async function hapusBooking(idTrx) {
             if (event) event.stopPropagation(); // Mencegah modal terbuka saat klik tombol hapus
             if (!confirm(`PERINGATAN BAHAYA:\n\nApakah Anda yakin ingin MENGHAPUS PERMANEN Data Booking dengan ID: ${idTrx}?\nTindakan ini tidak dapat dikembalikan!`)) return;
-            
+
             showLoading(true);
             try {
                 const payload = { action: "deleteBooking", id_transaksi: idTrx };
                 const res = await fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify(payload) });
                 const data = await res.json();
-                
+
                 if (data.status === 'success') {
                     alert(data.message);
                     fetchPenjualan(true, false); // Refresh tabel
@@ -2889,7 +3026,7 @@
                 } else {
                     alert("Gagal menghapus: " + data.message);
                 }
-            } catch(e) {
+            } catch (e) {
                 alert("Terjadi kesalahan koneksi server.");
             }
             showLoading(false);
@@ -3415,6 +3552,8 @@
                         Dicetak otomatis melalui Sistem Manajemen WO.
                     </div>
                     <script>window.onload = function() { setTimeout(() => { window.print(); }, 500); }<\/script>
+
+                        
                 </body>
                 </html>
             `);
@@ -3659,7 +3798,7 @@
                     const sidebarLogoIcon = document.getElementById('sidebar-logo-icon');
                     // Prioritaskan logo dark mode, jika kosong pakai light mode
                     const logoUrl = appSettings.logo_dark || appSettings.logo_light;
-                    
+
                     if (logoUrl && logoUrl.trim() !== "") {
                         sidebarLogoImg.src = logoUrl;
                         sidebarLogoImg.classList.remove('hidden');
@@ -3668,7 +3807,7 @@
                         sidebarLogoImg.src = "";
                         sidebarLogoImg.classList.add('hidden');
                         sidebarLogoIcon.classList.remove('hidden');
-                    } 
+                    }
                 }
             } catch (e) { }
 
@@ -4054,10 +4193,10 @@
         // Fungsi Helper khusus membaca Tanggal Pesanan Masuk (Transaction Date)
         function getBookingDate(tglStr) {
             if (!tglStr || tglStr === '-') return null;
-            
+
             // Cek format DD/MM/YYYY, HH:mm:ss (Bawaan Script toLocaleString('id-ID'))
             if (tglStr.includes('/')) {
-                const parts = tglStr.split(',')[0].split(' ')[0].split('/'); 
+                const parts = tglStr.split(',')[0].split(' ')[0].split('/');
                 if (parts.length === 3) return new Date(parseInt(parts[2]), parseInt(parts[1]) - 1, parseInt(parts[0]));
             }
             // Cek format YYYY-MM-DD (Fallback jika formatnya Text)
@@ -4068,7 +4207,7 @@
             return new Date(tglStr); // Fallback bawaan javascript
         }
 
-       function renderKalender() {
+        function renderKalender() {
             const year = currentKalenderDate.getFullYear();
             const month = currentKalenderDate.getMonth();
             const monthNames = ["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"];
@@ -4082,7 +4221,7 @@
             const mapBooking = {};
             globalPenjualan.forEach(p => {
                 if (p['Status Acara'] === 'Dibatalkan' || p.Status === 'Dibatalkan') return;
-                
+
                 // PERUBAHAN: Gunakan fungsi baru untuk menarik Tanggal Transaksi (Pesanan Masuk)
                 let d = getBookingDate(p.Tanggal);
 
@@ -4303,7 +4442,7 @@
                     });
                 }
                 dataLoaded.jadwal = true;
-                populateFilterTahun(); 
+                populateFilterTahun();
             } catch (e) { }
         }
 
@@ -4329,7 +4468,7 @@
         function ubahFilterJadwal() {
             activeJadwalTahun = document.getElementById('filter-jadwal-tahun').value;
             activeJadwalBulan = 'Semua'; // Reset bulan ke Semua jika tahun diubah
-            
+
             // --- SINKRONISASI KE TAMPILAN KALENDER ---
             if (activeJadwalTahun !== 'Semua') {
                 currentDateJadwal.setFullYear(parseInt(activeJadwalTahun));
@@ -4345,7 +4484,7 @@
 
         function setBulanJadwal(bulanVal) {
             activeJadwalBulan = bulanVal;
-            
+
             // --- SINKRONISASI KE TAMPILAN KALENDER ---
             if (activeJadwalTahun !== 'Semua') {
                 currentDateJadwal.setFullYear(parseInt(activeJadwalTahun));
@@ -4543,14 +4682,14 @@
             validEvents.forEach(p => {
                 const idTrx = p['ID Booking'] || p['ID Transaksi'];
                 const berkas = globalBerkas.find(b => b['ID Booking'] === idTrx) || {};
-                
+
                 let tglAkadStr = berkas['Tgl Akad'] ? String(berkas['Tgl Akad']).split('T')[0] : '';
                 let tglResepsiStr = berkas['Tgl Resepsi'] ? String(berkas['Tgl Resepsi']).split('T')[0] : '';
 
                 // Tangkap tanggal Akad dan Resepsi
                 let validDates = [];
-                if(tglAkadStr) validDates.push(new Date(tglAkadStr));
-                if(tglResepsiStr && tglResepsiStr !== tglAkadStr) validDates.push(new Date(tglResepsiStr));
+                if (tglAkadStr) validDates.push(new Date(tglAkadStr));
+                if (tglResepsiStr && tglResepsiStr !== tglAkadStr) validDates.push(new Date(tglResepsiStr));
 
                 validDates.forEach(d => {
                     if (d.getFullYear() === year && d.getMonth() === month) {
@@ -4593,11 +4732,11 @@
             let html = '';
 
             const validEvents = globalPenjualan.filter(p => p['Status Acara'] !== 'Dibatalkan' && p.Status !== 'Dibatalkan');
-           let acaraHariIni = validEvents.filter(p => {
+            let acaraHariIni = validEvents.filter(p => {
                 const berkas = globalBerkas.find(b => b['ID Booking'] === (p['ID Booking'] || p['ID Transaksi'])) || {};
                 let tglAkadStr = berkas['Tgl Akad'] ? String(berkas['Tgl Akad']).split('T')[0] : '';
                 let tglResepsiStr = berkas['Tgl Resepsi'] ? String(berkas['Tgl Resepsi']).split('T')[0] : '';
-                
+
                 return tglAkadStr === dateStr || tglResepsiStr === dateStr;
             });
 
@@ -4630,7 +4769,7 @@
             else { modal.classList.remove('show'); setTimeout(() => { modal.classList.add('opacity-0', 'pointer-events-none'); }, 300); }
         }
 
-       function populateSelectOptions(selId, masterType, selectedVal) {
+        function populateSelectOptions(selId, masterType, selectedVal) {
             const sel = document.getElementById(selId);
             sel.innerHTML = `<option value="">-- Pilih --</option>` + globalMasterKru[masterType].map(v => `<option value="${v.nama}">${v.nama}</option>`).join('');
             if (selectedVal && globalMasterKru[masterType].some(v => v.nama === selectedVal)) sel.value = selectedVal;
@@ -4671,7 +4810,7 @@
             toggleModalEditJadwal();
         }
 
-       function tambahBarisWO(val = '') {
+        function tambahBarisWO(val = '') {
             const cont = document.getElementById('ej-container-wo');
             const num = cont.children.length + 1;
             const div = document.createElement('div');
@@ -4735,7 +4874,7 @@
             } else { modal.classList.remove('show'); setTimeout(() => { modal.classList.add('opacity-0', 'pointer-events-none'); }, 300); }
         }
 
-       function renderMasterKruList() {
+        function renderMasterKruList() {
             const kat = document.getElementById('mk-kategori').value;
             const ul = document.getElementById('mk-list');
             const data = globalMasterKru[kat] || [];
@@ -4748,7 +4887,7 @@
             ul.innerHTML = data.map((kru, idx) => {
                 // Buat kondisi jika ada nomor WA maka jadikan Link Clickable
                 let waHtml = `<span class="text-[10px] text-zinc-600 font-mono flex items-center gap-1"><i class="fa-brands fa-whatsapp text-zinc-700"></i> Tidak ada WA</span>`;
-                
+
                 if (kru.wa && kru.wa !== '-' && kru.wa !== '') {
                     waHtml = `<a href="https://wa.me/${kru.wa}" target="_blank" onclick="event.stopPropagation()" class="text-[10px] text-zinc-400 font-mono hover:text-[#25D366] transition-colors flex items-center gap-1 w-max" title="Chat WA ${kru.nama}">
                                 <i class="fa-brands fa-whatsapp text-[#25D366]"></i> ${kru.wa}
@@ -4769,7 +4908,7 @@
             }).join('');
         }
 
-       async function tambahMasterKru() {
+        async function tambahMasterKru() {
             const kat = document.getElementById('mk-kategori').value;
             const iptNama = document.getElementById('mk-nama-baru');
             const iptWa = document.getElementById('mk-wa-baru');
@@ -4807,7 +4946,7 @@
             }
         }
 
-       async function hapusMasterKru(kat, idx) {
+        async function hapusMasterKru(kat, idx) {
             if (!confirm("Hapus data kru ini?")) return;
             const kru = globalMasterKru[kat][idx];
 
@@ -4821,6 +4960,9 @@
                 } else alert(data.message);
             } catch (e) { alert("Gagal koneksi"); }
         }
+
+
+        
 
 
         // ==========================================
@@ -4843,14 +4985,14 @@
             renderKalenderHNP();
         }
 
-      function renderKalenderHNP() {
+        function renderKalenderHNP() {
             const year = currentDateHNP.getFullYear();
             const month = currentDateHNP.getMonth();
             const monthNames = ["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"];
-            
+
             document.getElementById('hnp-kalender-title').textContent = `${monthNames[month]} ${year}`;
 
-            const firstDay = new Date(year, month, 1).getDay(); 
+            const firstDay = new Date(year, month, 1).getDay();
             const daysInMonth = new Date(year, month + 1, 0).getDate();
             const grid = document.getElementById('hnp-kalender-grid');
             grid.innerHTML = '';
@@ -4863,7 +5005,7 @@
             for (let i = 1; i <= daysInMonth; i++) {
                 let isToday = (i === today.getDate() && month === today.getMonth() && year === today.getFullYear());
                 let paramDate = `${year}-${String(month + 1).padStart(2, '0')}-${String(i).padStart(2, '0')}`;
-                
+
                 // Cari Catatan HNP Admin
                 let noteObj = globalCatatanHNP.find(c => c.Tanggal === paramDate);
                 let catatanHtml = noteObj ? `<div class="mt-1 text-[9px] md:text-[10px] text-zinc-300 font-medium whitespace-pre-wrap leading-tight text-left w-full border-t border-zinc-800/50 pt-1">${noteObj.Catatan}</div>` : '';
@@ -4877,14 +5019,14 @@
                     const user = p['Username Klien'] || p['Username Pembeli'];
                     const jdwl = globalJadwal[idTrx] || {};
                     const berkas = globalBerkas.find(b => b['ID Booking'] === idTrx) || {};
-                    
+
                     // --- 1. CEK TM ---
                     if (jdwl.tglTm === paramDate) {
                         const wkt = jdwl.waktuTm || '-';
                         const lok = jdwl.lokasiTm || '-';
                         const stat = jdwl.statusTm || 'Belum';
                         const color = stat === 'Sudah' ? 'bg-emerald-600/80 border-emerald-500' : 'bg-blue-600/80 border-blue-500';
-                        
+
                         tmHtml += `
                         <div onclick="event.stopPropagation(); bukaEditTmHNP('${idTrx}')" class="mt-1 p-1.5 rounded-lg text-[9px] text-white border ${color} cursor-pointer hover:opacity-80 transition leading-tight w-full text-left shadow-sm">
                             <span class="font-bold">TM @${user}</span><br>
@@ -4920,7 +5062,7 @@
                     }
                 });
 
-               grid.innerHTML += `
+                grid.innerHTML += `
                 <div onclick="bukaDetailHNP('${paramDate}')" 
                      class="relative p-2 md:p-3 rounded-xl border flex flex-col items-start justify-start min-h-[80px] md:min-h-[100px] transition-colors cursor-pointer group bg-black border-zinc-800 hover:border-gold-500/50 hover:bg-zinc-900/50">
                     <span class="text-xs md:text-sm font-bold ${isToday ? 'text-gold-500 bg-gold-500/20 px-2 py-0.5 rounded' : 'text-zinc-400 group-hover:text-gold-400'}">${i}</span>
@@ -4931,27 +5073,27 @@
 
         function toggleModalDetailHNP() {
             const modal = document.getElementById('modal-detail-hnp');
-            if (modal.classList.contains('opacity-0')) { 
-                modal.classList.remove('opacity-0', 'pointer-events-none'); 
-                setTimeout(() => modal.classList.add('show'), 10); 
-            } else { 
-                modal.classList.remove('show'); 
-                setTimeout(() => { modal.classList.add('opacity-0', 'pointer-events-none'); }, 300); 
+            if (modal.classList.contains('opacity-0')) {
+                modal.classList.remove('opacity-0', 'pointer-events-none');
+                setTimeout(() => modal.classList.add('show'), 10);
+            } else {
+                modal.classList.remove('show');
+                setTimeout(() => { modal.classList.add('opacity-0', 'pointer-events-none'); }, 300);
             }
         }
 
         function generateKruWaLinks(idTrx) {
             const jdwl = globalJadwal[idTrx] || {};
             let links = [];
-            
+
             const addLink = (role, nama) => {
-                if(!nama || nama === '-') return;
+                if (!nama || nama === '-') return;
                 let wa = '';
-                for(const kat in globalMasterKru) {
+                for (const kat in globalMasterKru) {
                     const kru = globalMasterKru[kat].find(k => k.nama === nama);
-                    if(kru && kru.wa) { wa = kru.wa; break; }
+                    if (kru && kru.wa) { wa = kru.wa; break; }
                 }
-                if(wa) {
+                if (wa) {
                     links.push(`<a href="https://wa.me/${wa}" target="_blank" onclick="event.stopPropagation()" class="inline-flex items-center gap-1.5 bg-[#25D366]/10 text-[#25D366] border border-[#25D366]/30 px-2 py-1 rounded-md text-[9px] font-bold hover:bg-[#25D366] hover:text-white transition shadow-sm"><i class="fa-brands fa-whatsapp text-[11px]"></i> ${role}: ${nama}</a>`);
                 } else {
                     links.push(`<span class="inline-flex items-center gap-1.5 bg-zinc-800 text-zinc-400 border border-zinc-700 px-2 py-1 rounded-md text-[9px] font-bold"><i class="fa-solid fa-user text-[11px]"></i> ${role}: ${nama}</span>`);
@@ -4963,12 +5105,12 @@
             addLink('Voc', jdwl.vocal);
             addLink('Key', jdwl.keyboard);
             addLink('Sax', jdwl.sexo);
-            
-            if(jdwl.wo && jdwl.wo.length > 0) {
-                jdwl.wo.forEach((w, i) => addLink(`WO${i+1}`, w));
+
+            if (jdwl.wo && jdwl.wo.length > 0) {
+                jdwl.wo.forEach((w, i) => addLink(`WO${i + 1}`, w));
             }
-            
-            if(links.length === 0) return '<p class="text-[9px] text-zinc-500 italic mt-2 border-t border-zinc-800 pt-2">Belum ada kru ditugaskan.</p>';
+
+            if (links.length === 0) return '<p class="text-[9px] text-zinc-500 italic mt-2 border-t border-zinc-800 pt-2">Belum ada kru ditugaskan.</p>';
             return `<div class="flex flex-wrap gap-1.5 mt-2.5 pt-2.5 border-t border-zinc-800/80">${links.join('')}</div>`;
         }
 
@@ -5041,8 +5183,8 @@
                 }
             });
 
-            if(htmlWedding === '') htmlWedding = '<p class="text-xs text-zinc-600 italic bg-black p-3 rounded-lg border border-zinc-800">Tidak ada event wedding dijadwalkan.</p>';
-            if(htmlTM === '') htmlTM = '<p class="text-xs text-zinc-600 italic bg-black p-3 rounded-lg border border-zinc-800">Tidak ada agenda TM dijadwalkan.</p>';
+            if (htmlWedding === '') htmlWedding = '<p class="text-xs text-zinc-600 italic bg-black p-3 rounded-lg border border-zinc-800">Tidak ada event wedding dijadwalkan.</p>';
+            if (htmlTM === '') htmlTM = '<p class="text-xs text-zinc-600 italic bg-black p-3 rounded-lg border border-zinc-800">Tidak ada agenda TM dijadwalkan.</p>';
 
             document.getElementById('hnp-detail-wedding').innerHTML = htmlWedding;
             document.getElementById('hnp-detail-tm').innerHTML = htmlTM;
@@ -5080,7 +5222,7 @@
                     if (cat === "") { if (idx !== -1) globalCatatanHNP.splice(idx, 1); }
                     else { if (idx !== -1) globalCatatanHNP[idx].Catatan = cat; else globalCatatanHNP.push({ Tanggal: tgl, Catatan: cat }); }
 
-                   renderKalenderHNP();
+                    renderKalenderHNP();
                     toggleModalDetailHNP();
                 }
             } catch (e) { alert("Gagal koneksi"); }
@@ -5152,8 +5294,224 @@
             btn.innerHTML = 'Simpan Info TM'; btn.disabled = false;
         }
 
+        
+
         window.onload = initApp;
     </script>
+
+    // --- LOGIKA BUKU PANDUAN ---
+let base64LayoutPanduan = "";
+
+function previewLayoutPanduan(event) {
+    const file = event.target.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = function(e) {
+        base64LayoutPanduan = e.target.result;
+        const img = document.getElementById('bp-layout-preview');
+        img.src = base64LayoutPanduan;
+        img.classList.remove('hidden');
+    }
+    reader.readAsDataURL(file);
+}
+
+function tambahBarisRundown() {
+    const tbody = document.getElementById('tbody-rundown');
+    const tr = document.createElement('tr');
+    tr.className = 'rundown-row';
+    tr.innerHTML = `
+        <td class="p-1 border border-zinc-700"><input type="text" class="w-full bg-transparent text-white outline-none"></td>
+        <td class="p-1 border border-zinc-700"><input type="text" class="w-full bg-transparent text-white outline-none"></td>
+        <td class="p-1 border border-zinc-700"><input type="text" class="w-full bg-transparent text-white outline-none"></td>
+        <td class="p-1 border border-zinc-700"><input type="text" class="w-full bg-transparent text-white outline-none"></td>
+        <td class="p-1 border border-zinc-700 text-center"><button type="button" onclick="this.closest('tr').remove()" class="text-red-500 hover:text-red-400"><i class="fa-solid fa-trash"></i></button></td>
+    `;
+    tbody.appendChild(tr);
+}
+
+function tambahBarisVendorBP() {
+    const tbody = document.getElementById('tbody-vendor-bp');
+    const tr = document.createElement('tr');
+    tr.className = 'vendor-bp-row';
+    tr.innerHTML = `
+        <td class="p-1 border border-zinc-700"><input type="text" class="w-full bg-transparent text-white outline-none"></td>
+        <td class="p-1 border border-zinc-700"><input type="text" class="w-full bg-transparent text-white outline-none"></td>
+        <td class="p-1 border border-zinc-700"><input type="text" class="w-full bg-transparent text-white outline-none"></td>
+        <td class="p-1 border border-zinc-700 text-center"><button type="button" onclick="this.closest('tr').remove()" class="text-red-500 hover:text-red-400"><i class="fa-solid fa-trash"></i></button></td>
+    `;
+    tbody.appendChild(tr);
+}
+
+// Fungsi Utama Cetak ke A5
+function cetakBukuPanduanA5() {
+    // Ambil Data Text
+    const cpw = document.getElementById('bp-cpw').value || "(CPW)";
+    const cpp = document.getElementById('bp-cpp').value || "(CPP)";
+    const ortuCpw = document.getElementById('bp-ortu-cpw').value || "(BAPAK & IBU CPW)";
+    const ortuCpp = document.getElementById('bp-ortu-cpp').value || "(BAPAK & IBU CPP)";
+    const tglSurat = document.getElementById('bp-tgl-surat').value || "(LOKASI, TANGGAL)";
+    const tglAcara = document.getElementById('bp-tgl-acara').value || "(TANGGAL ACARA)";
+    const pCpw = document.getElementById('bp-profil-cpw').value.replace(/\n/g, '<br>') || "-";
+    const pCpp = document.getElementById('bp-profil-cpp').value.replace(/\n/g, '<br>') || "-";
+
+    // Logo HNP
+    const logoHtml = appSettings.logo_dark || appSettings.logo_light 
+        ? `<div style="text-align:center; margin-bottom:20px;"><img src="${appSettings.logo_dark || appSettings.logo_light}" style="max-height:80px;"></div>`
+        : `<h2 style="text-align:center; color:#D4AF37;">ELEGANCE WO</h2>`;
+
+    // Ambil Data Rundown
+    let rundownRows = "";
+    document.querySelectorAll('.rundown-row').forEach((row, i) => {
+        const inputs = row.querySelectorAll('input');
+        rundownRows += `
+        <tr>
+            <td style="text-align:center;">${i+1}</td>
+            <td>${inputs[0].value}</td>
+            <td>${inputs[1].value}</td>
+            <td>${inputs[2].value}</td>
+            <td>${inputs[3].value}</td>
+        </tr>`;
+    });
+
+    // Ambil Data Vendor
+    let vendorRows = "";
+    document.querySelectorAll('.vendor-bp-row').forEach((row, i) => {
+        const inputs = row.querySelectorAll('input');
+        vendorRows += `
+        <tr>
+            <td style="text-align:center;">${i+1}</td>
+            <td>${inputs[0].value}</td>
+            <td>${inputs[1].value}</td>
+            <td>${inputs[2].value}</td>
+        </tr>`;
+    });
+
+    // Buka Jendela Print
+    const printWindow = window.open('', '_blank');
+    printWindow.document.write(`
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <title>Buku Panduan - ${cpw} & ${cpp}</title>
+        <style>
+            @page { size: 148mm 210mm; margin: 15mm; } /* KERTAS A5 */
+            body { font-family: 'Times New Roman', Times, serif; font-size: 12px; color: #000; line-height: 1.5; margin: 0; padding: 0; }
+            .page { page-break-after: always; min-height: 170mm; position: relative;}
+            .page:last-child { page-break-after: auto; }
+            .center { text-align: center; }
+            h1, h2, h3 { color: #80671F; margin: 5px 0; }
+            .title { font-size: 18px; font-weight: bold; text-decoration: underline; margin-bottom: 20px; }
+            table { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 11px;}
+            th, td { border: 1px solid #333; padding: 6px; vertical-align: top; }
+            th { background-color: #f0f0f0; text-align: center; font-weight: bold; }
+            .box { border: 1px solid #333; padding: 15px; margin-bottom: 15px; }
+        </style>
+    </head>
+    <body>
+        <!-- HALAMAN 1: COVER -->
+        <div class="page center" style="padding-top: 30mm;">
+            ${logoHtml}
+            <h2>Syukuran Pernikahan</h2>
+            <h1 style="font-size: 24px; margin-bottom: 20px;">Walimatul Ursy</h1>
+            <h2 style="font-size: 20px;">${cpw}</h2>
+            <p>Putri dari ${ortuCpw}</p>
+            <h3 style="margin: 20px 0;">Dengan</h3>
+            <h2 style="font-size: 20px;">${cpp}</h2>
+            <p>Putra dari ${ortuCpp}</p>
+            <p style="margin-top: 40mm; font-weight: bold;">${tglSurat}</p>
+        </div>
+
+        <!-- HALAMAN 2: PENGANTAR -->
+        <div class="page">
+            <h3 class="center title">PENGANTAR</h3>
+            <p><b>Assalamualaikum wr.wb.</b></p>
+            <p style="text-align: justify;">Puji syukur ke hadirat Allah SWT atas segala nikmat dan karunia-Nya. Dengan memohon ridha dari Allah SWT, dalam rangka mengikuti sunnah Nabi Muhammad SAW untuk membentuk keluarga yang sakinah, mawaddah, warahmah, kami merencanakan menikahkan putra putri kami :</p>
+            <div class="center" style="margin: 15px 0;">
+                <b>${cpw}</b><br>
+                Putri dari ${ortuCpw}<br><br>
+                <b>Dengan</b><br><br>
+                <b>${cpp}</b><br>
+                Putra dari ${ortuCpp}
+            </div>
+            <p style="text-align: justify;">Acara Akad Nikah yang dilanjutkan dengan Walimatul Ursy insya Allah akan dilaksanakan pada hari <b>${tglAcara}</b>.</p>
+            <p style="text-align: justify;">Panduan acara ini di susun sebagai pedoman dalam melaksanakan seluruh rangkaian acara pernikahan agar dapat berjalan dengan lancar, tertib, dan khidmat. Perkenankan dalam kesempatan ini kami mengucapkan terimakasih yang sebesar besarnya atas segala bantuan dari keluarga, panitia, dan semua pihak. Semoga Allah SWT meridhoi dan melimpahkan balasan yang berlipat ganda bagi kita semuanya. Amiin ya Robbal a’lamin.</p>
+            <p><b>Wassalamualaikum wr.wb.</b></p>
+            <table style="border:none; width:100%; margin-top:30px;">
+                <tr>
+                    <td style="border:none; width:50%; text-align:center;"></td>
+                    <td style="border:none; width:50%; text-align:center;">
+                        ${tglSurat}<br>Kami yang berbahagia,<br><br><br><br>
+                        Keluarga Bpk CPW & Keluarga Bpk CPP
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+        <!-- HALAMAN 3: PROFIL -->
+        <div class="page">
+            <h3 class="center title">PROFIL PENGANTIN</h3>
+            <div class="box">
+                <h4 style="margin-top:0; text-align:center;">PROFIL PENGANTIN PUTRI</h4>
+                <p>${pCpw}</p>
+            </div>
+            <div class="box">
+                <h4 style="margin-top:0; text-align:center;">PROFIL PENGANTIN PUTRA</h4>
+                <p>${pCpp}</p>
+            </div>
+        </div>
+
+        <!-- HALAMAN RUNDOWN -->
+        <div class="page">
+            <h3 class="center title">RUNDOWN ACARA</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th style="width:5%">NO</th>
+                        <th style="width:15%">WAKTU</th>
+                        <th style="width:35%">ACARA</th>
+                        <th style="width:25%">PETUGAS</th>
+                        <th style="width:20%">KET / LOKASI</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    ${rundownRows}
+                </tbody>
+            </table>
+        </div>
+
+        <!-- HALAMAN LAYOUT & VENDOR -->
+        <div class="page">
+            <h3 class="center title">LAYOUT & DAFTAR VENDOR</h3>
+            ${base64LayoutPanduan ? `<div class="center" style="margin-bottom: 20px;"><img src="${base64LayoutPanduan}" style="max-width:100%; max-height: 90mm; border: 1px solid #ccc;"></div>` : `<p class="center" style="color:#999; border:1px dashed #ccc; padding: 40px;">(Gambar Layout Belum Diupload)</p>`}
+            
+            <h4 style="margin-top:20px;">DAFTAR VENDOR / KONTAK PENTING</h4>
+            <table>
+                <thead>
+                    <tr>
+                        <th style="width:5%">NO</th>
+                        <th style="width:25%">KATEGORI</th>
+                        <th style="width:40%">NAMA VENDOR</th>
+                        <th style="width:30%">KONTAK</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    ${vendorRows}
+                </tbody>
+            </table>
+        </div>
+
+        <script>
+            window.onload = function() {
+                setTimeout(function() {
+                    window.print();
+                }, 500);
+            }
+        </script>
+    </body>
+    </html>
+    `);
+    printWindow.document.close();
+}
 </body>
 
 </html>
