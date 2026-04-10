@@ -4272,60 +4272,72 @@
             } catch (e) { } showLoading(false);
         }
 
-        // Update Navigasi & Tab Array
-        function updateNavTitles(tab) {
+       function updateNavTitles(tab) {
             const titles = {
                 'dashboard': 'Dashboard',
                 'produk': 'Katalog Paket',
                 'vendor': 'Manajemen Vendor',
                 'penjualan': 'Data Booking',
-                'jadwal': 'Jadwal & Penugasan Kru', // Tambahan Baru
+                'jadwal': 'Jadwal & Penugasan Kru',
                 'transkrip': 'Laporan Acara',
                 'pelanggan': 'Klien',
-                'pengaturan': 'Konfigurasi'
+                'pengaturan': 'Konfigurasi',
+                'hnp': 'Jadwal HNP',
+                'panduan': 'Buku Panduan Event'
             };
             const titleEl = document.getElementById('page-title');
             if (titleEl) titleEl.textContent = titles[tab] || 'Admin';
         }
 
         function switchTab(tab) {
-            const sections = ['dashboard', 'produk', 'penjualan', 'transkrip', 'pelanggan', 'pengaturan', 'vendor', 'jadwal', 'hnp'];
+            // Pastikan array ini memiliki SEMUA id section, termasuk 'panduan'
+            const sections = ['dashboard', 'produk', 'penjualan', 'transkrip', 'pelanggan', 'pengaturan', 'vendor', 'jadwal', 'hnp', 'panduan'];
+            
             sections.forEach(n => {
                 const el = document.getElementById(`sec-${n}`);
                 if (el) el.classList.add('hidden');
+                
                 const navD = document.getElementById(`nav-${n}`);
                 if (navD) navD.className = "w-full flex items-center gap-3 px-4 py-3.5 rounded-2xl text-zinc-400 hover:bg-zinc-800 hover:text-gold-400 font-semibold transition-all active:scale-95 whitespace-nowrap";
+                
                 const mobEl = document.getElementById(`nav-mob-${n}`);
                 if (mobEl) mobEl.className = "flex flex-col items-center justify-center gap-1.5 p-2 text-zinc-500 hover:text-gold-400 min-w-[72px] shrink-0 active:scale-90 transition-transform";
             });
 
+            // Munculkan section yang diklik
             const targetSec = document.getElementById(`sec-${tab}`);
             if (targetSec) targetSec.classList.remove('hidden');
 
+            // Beri warna aktif pada navigasi Desktop
             const navActiveD = document.getElementById(`nav-${tab}`);
             if (navActiveD) navActiveD.className = "w-full flex items-center gap-3 px-4 py-3.5 rounded-2xl bg-gold-500 text-black font-bold transition-all shadow-md shadow-gold-900/20 active:scale-95 whitespace-nowrap";
 
+            // Beri warna aktif pada navigasi Mobile
             const mobActive = document.getElementById(`nav-mob-${tab}`);
             if (mobActive) mobActive.className = "flex flex-col items-center justify-center gap-1.5 p-2 text-gold-500 min-w-[72px] shrink-0 active:scale-90 transition-transform drop-shadow-sm";
 
             updateNavTitles(tab);
 
-            if (tab === 'dashboard') fetchDashboard();
+            // Tarik data berdasarkan menu yang dibuka
+            if (tab === 'dashboard') {
+                fetchDashboard();
+                fetchHistory(); 
+            }
             if (tab === 'produk') fetchProduk();
             if (tab === 'penjualan') fetchPenjualan();
             if (tab === 'transkrip') renderGridTranskrip();
             if (tab === 'pelanggan') fetchPelanggan();
             if (tab === 'pengaturan') fetchPengaturanAdmin();
             if (tab === 'vendor') fetchVendor();
-            if (tab === 'jadwal') renderJadwalEvent(); // Trigger fitur baru
+            if (tab === 'jadwal') renderJadwalEvent();
+            if (tab === 'hnp') renderKalenderHNP();
             if (tab === 'panduan') {
                 const coverLogo = document.getElementById('panduan-cover-logo');
-                if(appSettings.logo_dark || appSettings.logo_light) {
+                if (coverLogo && (appSettings.logo_dark || appSettings.logo_light)) {
                     coverLogo.src = appSettings.logo_dark || appSettings.logo_light;
                 }
             }
         }
-
         // --- LOGIKA KALENDER VIEW ---
         let currentKalenderDate = new Date();
 
