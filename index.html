@@ -141,13 +141,49 @@
         .floral-bottom-right { position: absolute; bottom: 0; right: 0; width: 120px; transform: rotate(180deg); opacity: 0.8; }
         
         @media print {
-            body * { visibility: hidden; }
-            #area-print-panduan, #area-print-panduan * { visibility: visible; }
-            #area-print-panduan { position: absolute; left: 0; top: 0; width: 100%; background: white; }
-            @page { size: A5; margin: 0; }
-            .a5-page { margin: 0; box-shadow: none; page-break-after: always; border: none; }
-            /* Menyembunyikan tombol UI saat print */
-            .no-print { display: none !important; }
+            /* 1. Reset semua batasan tinggi layar agar dokumen bisa ditarik ke bawah (multipage) */
+            html, body, main, #main-content-area, .overflow-y-auto, .overflow-hidden, .h-screen {
+                height: auto !important;
+                min-height: auto !important;
+                overflow: visible !important;
+                position: static !important;
+            }
+
+            /* 2. Sembunyikan elemen UI yang tidak boleh ikut ter-print menggunakan display:none */
+            header, aside, #fab-menu, #mobile-nav-container, .modal, #full-page-loader,
+            .fixed, .absolute, /* Ambient Background dll */
+            section:not(#sec-panduan), /* Sembunyikan section/menu lain */
+            #sec-panduan > div:first-child /* Sembunyikan tombol print di atas kertas */ {
+                display: none !important;
+            }
+
+            /* 3. Bebaskan area print ke mode normal (bukan absolute) */
+            #area-print-panduan { 
+                position: relative !important; 
+                width: 100% !important; 
+                background: white !important; 
+                padding: 0 !important;
+                border: none !important;
+                margin: 0 !important;
+                overflow: visible !important;
+            }
+
+            /* 4. Format Kertas A5 */
+            @page { 
+                size: A5; 
+                margin: 0; 
+            }
+
+            .a5-page { 
+                margin: 0; 
+                box-shadow: none; 
+                page-break-after: always; /* Kunci agar ganti halaman */
+                border: none; 
+            }
+
+            .no-print { 
+                display: none !important; 
+            }
         }
     </style>
 </head>
